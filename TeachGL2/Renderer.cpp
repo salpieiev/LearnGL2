@@ -56,24 +56,25 @@ GLuint Renderer::BuildShader(const char *source, GLenum shaderType) const
     glCompileShader(shader);
     
     GLint compileSuccess;
-    glGetShaderiv(shaderType, GL_COMPILE_STATUS, &compileSuccess);
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &compileSuccess);
     
     if (compileSuccess == GL_FALSE)
     {
         GLint infoLenght;
-        glGetShaderiv(shaderType, GL_INFO_LOG_LENGTH, &infoLenght);
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLenght);
         
         if (infoLenght > 1)
         {
             char *infoLog = (char *)malloc(sizeof(char) * infoLenght);
             
             glGetShaderInfoLog(shader, infoLenght, NULL, infoLog);
-            SALog("ERROR: %s", infoLog);
+            SALog("SHADER %d: %s\n", shaderType, infoLog);
             
             free(infoLog);
         }
         
         glDeleteShader(shader);
+        
         return 0;
     }
     
@@ -106,7 +107,7 @@ GLuint Renderer::BuildProgram(const char *vertexShaderSource, const char *fragme
             char *infoLog = (char *)malloc(sizeof(char) * infoLength);
             
             glGetProgramInfoLog(program, infoLength, NULL, infoLog);
-            SALog("ERROR: %s", infoLog);
+            SALog("PROGRAM: %s\n", infoLog);
             
             free(infoLog);
         }

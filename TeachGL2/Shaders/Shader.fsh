@@ -1,4 +1,4 @@
-static const char * const FragmentShader = STRINGIFY
+const char *FragmentShader = STRINGIFY
 (
 
 precision mediump float;
