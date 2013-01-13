@@ -17,9 +17,10 @@
 		B40CB64F16A1BE14002C52EC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B40CB64E16A1BE14002C52EC /* Default@2x.png */; };
 		B40CB65116A1BE14002C52EC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B40CB65016A1BE14002C52EC /* Default-568h@2x.png */; };
 		B40CB66716A1C348002C52EC /* TGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B40CB66616A1C348002C52EC /* TGViewController.m */; };
-		B40CB66B16A1C36F002C52EC /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40CB66A16A1C36F002C52EC /* OpenGLView.m */; };
+		B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B40CB66A16A1C36F002C52EC /* OpenGLView.mm */; };
 		B40CB66D16A1C68F002C52EC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66C16A1C68F002C52EC /* OpenGLES.framework */; };
 		B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66E16A1C695002C52EC /* QuartzCore.framework */; };
+		B4B8D07E16A20EB9009B418F /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,9 +40,13 @@
 		B40CB66516A1C348002C52EC /* TGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGViewController.h; sourceTree = "<group>"; };
 		B40CB66616A1C348002C52EC /* TGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGViewController.m; sourceTree = "<group>"; };
 		B40CB66916A1C36F002C52EC /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
-		B40CB66A16A1C36F002C52EC /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
+		B40CB66A16A1C36F002C52EC /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		B40CB66C16A1C68F002C52EC /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		B40CB66E16A1C695002C52EC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B4B8D07C16A20EB9009B418F /* Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
+		B4B8D07D16A20EB9009B418F /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
+		B4B8D08416A21E91009B418F /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
+		B4B8D08616A21E9A009B418F /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +97,8 @@
 		B40CB64016A1BE14002C52EC /* TeachGL2 */ = {
 			isa = PBXGroup;
 			children = (
+				B4B8D08316A21E53009B418F /* Shaders */,
+				B4B8D07A16A20EA2009B418F /* Renderer */,
 				B40CB66816A1C354002C52EC /* Views */,
 				B40CB66316A1C32A002C52EC /* View Controllers */,
 				B40CB64916A1BE14002C52EC /* TGAppDelegate.h */,
@@ -128,9 +135,27 @@
 			isa = PBXGroup;
 			children = (
 				B40CB66916A1C36F002C52EC /* OpenGLView.h */,
-				B40CB66A16A1C36F002C52EC /* OpenGLView.m */,
+				B40CB66A16A1C36F002C52EC /* OpenGLView.mm */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		B4B8D07A16A20EA2009B418F /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				B4B8D07C16A20EB9009B418F /* Renderer.cpp */,
+				B4B8D07D16A20EB9009B418F /* Renderer.h */,
+			);
+			name = Renderer;
+			sourceTree = "<group>";
+		};
+		B4B8D08316A21E53009B418F /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				B4B8D08416A21E91009B418F /* Shader.vsh */,
+				B4B8D08616A21E9A009B418F /* Shader.fsh */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,7 +227,8 @@
 				B40CB64716A1BE14002C52EC /* main.m in Sources */,
 				B40CB64B16A1BE14002C52EC /* TGAppDelegate.m in Sources */,
 				B40CB66716A1C348002C52EC /* TGViewController.m in Sources */,
-				B40CB66B16A1C36F002C52EC /* OpenGLView.m in Sources */,
+				B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */,
+				B4B8D07E16A20EB9009B418F /* Renderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

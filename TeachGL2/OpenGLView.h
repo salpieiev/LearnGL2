@@ -6,8 +6,12 @@
 //  Copyright (c) 2013 Sergey Alpeev. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <OpenGLES/EAGL.h>
+
+
 
 @interface OpenGLView : UIView
+
+@property (strong, nonatomic) EAGLContext *eaglContext;
 
 @end
