@@ -14,6 +14,10 @@
 
 @interface OpenGLView () {
     Renderer *renderer;
+    
+    GLuint resolveFramebuffer;
+    GLuint sampleFramebuffer;
+    GLuint colorRenderbuffer;
 }
 
 - (void)drawView;
@@ -37,6 +41,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        CGFloat scale = [UIScreen mainScreen].scale;
+        CGFloat width = CGRectGetWidth(frame) * scale;
+        CGFloat height = CGRectGetHeight(frame) * scale;
+        
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
         eaglLayer.opaque = YES;
         eaglLayer.contentsScale = [UIScreen mainScreen].scale;
@@ -46,15 +54,27 @@
         if (!self.eaglContext || ![EAGLContext setCurrentContext:self.eaglContext])
             return nil;
         
-        GLuint renderbuffer;
-        glGenRenderbuffers(1, &renderbuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+        glGenRenderbuffers(1, &colorRenderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
         [self.eaglContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:eaglLayer];
         
-        GLuint framebuffer;
-        glGenFramebuffers(1, &framebuffer);
-        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
+        glGenFramebuffers(1, &resolveFramebuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, resolveFramebuffer);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
+        
+        glGenFramebuffers(1, &sampleFramebuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, sampleFramebuffer);
+        
+        GLuint sampleColorRenderbuffer;
+        glGenRenderbuffers(1, &sampleColorRenderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, sampleColorRenderbuffer);
+        glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, 4, GL_RGBA8_OES, width, height);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, sampleColorRenderbuffer);
+        
+        GLuint sampleDepthRenderbuffer;
+        glGenRenderbuffers(1, &sampleDepthRenderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthRenderbuffer);
+        glRenderbufferStorageMultisampleAPPLE(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, width, height);
         
         renderer = new Renderer();
         
@@ -79,6 +99,19 @@
     
     renderer->Render(width, height);
     
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, resolveFramebuffer);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, sampleFramebuffer);
+    glResolveMultisampleFramebufferAPPLE();
+    
+    const GLenum discards[] =
+    {
+        GL_COLOR_ATTACHMENT0,
+        GL_DEPTH_ATTACHMENT
+    };
+    glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, discards);
+    
+    
+    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
     [self.eaglContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
