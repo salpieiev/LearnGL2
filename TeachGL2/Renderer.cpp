@@ -35,6 +35,8 @@ void Renderer::Render(int width, int height) const
     
     glUseProgram(programs.simpleProgram);
     
+    glVertexAttrib4f(1, 0.5, 1, 0, 1);
+    
     GLfloat vVertices[] =
     {
         0.0f, 0.5f, 0.0f,
@@ -46,6 +48,9 @@ void Renderer::Render(int width, int height) const
     glEnableVertexAttribArray(0);
     
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    
+    // Create VBO and compare with non-VBO!!!
+    // glBufferSubData
 }
 
 GLuint Renderer::BuildShader(const char *source, GLenum shaderType) const
@@ -90,7 +95,8 @@ GLuint Renderer::BuildProgram(const char *vertexShaderSource, const char *fragme
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
     
-    glBindAttribLocation(program, 0, "vPosition");
+    glBindAttribLocation(program, 0, "Position");
+    glBindAttribLocation(program, 1, "SourceColor");
     
     glLinkProgram(program);
     

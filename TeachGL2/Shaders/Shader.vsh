@@ -1,11 +1,15 @@
 const char *VertexShader = STRINGIFY
 (
 
-attribute vec4 vPosition;
+attribute vec4 Position;
+attribute vec4 SourceColor;
+
+varying vec4 DestinationColor;
 
 void main()
 {
-    gl_Position = vPosition;
+    DestinationColor = SourceColor;
+    gl_Position = Position;
 }
 
 );
