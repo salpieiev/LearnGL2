@@ -20,7 +20,7 @@
     GLuint colorRenderbuffer;
 }
 
-- (void)drawView;
+- (void)drawView:(CADisplayLink *)displayLink;
 
 @end
 
@@ -78,7 +78,8 @@
         
         renderer = new Renderer();
         
-        [self drawView];
+        CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
+        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     }
     return self;
 }
@@ -90,7 +91,7 @@
 
 #pragma mark - Private Methods
 
-- (void)drawView
+- (void)drawView:(CADisplayLink *)displayLink
 {
     CGFloat scale = [UIScreen mainScreen].scale;
     
