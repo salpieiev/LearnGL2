@@ -26,6 +26,11 @@ struct Attributes
     GLint SourceColor;
 };
 
+struct VertexBuffers
+{
+    GLuint triangleBuffer;
+};
+
 
 
 class Renderer
@@ -40,8 +45,14 @@ private:
     GLuint BuildShader(const char *source, GLenum shaderType) const;
     GLuint BuildProgram(const char *vertexShader, const char *fragmentShader) const;
     
+    void GenTriangleVBO();
+    void DrawTriangleWithVBO() const;
+    
+    void DrawTriangleWithoutVBO() const;
+    
     Programs programs;
     Attributes attributes;
+    VertexBuffers vertexBuffers;
 };
 
 

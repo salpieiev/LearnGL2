@@ -22,6 +22,10 @@ Renderer::Renderer()
     
     attributes.Position = glGetAttribLocation(programs.simpleProgram, "Position");
     attributes.SourceColor = glGetAttribLocation(programs.simpleProgram, "SourceColor");
+    
+    glEnableVertexAttribArray(attributes.Position);
+    
+    GenTriangleVBO();
 }
 
 Renderer::~Renderer()
@@ -36,21 +40,9 @@ void Renderer::Render(int width, int height) const
     
     glViewport(0, 0, width, height);
     
-    glUseProgram(programs.simpleProgram);
+    DrawTriangleWithoutVBO();
     
-    glVertexAttrib4f(attributes.SourceColor, 0.5, 1, 0, 1);
-    
-    GLfloat vVertices[] =
-    {
-        0.0f, 0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f
-    };
-    
-    glVertexAttribPointer(attributes.Position, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
-    glEnableVertexAttribArray(attributes.Position);
-    
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    DrawTriangleWithVBO();
     
     // Create VBO and compare with non-VBO!!!
     // glBufferSubData
@@ -123,6 +115,55 @@ GLuint Renderer::BuildProgram(const char *vertexShaderSource, const char *fragme
     }
     
     return program;
+}
+
+void Renderer::GenTriangleVBO()
+{
+    GLfloat triangleData[] =
+    {
+        -1.0f, -1.0f, 0.0f,
+        -0.25f, 0.25f, 0.0f,
+        -0.75f, 0.0f, 0.0f
+    };
+    
+    glGenBuffers(1, &vertexBuffers.triangleBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers.triangleBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), NULL, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(triangleData), triangleData);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Renderer::DrawTriangleWithVBO() const
+{
+    glUseProgram(programs.simpleProgram);
+    
+    glVertexAttrib4f(attributes.SourceColor, 1, 0, 0, 1);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers.triangleBuffer);
+    
+    glVertexAttribPointer(attributes.Position, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Renderer::DrawTriangleWithoutVBO() const
+{
+    glUseProgram(programs.simpleProgram);
+    
+    glVertexAttrib4f(attributes.SourceColor, 0.5, 1, 0, 1);
+    
+    GLfloat vVertices[] =
+    {
+        0.0f, 0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f
+    };
+    
+    glVertexAttribPointer(attributes.Position, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
+    
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 
