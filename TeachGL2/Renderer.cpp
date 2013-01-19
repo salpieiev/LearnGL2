@@ -43,9 +43,11 @@ void Renderer::Render(int width, int height) const
     DrawTriangleWithoutVBO();
     
     DrawTriangleWithVBO();
+}
+
+void Renderer::Update()
+{
     
-    // Create VBO and compare with non-VBO!!!
-    // glBufferSubData
 }
 
 GLuint Renderer::BuildShader(const char *source, GLenum shaderType) const
@@ -128,7 +130,7 @@ void Renderer::GenTriangleVBO()
     
     glGenBuffers(1, &vertexBuffers.triangleBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers.triangleBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), NULL, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), NULL, GL_DYNAMIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(triangleData), triangleData);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

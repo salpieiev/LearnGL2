@@ -40,6 +40,7 @@ public:
     ~Renderer();
     
     void Render(int width, int height) const;
+    void Update();
     
 private:
     GLuint BuildShader(const char *source, GLenum shaderType) const;
