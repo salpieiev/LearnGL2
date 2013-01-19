@@ -20,6 +20,12 @@ struct Programs
     GLuint simpleProgram;
 };
 
+struct Attributes
+{
+    GLint Position;
+    GLint SourceColor;
+};
+
 
 
 class Renderer
@@ -35,6 +41,7 @@ private:
     GLuint BuildProgram(const char *vertexShader, const char *fragmentShader) const;
     
     Programs programs;
+    Attributes attributes;
 };
 
 

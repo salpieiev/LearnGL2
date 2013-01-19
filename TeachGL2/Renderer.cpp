@@ -19,6 +19,9 @@
 Renderer::Renderer()
 {
     programs.simpleProgram = BuildProgram(VertexShader, FragmentShader);
+    
+    attributes.Position = glGetAttribLocation(programs.simpleProgram, "Position");
+    attributes.SourceColor = glGetAttribLocation(programs.simpleProgram, "SourceColor");
 }
 
 Renderer::~Renderer()
@@ -35,7 +38,7 @@ void Renderer::Render(int width, int height) const
     
     glUseProgram(programs.simpleProgram);
     
-    glVertexAttrib4f(1, 0.5, 1, 0, 1);
+    glVertexAttrib4f(attributes.SourceColor, 0.5, 1, 0, 1);
     
     GLfloat vVertices[] =
     {
@@ -44,8 +47,8 @@ void Renderer::Render(int width, int height) const
         0.5f, -0.5f, 0.0f
     };
     
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
-    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(attributes.Position, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
+    glEnableVertexAttribArray(attributes.Position);
     
     glDrawArrays(GL_TRIANGLES, 0, 3);
     
@@ -94,9 +97,6 @@ GLuint Renderer::BuildProgram(const char *vertexShaderSource, const char *fragme
     GLuint program = glCreateProgram();
     glAttachShader(program, vertexShader);
     glAttachShader(program, fragmentShader);
-    
-    glBindAttribLocation(program, 0, "Position");
-    glBindAttribLocation(program, 1, "SourceColor");
     
     glLinkProgram(program);
     
