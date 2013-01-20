@@ -10,6 +10,7 @@
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 #include <iostream>
+#include "ResourceManager.h"
 
 using namespace std;
 
@@ -18,17 +19,29 @@ using namespace std;
 struct Programs
 {
     GLuint simpleProgram;
+    GLuint pointSpriteProgram;
 };
 
 struct Attributes
 {
     GLint Position;
     GLint SourceColor;
+    GLint PointSpritePosition;
+};
+
+struct Uniforms
+{
+    GLuint PointSpriteUniform;
 };
 
 struct VertexBuffers
 {
     GLuint triangleBuffer;
+};
+
+struct Textures
+{
+    GLuint Star;
 };
 
 
@@ -51,9 +64,16 @@ private:
     
     void DrawTriangleWithoutVBO() const;
     
+    void GenPointSprite();
+    void DrawPointSprites() const;
+    
+    ResourceManager *resourceManager;
+    
     Programs programs;
     Attributes attributes;
+    Uniforms uniforms;
     VertexBuffers vertexBuffers;
+    Textures textures;
 };
 
 

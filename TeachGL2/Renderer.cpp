@@ -13,24 +13,37 @@
 #define STRINGIFY(A)    #A
 #include "Shaders/Shader.vsh"
 #include "Shaders/Shader.fsh"
+#include "Shaders/PointSpriteShader.vsh"
+#include "Shaders/PointSpriteShader.fsh"
 
 
 
 Renderer::Renderer()
 {
-    programs.simpleProgram = BuildProgram(VertexShader, FragmentShader);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
+    resourceManager = new ResourceManager();
+    
+    programs.simpleProgram = BuildProgram(VertexShader, FragmentShader);
+    programs.pointSpriteProgram = BuildProgram(PointSpriteVertexShader, PointSpriteFragmentShader);
+    
+    glUseProgram(programs.simpleProgram);
     attributes.Position = glGetAttribLocation(programs.simpleProgram, "Position");
     attributes.SourceColor = glGetAttribLocation(programs.simpleProgram, "SourceColor");
-    
     glEnableVertexAttribArray(attributes.Position);
     
+    glUseProgram(programs.pointSpriteProgram);
+    attributes.PointSpritePosition = glGetAttribLocation(programs.pointSpriteProgram, "Position");
+    uniforms.PointSpriteUniform = glGetUniformLocation(programs.pointSpriteProgram, "Sampler");
+    glEnableVertexAttribArray(attributes.PointSpritePosition);
+    
     GenTriangleVBO();
+    GenPointSprite();
 }
 
 Renderer::~Renderer()
 {
-    
+    delete resourceManager;
 }
 
 void Renderer::Render(int width, int height) const
@@ -43,6 +56,8 @@ void Renderer::Render(int width, int height) const
     DrawTriangleWithoutVBO();
     
     DrawTriangleWithVBO();
+    
+    DrawPointSprites();
 }
 
 void Renderer::Update()
@@ -123,7 +138,7 @@ void Renderer::GenTriangleVBO()
 {
     GLfloat triangleData[] =
     {
-        -1.0f, -1.0f, 0.0f,
+        -0.4f, -0.4f, 0.0f,
         -0.25f, 0.25f, 0.0f,
         -0.75f, 0.0f, 0.0f
     };
@@ -166,6 +181,40 @@ void Renderer::DrawTriangleWithoutVBO() const
     glVertexAttribPointer(attributes.Position, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
     
     glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
+void Renderer::GenPointSprite()
+{
+    resourceManager->LoadPngImage("Star.png");
+    
+    ivec2 imageSize = resourceManager->GetImageSize();
+    void *imageData = resourceManager->GetImageData();
+    
+    glGenTextures(1, &textures.Star);
+    glBindTexture(GL_TEXTURE_2D, textures.Star);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+    
+    resourceManager->UnloadImage();
+}
+
+void Renderer::DrawPointSprites() const
+{
+    glUseProgram(programs.pointSpriteProgram);
+    
+    glBindTexture(GL_TEXTURE_2D, textures.Star);
+    
+    GLfloat spritePositions[] =
+    {
+        0.0f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.0f
+    };
+    
+    glVertexAttribPointer(attributes.PointSpritePosition, 3, GL_FLOAT, GL_FALSE, 0, spritePositions);
+    
+    glEnable(GL_BLEND);
+    glDrawArrays(GL_POINTS, 0, 2);
+    glDisable(GL_BLEND);
 }
 
 

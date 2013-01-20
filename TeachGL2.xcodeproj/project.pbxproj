@@ -21,6 +21,10 @@
 		B40CB66D16A1C68F002C52EC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66C16A1C68F002C52EC /* OpenGLES.framework */; };
 		B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66E16A1C695002C52EC /* QuartzCore.framework */; };
 		B4B8D07E16A20EB9009B418F /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer.cpp */; };
+		B4F7F82616AB412E006F0C90 /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F7F82516AB412E006F0C90 /* Star.png */; };
+		B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83216AB4323006F0C90 /* ResourceManager.mm */; };
+		B4F7F83516AB43BF006F0C90 /* PointSpriteShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83416AB43BF006F0C90 /* PointSpriteShader.vsh */; };
+		B4F7F83716AB43CA006F0C90 /* PointSpriteShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83616AB43CA006F0C90 /* PointSpriteShader.fsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +51,13 @@
 		B4B8D07D16A20EB9009B418F /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 		B4B8D08416A21E91009B418F /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		B4B8D08616A21E9A009B418F /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
+		B4F7F82516AB412E006F0C90 /* Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star.png; sourceTree = "<group>"; };
+		B4F7F82C16AB42E2006F0C90 /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
+		B4F7F82D16AB42E2006F0C90 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		B4F7F83116AB4323006F0C90 /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManager.h; sourceTree = "<group>"; };
+		B4F7F83216AB4323006F0C90 /* ResourceManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourceManager.mm; sourceTree = "<group>"; };
+		B4F7F83416AB43BF006F0C90 /* PointSpriteShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PointSpriteShader.vsh; sourceTree = "<group>"; };
+		B4F7F83616AB43CA006F0C90 /* PointSpriteShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PointSpriteShader.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				B40CB64016A1BE14002C52EC /* TeachGL2 */,
+				B4F7F82216AB40DA006F0C90 /* Resources */,
 				B40CB63916A1BE14002C52EC /* Frameworks */,
 				B40CB63716A1BE14002C52EC /* Products */,
 			);
@@ -98,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				B4B8D08316A21E53009B418F /* Shaders */,
+				B4F7F82B16AB42CD006F0C90 /* Math */,
 				B4B8D07A16A20EA2009B418F /* Renderer */,
 				B40CB66816A1C354002C52EC /* Views */,
 				B40CB66316A1C32A002C52EC /* View Controllers */,
@@ -145,6 +158,8 @@
 			children = (
 				B4B8D07C16A20EB9009B418F /* Renderer.cpp */,
 				B4B8D07D16A20EB9009B418F /* Renderer.h */,
+				B4F7F83116AB4323006F0C90 /* ResourceManager.h */,
+				B4F7F83216AB4323006F0C90 /* ResourceManager.mm */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -154,8 +169,35 @@
 			children = (
 				B4B8D08416A21E91009B418F /* Shader.vsh */,
 				B4B8D08616A21E9A009B418F /* Shader.fsh */,
+				B4F7F83416AB43BF006F0C90 /* PointSpriteShader.vsh */,
+				B4F7F83616AB43CA006F0C90 /* PointSpriteShader.fsh */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		B4F7F82216AB40DA006F0C90 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B4F7F82416AB40F3006F0C90 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B4F7F82416AB40F3006F0C90 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				B4F7F82516AB412E006F0C90 /* Star.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		B4F7F82B16AB42CD006F0C90 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				B4F7F82C16AB42E2006F0C90 /* Matrix.h */,
+				B4F7F82D16AB42E2006F0C90 /* Vector.h */,
+			);
+			name = Math;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +256,7 @@
 				B40CB64D16A1BE14002C52EC /* Default.png in Resources */,
 				B40CB64F16A1BE14002C52EC /* Default@2x.png in Resources */,
 				B40CB65116A1BE14002C52EC /* Default-568h@2x.png in Resources */,
+				B4F7F82616AB412E006F0C90 /* Star.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +272,9 @@
 				B40CB66716A1C348002C52EC /* TGViewController.m in Sources */,
 				B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */,
 				B4B8D07E16A20EB9009B418F /* Renderer.cpp in Sources */,
+				B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */,
+				B4F7F83516AB43BF006F0C90 /* PointSpriteShader.vsh in Sources */,
+				B4F7F83716AB43CA006F0C90 /* PointSpriteShader.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
