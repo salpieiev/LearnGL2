@@ -23,8 +23,6 @@
 		B4B8D07E16A20EB9009B418F /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer.cpp */; };
 		B4F7F82616AB412E006F0C90 /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F7F82516AB412E006F0C90 /* Star.png */; };
 		B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83216AB4323006F0C90 /* ResourceManager.mm */; };
-		B4F7F83516AB43BF006F0C90 /* PointSpriteShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83416AB43BF006F0C90 /* PointSpriteShader.vsh */; };
-		B4F7F83716AB43CA006F0C90 /* PointSpriteShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83616AB43CA006F0C90 /* PointSpriteShader.fsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -273,8 +271,6 @@
 				B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */,
 				B4B8D07E16A20EB9009B418F /* Renderer.cpp in Sources */,
 				B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */,
-				B4F7F83516AB43BF006F0C90 /* PointSpriteShader.vsh in Sources */,
-				B4F7F83716AB43CA006F0C90 /* PointSpriteShader.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
