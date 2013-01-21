@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A30416AD9048001F8045 /* RenderingEngine.cpp */; };
 		B40CB63B16A1BE14002C52EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63A16A1BE14002C52EC /* UIKit.framework */; };
 		B40CB63D16A1BE14002C52EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63C16A1BE14002C52EC /* Foundation.framework */; };
 		B40CB63F16A1BE14002C52EC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63E16A1BE14002C52EC /* CoreGraphics.framework */; };
@@ -26,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B404A30416AD9048001F8045 /* RenderingEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderingEngine.cpp; sourceTree = "<group>"; };
+		B404A30516AD9048001F8045 /* RenderingEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingEngine.h; sourceTree = "<group>"; };
 		B40CB63616A1BE14002C52EC /* TeachGL2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeachGL2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CB63A16A1BE14002C52EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B40CB63C16A1BE14002C52EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -154,6 +157,8 @@
 		B4B8D07A16A20EA2009B418F /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				B404A30416AD9048001F8045 /* RenderingEngine.cpp */,
+				B404A30516AD9048001F8045 /* RenderingEngine.h */,
 				B4B8D07C16A20EB9009B418F /* Renderer.cpp */,
 				B4B8D07D16A20EB9009B418F /* Renderer.h */,
 				B4F7F83116AB4323006F0C90 /* ResourceManager.h */,
@@ -271,6 +276,7 @@
 				B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */,
 				B4B8D07E16A20EB9009B418F /* Renderer.cpp in Sources */,
 				B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */,
+				B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

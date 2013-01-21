@@ -7,12 +7,7 @@
 //
 
 #pragma once
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
-#include <iostream>
-#include "ResourceManager.h"
-
-using namespace std;
+#include "RenderingEngine.h"
 
 
 
@@ -46,7 +41,7 @@ struct Textures
 
 
 
-class Renderer
+class Renderer: public RenderingEngine
 {
 public:
     Renderer();
@@ -56,9 +51,6 @@ public:
     void Update();
     
 private:
-    GLuint BuildShader(const char *source, GLenum shaderType) const;
-    GLuint BuildProgram(const char *vertexShader, const char *fragmentShader) const;
-    
     void GenTriangleVBO();
     void DrawTriangleWithVBO() const;
     
@@ -67,15 +59,9 @@ private:
     void GenPointSprite();
     void DrawPointSprites() const;
     
-    ResourceManager *resourceManager;
-    
     Programs programs;
     Attributes attributes;
     Uniforms uniforms;
     VertexBuffers vertexBuffers;
     Textures textures;
 };
-
-
-
-void SALog(const char *formatStr, ...);

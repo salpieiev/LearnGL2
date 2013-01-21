@@ -22,8 +22,6 @@ Renderer::Renderer()
 {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    resourceManager = new ResourceManager();
-    
     programs.simpleProgram = BuildProgram(VertexShader, FragmentShader);
     programs.pointSpriteProgram = BuildProgram(PointSpriteVertexShader, PointSpriteFragmentShader);
     
@@ -43,7 +41,7 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
-    delete resourceManager;
+    
 }
 
 void Renderer::Render(int width, int height) const
@@ -63,75 +61,6 @@ void Renderer::Render(int width, int height) const
 void Renderer::Update()
 {
     
-}
-
-GLuint Renderer::BuildShader(const char *source, GLenum shaderType) const
-{
-    GLuint shader = glCreateShader(shaderType);
-    
-    glShaderSource(shader, 1, &source, NULL);
-    glCompileShader(shader);
-    
-    GLint compileSuccess;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &compileSuccess);
-    
-    if (compileSuccess == GL_FALSE)
-    {
-        GLint infoLenght;
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLenght);
-        
-        if (infoLenght > 1)
-        {
-            char *infoLog = (char *)malloc(sizeof(char) * infoLenght);
-            
-            glGetShaderInfoLog(shader, infoLenght, NULL, infoLog);
-            SALog("SHADER %d: %s\n", shaderType, infoLog);
-            
-            free(infoLog);
-        }
-        
-        glDeleteShader(shader);
-        
-        return 0;
-    }
-    
-    return shader;
-}
-
-GLuint Renderer::BuildProgram(const char *vertexShaderSource, const char *fragmentShaderSource) const
-{
-    GLuint vertexShader = BuildShader(vertexShaderSource, GL_VERTEX_SHADER);
-    GLuint fragmentShader = BuildShader(fragmentShaderSource, GL_FRAGMENT_SHADER);
-    
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-    
-    glLinkProgram(program);
-    
-    GLint linkSuccess;
-    glGetProgramiv(program, GL_LINK_STATUS, &linkSuccess);
-    
-    if (linkSuccess == GL_FALSE)
-    {
-        GLint infoLength;
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLength);
-        
-        if (infoLength > 1)
-        {
-            char *infoLog = (char *)malloc(sizeof(char) * infoLength);
-            
-            glGetProgramInfoLog(program, infoLength, NULL, infoLog);
-            SALog("PROGRAM: %s\n", infoLog);
-            
-            free(infoLog);
-        }
-        
-        glDeleteProgram(program);
-        return 0;
-    }
-    
-    return program;
 }
 
 void Renderer::GenTriangleVBO()
@@ -217,17 +146,3 @@ void Renderer::DrawPointSprites() const
     glDisable(GL_BLEND);
 }
 
-
-
-void SALog(const char *formatStr, ...)
-{
-    va_list params;
-    char buf[BUFSIZ];
-    
-    va_start(params, formatStr);
-    vsprintf(buf, formatStr, params);
-    
-    printf("%s", buf);
-    
-    va_end(params);
-}
