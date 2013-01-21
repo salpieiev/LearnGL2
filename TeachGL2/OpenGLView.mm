@@ -8,12 +8,12 @@
 
 #import "OpenGLView.h"
 #import <QuartzCore/QuartzCore.h>
-#import "Renderer0.h"
+#import "Renderers.h"
 
 
 
 @interface OpenGLView () {
-    Renderer0 *renderer;
+    RenderingEngine *renderer;
     
     GLuint resolveFramebuffer;
     GLuint sampleFramebuffer;
@@ -76,7 +76,7 @@
         glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthRenderbuffer);
         glRenderbufferStorageMultisampleAPPLE(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, width, height);
         
-        renderer = new Renderer0();
+        renderer = new Renderer1();
         
         CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
         [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];

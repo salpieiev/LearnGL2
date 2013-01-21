@@ -21,7 +21,7 @@ class RenderingEngine
 {
 public:
     RenderingEngine();
-    ~RenderingEngine();
+    virtual ~RenderingEngine();
     
     virtual void Render(int width, int height) const = 0;
     virtual void Update() = 0;
