@@ -33,6 +33,7 @@
 		B404A31016AD9487001F8045 /* Renderer1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer1.cpp; sourceTree = "<group>"; };
 		B404A31116AD9487001F8045 /* Renderer1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer1.h; sourceTree = "<group>"; };
 		B404A31316AD95E6001F8045 /* Renderers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Renderers.h; sourceTree = "<group>"; };
+		B404A32016ADA8B8001F8045 /* Quaternion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
 		B40CB63616A1BE14002C52EC /* TeachGL2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeachGL2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CB63A16A1BE14002C52EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B40CB63C16A1BE14002C52EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -204,8 +205,9 @@
 		B4F7F82B16AB42CD006F0C90 /* Math */ = {
 			isa = PBXGroup;
 			children = (
-				B4F7F82C16AB42E2006F0C90 /* Matrix.h */,
 				B4F7F82D16AB42E2006F0C90 /* Vector.h */,
+				B4F7F82C16AB42E2006F0C90 /* Matrix.h */,
+				B404A32016ADA8B8001F8045 /* Quaternion.h */,
 			);
 			name = Math;
 			sourceTree = "<group>";

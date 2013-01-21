@@ -10,6 +10,14 @@
 
 
 
+struct Vertex
+{
+    vec3 Position;
+    vec4 Color;
+};
+
+
+
 Renderer1::Renderer1()
 {
     

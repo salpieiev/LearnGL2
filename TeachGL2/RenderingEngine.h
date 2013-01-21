@@ -10,7 +10,7 @@
 #include <iostream>
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
-#include "Matrix.h"
+#include "Quaternion.h"
 #include "ResourceManager.h"
 
 using namespace std;
