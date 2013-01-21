@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Sergey Alpeev. All rights reserved.
 //
 
-#include "Renderer.h"
+#include "Renderer0.h"
 
 
 
@@ -18,7 +18,7 @@
 
 
 
-Renderer::Renderer()
+Renderer0::Renderer0()
 {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
@@ -39,12 +39,12 @@ Renderer::Renderer()
     GenPointSprite();
 }
 
-Renderer::~Renderer()
+Renderer0::~Renderer0()
 {
     
 }
 
-void Renderer::Render(int width, int height) const
+void Renderer0::Render(int width, int height) const
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -58,12 +58,12 @@ void Renderer::Render(int width, int height) const
     DrawPointSprites();
 }
 
-void Renderer::Update()
+void Renderer0::Update()
 {
     
 }
 
-void Renderer::GenTriangleVBO()
+void Renderer0::GenTriangleVBO()
 {
     GLfloat triangleData[] =
     {
@@ -79,7 +79,7 @@ void Renderer::GenTriangleVBO()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void Renderer::DrawTriangleWithVBO() const
+void Renderer0::DrawTriangleWithVBO() const
 {
     glUseProgram(programs.simpleProgram);
     
@@ -94,7 +94,7 @@ void Renderer::DrawTriangleWithVBO() const
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void Renderer::DrawTriangleWithoutVBO() const
+void Renderer0::DrawTriangleWithoutVBO() const
 {
     glUseProgram(programs.simpleProgram);
     
@@ -112,7 +112,7 @@ void Renderer::DrawTriangleWithoutVBO() const
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-void Renderer::GenPointSprite()
+void Renderer0::GenPointSprite()
 {
     resourceManager->LoadPngImage("Star.png");
     
@@ -127,7 +127,7 @@ void Renderer::GenPointSprite()
     resourceManager->UnloadImage();
 }
 
-void Renderer::DrawPointSprites() const
+void Renderer0::DrawPointSprites() const
 {
     glUseProgram(programs.pointSpriteProgram);
     

@@ -41,11 +41,11 @@ struct Textures
 
 
 
-class Renderer: public RenderingEngine
+class Renderer0: public RenderingEngine
 {
 public:
-    Renderer();
-    ~Renderer();
+    Renderer0();
+    ~Renderer0();
     
     void Render(int width, int height) const;
     void Update();
