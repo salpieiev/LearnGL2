@@ -18,9 +18,10 @@
 
 
 
-Renderer0::Renderer0()
+Renderer0::Renderer0(int width, int height): RenderingEngine(width, height)
 {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glViewport(0, 0, width, height);
     
     programs.simpleProgram = BuildProgram(VertexShader, FragmentShader);
     programs.pointSpriteProgram = BuildProgram(PointSpriteVertexShader, PointSpriteFragmentShader);
@@ -44,12 +45,10 @@ Renderer0::~Renderer0()
     
 }
 
-void Renderer0::Render(int width, int height) const
+void Renderer0::Render() const
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glViewport(0, 0, width, height);
     
     DrawTriangleWithoutVBO();
     

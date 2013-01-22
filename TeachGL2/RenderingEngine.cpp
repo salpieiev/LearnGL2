@@ -10,7 +10,7 @@
 
 
 
-RenderingEngine::RenderingEngine()
+RenderingEngine::RenderingEngine(int width, int height): surfaceSize(width, height)
 {
     resourceManager = new ResourceManager();
 }

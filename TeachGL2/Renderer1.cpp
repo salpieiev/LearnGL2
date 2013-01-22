@@ -18,7 +18,7 @@ struct Vertex
 
 
 
-Renderer1::Renderer1()
+Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
 {
     
 }
@@ -28,7 +28,7 @@ Renderer1::~Renderer1()
     
 }
 
-void Renderer1::Render(int width, int height) const
+void Renderer1::Render() const
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

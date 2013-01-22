@@ -76,7 +76,7 @@
         glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthRenderbuffer);
         glRenderbufferStorageMultisampleAPPLE(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, width, height);
         
-        renderer = new Renderer1();
+        renderer = new Renderer0(width, height);
         
         CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
         [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -93,12 +93,7 @@
 
 - (void)drawView:(CADisplayLink *)displayLink
 {
-    CGFloat scale = [UIScreen mainScreen].scale;
-    
-    CGFloat width = CGRectGetWidth(self.bounds) * scale;
-    CGFloat height = CGRectGetHeight(self.bounds) * scale;
-    
-    renderer->Render(width, height);
+    renderer->Render();
     
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, resolveFramebuffer);
     glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, sampleFramebuffer);

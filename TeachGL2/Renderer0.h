@@ -44,10 +44,10 @@ struct Textures
 class Renderer0: public RenderingEngine
 {
 public:
-    Renderer0();
+    Renderer0(int width, int height);
     ~Renderer0();
     
-    void Render(int width, int height) const;
+    void Render() const;
     void Update();
     
 private:

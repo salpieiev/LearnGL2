@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A30416AD9048001F8045 /* RenderingEngine.cpp */; };
 		B404A31216AD9487001F8045 /* Renderer1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A31016AD9487001F8045 /* Renderer1.cpp */; };
+		B408680516AE9C6600F6CD8D /* ParametricSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B408680316AE9C6600F6CD8D /* ParametricSurface.cpp */; };
+		B408681B16AEE60D00F6CD8D /* ProjectionShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = B408681A16AEE60D00F6CD8D /* ProjectionShader.vsh */; };
+		B408681D16AEE62100F6CD8D /* ProjectionShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = B408681C16AEE62100F6CD8D /* ProjectionShader.fsh */; };
 		B40CB63B16A1BE14002C52EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63A16A1BE14002C52EC /* UIKit.framework */; };
 		B40CB63D16A1BE14002C52EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63C16A1BE14002C52EC /* Foundation.framework */; };
 		B40CB63F16A1BE14002C52EC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63E16A1BE14002C52EC /* CoreGraphics.framework */; };
@@ -34,6 +37,11 @@
 		B404A31116AD9487001F8045 /* Renderer1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer1.h; sourceTree = "<group>"; };
 		B404A31316AD95E6001F8045 /* Renderers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Renderers.h; sourceTree = "<group>"; };
 		B404A32016ADA8B8001F8045 /* Quaternion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
+		B408680216AE9ABE00F6CD8D /* ISurface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISurface.h; sourceTree = "<group>"; };
+		B408680316AE9C6600F6CD8D /* ParametricSurface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParametricSurface.cpp; sourceTree = "<group>"; };
+		B408680416AE9C6600F6CD8D /* ParametricSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParametricSurface.h; sourceTree = "<group>"; };
+		B408681A16AEE60D00F6CD8D /* ProjectionShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ProjectionShader.vsh; sourceTree = "<group>"; };
+		B408681C16AEE62100F6CD8D /* ProjectionShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ProjectionShader.fsh; sourceTree = "<group>"; };
 		B40CB63616A1BE14002C52EC /* TeachGL2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeachGL2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CB63A16A1BE14002C52EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B40CB63C16A1BE14002C52EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -82,6 +90,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B408680016AE9A9400F6CD8D /* Surfaces */ = {
+			isa = PBXGroup;
+			children = (
+				B408680216AE9ABE00F6CD8D /* ISurface.h */,
+				B408680316AE9C6600F6CD8D /* ParametricSurface.cpp */,
+				B408680416AE9C6600F6CD8D /* ParametricSurface.h */,
+			);
+			name = Surfaces;
+			sourceTree = "<group>";
+		};
 		B40CB62B16A1BE14002C52EC = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +135,7 @@
 			children = (
 				B4B8D08316A21E53009B418F /* Shaders */,
 				B4F7F82B16AB42CD006F0C90 /* Math */,
+				B408680016AE9A9400F6CD8D /* Surfaces */,
 				B4B8D07A16A20EA2009B418F /* Renderer */,
 				B40CB66816A1C354002C52EC /* Views */,
 				B40CB66316A1C32A002C52EC /* View Controllers */,
@@ -182,6 +201,8 @@
 				B4B8D08616A21E9A009B418F /* Shader.fsh */,
 				B4F7F83416AB43BF006F0C90 /* PointSpriteShader.vsh */,
 				B4F7F83616AB43CA006F0C90 /* PointSpriteShader.fsh */,
+				B408681A16AEE60D00F6CD8D /* ProjectionShader.vsh */,
+				B408681C16AEE62100F6CD8D /* ProjectionShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -287,6 +308,9 @@
 				B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */,
 				B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */,
 				B404A31216AD9487001F8045 /* Renderer1.cpp in Sources */,
+				B408680516AE9C6600F6CD8D /* ParametricSurface.cpp in Sources */,
+				B408681B16AEE60D00F6CD8D /* ProjectionShader.vsh in Sources */,
+				B408681D16AEE62100F6CD8D /* ProjectionShader.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,16 +20,17 @@ using namespace std;
 class RenderingEngine
 {
 public:
-    RenderingEngine();
+    RenderingEngine(int width, int height);
     virtual ~RenderingEngine();
     
-    virtual void Render(int width, int height) const = 0;
+    virtual void Render() const = 0;
     virtual void Update() = 0;
     
 protected:
     GLuint BuildShader(const char *source, GLenum shaderType) const;
     GLuint BuildProgram(const char *vertexShader, const char *fragmentShader) const;
     
+    ivec2 surfaceSize;
     ResourceManager *resourceManager;
 };
 

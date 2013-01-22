@@ -14,10 +14,10 @@
 class Renderer1: public RenderingEngine
 {
 public:
-    Renderer1();
+    Renderer1(int width, int height);
     ~Renderer1();
     
-    void Render(int width, int height) const;
+    void Render() const;
     void Update();
     
 private:

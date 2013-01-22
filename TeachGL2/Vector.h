@@ -23,6 +23,13 @@ public:
     Vector2();
     Vector2(T x, T y);
     
+    Vector2<T> operator +(const Vector2 &vector) const;
+    Vector2<T> operator -(const Vector2 &vector) const;
+    Vector2<T> operator *(float s) const;
+    Vector2<T> operator /(float s) const;
+    
+    template <typename P> P * Write(P *pData);
+    
     T x;
     T y;
 };
@@ -34,9 +41,15 @@ public:
     Vector3();
     Vector3(T x, T y, T z);
     
+    Vector3<T> operator -() const;
+    Vector3<T> operator +(const Vector3 &vector) const;
+    Vector3<T> operator -(const Vector3 &vector) const;
+    
     float Length() const;
     void Normalize();
+    Vector3<T> Normalized() const;
     Vector3<T> Cross(const Vector3<T> &v) const;
+    template <typename P> P * Write(P *pData);
     
     T x;
     T y;
@@ -72,12 +85,63 @@ Vector2<T>::Vector2(T x, T y): x(x), y(y)
     
 }
 
+template <typename T>
+Vector2<T> Vector2<T>::operator +(const Vector2 &vector) const
+{
+    return Vector2<T>(x + vector.x, y + vector.y);
+}
+
+template <typename T>
+Vector2<T> Vector2<T>::operator -(const Vector2 &vector) const
+{
+    return Vector2<T>(x - vector.x, y - vector.y);
+}
+
+template <typename T>
+Vector2<T> Vector2<T>::operator *(float s) const
+{
+    return Vector2<T>(x * s, y * s);
+}
+
+template <typename T>
+Vector2<T> Vector2<T>::operator /(float s) const
+{
+    return Vector2<T>(x / s, y / s);
+}
+
+template <typename T>
+template <typename P>
+P * Vector2<T>::Write(P *pData)
+{
+    Vector2<T> *pVector = (Vector2<T> *)pData;
+    *pVector++ = *this;
+    return (P *)pVector;
+}
+
 
 
 template <typename T>
 Vector3<T>::Vector3(): x(0), y(0), z(0)
 {
     
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::operator-() const
+{
+    return Vector3<T>(-x, -y, -z);
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::operator +(const Vector3 &vector) const
+{
+    return Vector3<T>(x + vector.x, y + vector.y, z + vector.z);
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::operator -(const Vector3 &vector) const
+{
+    return Vector3<T>(x - vector.x, y - vector.y, z - vector.z);
 }
 
 template <typename T>
@@ -96,6 +160,14 @@ void Vector3<T>::Normalize()
 }
 
 template <typename T>
+Vector3<T> Vector3<T>::Normalized() const
+{
+    Vector3<T> vector = *this;
+    vector.Normalize();
+    return vector;
+}
+
+template <typename T>
 Vector3<T>::Vector3(T x, T y, T z): x(x), y(y), z(z)
 {
     
@@ -109,6 +181,17 @@ Vector3<T> Vector3<T>::Cross(const Vector3<T> &v) const
                                   x * v.y - y * v.x);
     return cross;
 }
+
+template <typename T>
+template <typename P>
+P * Vector3<T>::Write(P *pData)
+{
+    Vector3<T> *pVector = (Vector3<T> *)pData;
+    *pVector++ = *this;
+    return (P *)pVector;
+}
+
+
 
 
 
