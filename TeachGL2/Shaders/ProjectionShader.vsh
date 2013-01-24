@@ -1,7 +1,7 @@
 const char *ProjectionVertexShader = STRINGIFY
 (
 
- attribute vec3 Position;
+ attribute vec4 Position;
  attribute vec4 SourceColor;
  
  uniform mat4 Projection;

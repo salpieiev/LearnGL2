@@ -26,7 +26,7 @@ class ISurface
 public:
     virtual ~ISurface() {}
     
-    virtual int GetIndexCount() const = 0;
+    virtual int GetVertexCount() const = 0;
     virtual int GetLineIndexCount() const = 0;
     virtual int GetTriangleIndexCount() const = 0;
     

@@ -48,7 +48,10 @@ public:
     ~Renderer0();
     
     void Render() const;
-    void Update();
+    
+    void OnFingerDown(ivec2 location);
+    void OnFingerMove(ivec2 oldLocation, ivec2 newLocation);
+    void OnFingerUp(ivec2 location);
     
 private:
     void GenTriangleVBO();

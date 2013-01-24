@@ -76,7 +76,7 @@
         glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthRenderbuffer);
         glRenderbufferStorageMultisampleAPPLE(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, width, height);
         
-        renderer = new Renderer0(width, height);
+        renderer = new Renderer1(width, height);
         
         CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
         [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -115,22 +115,40 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInView:self];
     
+    ivec2 location = ivec2(touchLocation.x, touchLocation.y);
+    renderer->OnFingerDown(location);
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    CGPoint oldTouchLocation = [touch previousLocationInView:self];
+    CGPoint newTouchLocation = [touch locationInView:self];
     
+    ivec2 oldLocation = ivec2(oldTouchLocation.x, oldTouchLocation.y);
+    ivec2 newLocation = ivec2(newTouchLocation.x, newTouchLocation.y);
+    renderer->OnFingerMove(oldLocation, newLocation);
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    renderer->Update();
+    UITouch *touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInView:self];
+    
+    ivec2 location = ivec2(touchLocation.x, touchLocation.y);
+    renderer->OnFingerUp(location);
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInView:self];
     
+    ivec2 location = ivec2(touchLocation.x, touchLocation.y);
+    renderer->OnFingerUp(location);
 }
 
 @end

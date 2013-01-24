@@ -10,8 +10,6 @@
 		B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A30416AD9048001F8045 /* RenderingEngine.cpp */; };
 		B404A31216AD9487001F8045 /* Renderer1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A31016AD9487001F8045 /* Renderer1.cpp */; };
 		B408680516AE9C6600F6CD8D /* ParametricSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B408680316AE9C6600F6CD8D /* ParametricSurface.cpp */; };
-		B408681B16AEE60D00F6CD8D /* ProjectionShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = B408681A16AEE60D00F6CD8D /* ProjectionShader.vsh */; };
-		B408681D16AEE62100F6CD8D /* ProjectionShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = B408681C16AEE62100F6CD8D /* ProjectionShader.fsh */; };
 		B40CB63B16A1BE14002C52EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63A16A1BE14002C52EC /* UIKit.framework */; };
 		B40CB63D16A1BE14002C52EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63C16A1BE14002C52EC /* Foundation.framework */; };
 		B40CB63F16A1BE14002C52EC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63E16A1BE14002C52EC /* CoreGraphics.framework */; };
@@ -309,8 +307,6 @@
 				B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */,
 				B404A31216AD9487001F8045 /* Renderer1.cpp in Sources */,
 				B408680516AE9C6600F6CD8D /* ParametricSurface.cpp in Sources */,
-				B408681B16AEE60D00F6CD8D /* ProjectionShader.vsh in Sources */,
-				B408681D16AEE62100F6CD8D /* ProjectionShader.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

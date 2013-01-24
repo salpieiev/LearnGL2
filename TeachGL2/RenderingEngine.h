@@ -24,14 +24,16 @@ public:
     virtual ~RenderingEngine();
     
     virtual void Render() const = 0;
-    virtual void Update() = 0;
+    virtual void OnFingerDown(ivec2 location) = 0;
+    virtual void OnFingerMove(ivec2 oldLocation, ivec2 newLocation) = 0;
+    virtual void OnFingerUp(ivec2 location) = 0;
     
 protected:
     GLuint BuildShader(const char *source, GLenum shaderType) const;
     GLuint BuildProgram(const char *vertexShader, const char *fragmentShader) const;
     
-    ivec2 surfaceSize;
-    ResourceManager *resourceManager;
+    ivec2 m_surfaceSize;
+    ResourceManager *m_resourceManager;
 };
 
 

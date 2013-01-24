@@ -57,7 +57,17 @@ void Renderer0::Render() const
     DrawPointSprites();
 }
 
-void Renderer0::Update()
+void Renderer0::OnFingerDown(ivec2 location)
+{
+    
+}
+
+void Renderer0::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
+{
+    
+}
+
+void Renderer0::OnFingerUp(ivec2 location)
 {
     
 }
@@ -113,17 +123,17 @@ void Renderer0::DrawTriangleWithoutVBO() const
 
 void Renderer0::GenPointSprite()
 {
-    resourceManager->LoadPngImage("Star.png");
+    m_resourceManager->LoadPngImage("Star.png");
     
-    ivec2 imageSize = resourceManager->GetImageSize();
-    void *imageData = resourceManager->GetImageData();
+    ivec2 imageSize = m_resourceManager->GetImageSize();
+    void *imageData = m_resourceManager->GetImageData();
     
     glGenTextures(1, &textures.Star);
     glBindTexture(GL_TEXTURE_2D, textures.Star);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
     
-    resourceManager->UnloadImage();
+    m_resourceManager->UnloadImage();
 }
 
 void Renderer0::DrawPointSprites() const

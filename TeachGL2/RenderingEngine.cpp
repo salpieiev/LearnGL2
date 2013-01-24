@@ -10,14 +10,14 @@
 
 
 
-RenderingEngine::RenderingEngine(int width, int height): surfaceSize(width, height)
+RenderingEngine::RenderingEngine(int width, int height): m_surfaceSize(width, height)
 {
-    resourceManager = new ResourceManager();
+    m_resourceManager = new ResourceManager();
 }
 
 RenderingEngine::~RenderingEngine()
 {
-    delete resourceManager;
+    delete m_resourceManager;
 }
 
 GLuint RenderingEngine::BuildShader(const char *source, GLenum shaderType) const

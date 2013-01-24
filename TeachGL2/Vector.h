@@ -23,10 +23,14 @@ public:
     Vector2();
     Vector2(T x, T y);
     
-    Vector2<T> operator +(const Vector2 &vector) const;
-    Vector2<T> operator -(const Vector2 &vector) const;
+    Vector2<T> operator +(const Vector2<T> &vector) const;
+    Vector2<T> operator -(const Vector2<T> &vector) const;
     Vector2<T> operator *(float s) const;
     Vector2<T> operator /(float s) const;
+    operator Vector2<float>() const;
+    
+    float Length() const;
+    float LengthSquared() const;
     
     template <typename P> P * Write(P *pData);
     
@@ -42,8 +46,14 @@ public:
     Vector3(T x, T y, T z);
     
     Vector3<T> operator -() const;
-    Vector3<T> operator +(const Vector3 &vector) const;
-    Vector3<T> operator -(const Vector3 &vector) const;
+    Vector3<T> operator +(const Vector3<T> &vector) const;
+    Vector3<T> operator -(const Vector3<T> &vector) const;
+    Vector3<T> operator *(float scale) const;
+    Vector3<T> operator /(float scale) const;
+    Vector3<T> & operator +=(const Vector3<T> &vector);
+    Vector3<T> & operator -=(const Vector3<T> &vector);
+    Vector3<T> & operator *=(float scale);
+    Vector3<T> & operator /=(float scale);
     
     float Length() const;
     void Normalize();
@@ -86,13 +96,13 @@ Vector2<T>::Vector2(T x, T y): x(x), y(y)
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator +(const Vector2 &vector) const
+Vector2<T> Vector2<T>::operator +(const Vector2<T> &vector) const
 {
     return Vector2<T>(x + vector.x, y + vector.y);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator -(const Vector2 &vector) const
+Vector2<T> Vector2<T>::operator -(const Vector2<T> &vector) const
 {
     return Vector2<T>(x - vector.x, y - vector.y);
 }
@@ -107,6 +117,27 @@ template <typename T>
 Vector2<T> Vector2<T>::operator /(float s) const
 {
     return Vector2<T>(x / s, y / s);
+}
+
+template <typename T>
+Vector2<T>::operator Vector2<float>() const
+{
+    return Vector2<float>(x, y);
+}
+
+template <typename T>
+float Vector2<T>::Length() const
+{
+    float length = sqrtf(x * x + y * y);
+    return length;
+}
+
+template <typename T>
+float Vector2<T>::LengthSquared() const
+{
+    float length = Length();
+    float lengthSquared = length * length;
+    return lengthSquared;
 }
 
 template <typename T>
@@ -133,15 +164,69 @@ Vector3<T> Vector3<T>::operator-() const
 }
 
 template <typename T>
-Vector3<T> Vector3<T>::operator +(const Vector3 &vector) const
+Vector3<T> Vector3<T>::operator +(const Vector3<T> &vector) const
 {
     return Vector3<T>(x + vector.x, y + vector.y, z + vector.z);
 }
 
 template <typename T>
-Vector3<T> Vector3<T>::operator -(const Vector3 &vector) const
+Vector3<T> Vector3<T>::operator -(const Vector3<T> &vector) const
 {
     return Vector3<T>(x - vector.x, y - vector.y, z - vector.z);
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::operator *(float scale) const
+{
+    Vector3<T> vector = Vector3(x * scale, y * scale, z * scale);
+    return vector;
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::operator /(float scale) const
+{
+    Vector3<T> vector = Vector3(x / scale, y / scale, z / scale);
+    return vector;
+}
+
+template <typename T>
+Vector3<T> & Vector3<T>::operator +=(const Vector3<T> &vector)
+{
+    x += vector.x;
+    y += vector.y;
+    z += vector.z;
+    
+    return *this;
+}
+
+template <typename T>
+Vector3<T> & Vector3<T>::operator -=(const Vector3<T> &vector)
+{
+    x -= vector.x;
+    y -= vector.y;
+    z -= vector.z;
+    
+    return *this;
+}
+
+template <typename T>
+Vector3<T> & Vector3<T>::operator *=(float scale)
+{
+    x *= scale;
+    y *= scale;
+    z *= scale;
+    
+    return *this;
+}
+
+template <typename T>
+Vector3<T> & Vector3<T>::operator /=(float scale)
+{
+    x /= scale;
+    y /= scale;
+    z /= scale;
+    
+    return *this;
 }
 
 template <typename T>
