@@ -12,7 +12,7 @@ const char *ProjectionVertexShader = STRINGIFY
  void main()
  {
      DestinationColor = SourceColor;
-     gl_Position = /*Projection * Modelview * */Position;
+     gl_Position = Projection * Modelview * Position;
  }
 
 );

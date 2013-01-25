@@ -38,13 +38,13 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     m_uniformModelview = glGetUniformLocation(m_program, "Modelview");
     
     glEnableVertexAttribArray(m_attribPosition);
-//    glEnableVertexAttribArray(m_attribSourceColor);
+    glEnableVertexAttribArray(m_attribSourceColor);
     
     // Create surface
-    m_surface = new Sphere(0.5f);
+    m_surface = new Sphere(3.0f);
     
     vector<float> vertices;
-    m_surface->GenerateVertices(vertices);
+    m_surface->GenerateVertices(vertices, VertexFlagsColors);
     
     vector<unsigned short> indices;
     m_surface->GenerateLineIndices(indices);
@@ -59,6 +59,11 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     glGenBuffers(1, &m_indexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
+    
+    // Set frustum
+    GLfloat h = 4 * height / width;
+    mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
+    glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
 }
 
 Renderer1::~Renderer1()
@@ -68,11 +73,16 @@ Renderer1::~Renderer1()
 
 void Renderer1::Render() const
 {
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
-    glVertexAttrib4f(m_attribSourceColor, 1.0f, 0.0f, 0.0f, 1.0f);
+    // Modelview
+    mat4 modelview;
+    modelview = modelview.Translate(0.0f, 0.0f, -7.0f);
+    glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
+    
+    glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+    glVertexAttribPointer(m_attribSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
     
     glDrawElements(GL_LINES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
 }

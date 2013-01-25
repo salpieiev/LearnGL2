@@ -53,7 +53,7 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
             // Set color
             if (flags & VertexFlagsColors)
             {
-                vec4 color = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                vec4 color = vec4(1.0f, 1.0f, 0.0f, 1.0f);
                 attribute = color.Write(attribute);
             }
             
