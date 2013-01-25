@@ -31,6 +31,8 @@ int ParametricSurface::GetTriangleIndexCount() const
 void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char flags) const
 {
     int floatsPerVertex = 3;
+    if (flags & VertexFlagsColors)
+        floatsPerVertex += 4;
     if (flags & VertexFlagsNormals)
         floatsPerVertex += 3;
     if (flags & VertexFlagsTexCoords)
@@ -47,6 +49,13 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
             vec2 domain = ComputeDomain(i, j);
             vec3 range = Evaluate(domain);
             attribute = range.Write(attribute);
+            
+            // Set color
+            if (flags & VertexFlagsColors)
+            {
+                vec4 color = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                attribute = color.Write(attribute);
+            }
             
             // Compute normal
             if (flags & VertexFlagsNormals)

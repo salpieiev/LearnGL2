@@ -15,8 +15,9 @@ using std::vector;
 
 enum VertexFlags
 {
-    VertexFlagsNormals = 1 << 0,
-    VertexFlagsTexCoords = 1 << 1
+    VertexFlagsColors = 1 << 0,
+    VertexFlagsNormals = 1 << 1,
+    VertexFlagsTexCoords = 1 << 2
 };
 
 

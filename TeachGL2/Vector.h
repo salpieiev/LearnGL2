@@ -74,6 +74,7 @@ public:
     Vector4(T x, T y, T z, T w);
     
     const T * Pointer() const;
+    template <typename P> P * Write(P *pData);
     
     T x;
     T y;
@@ -296,6 +297,15 @@ template <typename T>
 const T * Vector4<T>::Pointer() const
 {
     return &x;
+}
+
+template <typename T>
+template <typename P>
+P * Vector4<T>::Write(P *pData)
+{
+    Vector4<T> *pVector = (Vector4<T> *)pData;
+    *pVector++ = *this;
+    return (P *)pVector;
 }
 
 

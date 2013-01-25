@@ -1,7 +1,7 @@
 const char *ProjectionFragmentShader = STRINGIFY
 (
 
- uniform highp vec4 DestinationColor;
+ varying highp vec4 DestinationColor;
  
  void main()
  {

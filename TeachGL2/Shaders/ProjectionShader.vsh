@@ -6,13 +6,13 @@ const char *ProjectionVertexShader = STRINGIFY
  
  uniform mat4 Projection;
  uniform mat4 Modelview;
- 
+
  varying vec4 DestinationColor;
  
  void main()
  {
      DestinationColor = SourceColor;
-     gl_Position = Projection * Modelview * Position;
+     gl_Position = /*Projection * Modelview * */Position;
  }
 
 );

@@ -24,6 +24,8 @@ struct Vertex
 
 Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
 {
+    glViewport(0, 0, width, height);
+    
     m_trackballRadius = (float)width / 3.0f;
     m_centerPoint = m_surfaceSize / 2;
     
@@ -35,6 +37,10 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     m_uniformProjection = glGetUniformLocation(m_program, "Projection");
     m_uniformModelview = glGetUniformLocation(m_program, "Modelview");
     
+    glEnableVertexAttribArray(m_attribPosition);
+//    glEnableVertexAttribArray(m_attribSourceColor);
+    
+    // Create surface
     m_surface = new Sphere(0.5f);
     
     vector<float> vertices;
@@ -42,6 +48,17 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     
     vector<unsigned short> indices;
     m_surface->GenerateLineIndices(indices);
+    m_indexCount = indices.size();
+    
+    // Generate vertex buffer
+    glGenBuffers(1, &m_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    
+    // Generate index buffer
+    glGenBuffers(1, &m_indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
 }
 
 Renderer1::~Renderer1()
@@ -51,8 +68,13 @@ Renderer1::~Renderer1()
 
 void Renderer1::Render() const
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
+    glVertexAttrib4f(m_attribSourceColor, 1.0f, 0.0f, 0.0f, 1.0f);
+    
+    glDrawElements(GL_LINES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
 }
 
 void Renderer1::OnFingerDown(ivec2 location)

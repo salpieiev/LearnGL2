@@ -42,4 +42,5 @@ private:
     GLuint m_uniformModelview;
     GLuint m_vertexBuffer;
     GLuint m_indexBuffer;
+    GLuint m_indexCount;
 };
