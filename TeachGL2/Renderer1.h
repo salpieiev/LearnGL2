@@ -28,6 +28,7 @@ private:
     vec3 MapToSphere(ivec2 touchLocation) const;
     
     float m_trackballRadius;
+    bool m_spinning;
     ivec2 m_centerPoint;
     ivec2 m_fingerStart;
     Quaternion m_orientation;

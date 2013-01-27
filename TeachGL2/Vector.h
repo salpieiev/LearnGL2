@@ -54,11 +54,13 @@ public:
     Vector3<T> & operator -=(const Vector3<T> &vector);
     Vector3<T> & operator *=(float scale);
     Vector3<T> & operator /=(float scale);
+    bool operator ==(const Vector3<T> &vector) const;
     
     float Length() const;
     void Normalize();
     Vector3<T> Normalized() const;
     Vector3<T> Cross(const Vector3<T> &v) const;
+    T Dot(const Vector3<T> &v) const;
     template <typename P> P * Write(P *pData);
     
     T x;
@@ -231,6 +233,13 @@ Vector3<T> & Vector3<T>::operator /=(float scale)
 }
 
 template <typename T>
+bool Vector3<T>::operator ==(const Vector3<T> &vector) const
+{
+    bool equal = ((x == vector.x) && (y == vector.y) && (z == vector.z));
+    return equal;
+}
+
+template <typename T>
 float Vector3<T>::Length() const
 {
     return sqrt(x * x + y * y + z * z);
@@ -266,6 +275,13 @@ Vector3<T> Vector3<T>::Cross(const Vector3<T> &v) const
                                   z * v.x - x * v.z,
                                   x * v.y - y * v.x);
     return cross;
+}
+
+template <typename T>
+T Vector3<T>::Dot(const Vector3<T> &v) const
+{
+    T dot = x * v.x + y * v.y + z * v.z;
+    return dot;
 }
 
 template <typename T>

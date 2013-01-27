@@ -89,12 +89,20 @@ void Renderer1::Render() const
 
 void Renderer1::OnFingerDown(ivec2 location)
 {
-    
+    m_fingerStart = location;
+    m_prevOrientation = m_orientation;
+    m_spinning = true;
 }
 
 void Renderer1::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
 {
-    
+    if (m_spinning)
+    {
+        vec3 start = MapToSphere(m_fingerStart);
+        vec3 end = MapToSphere(newLocation);
+        
+        Quaternion delta = Quaternion::CreateFromVectors(start, end);
+    }
 }
 
 void Renderer1::OnFingerUp(ivec2 location)
