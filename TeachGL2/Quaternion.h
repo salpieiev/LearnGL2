@@ -18,8 +18,17 @@ public:
     QuaternionT();
     QuaternionT(T x, T y, T z, T w);
     
-    static QuaternionT<T> CreateFromVectors(const Vector3<T> &v0, const Vector3<T> &v1);
-    static QuaternionT<T> CreateFromAxisAngle(const Vector3<T> &axis, float radians);
+    inline QuaternionT<T> Scaled(T scale) const;
+    inline QuaternionT<T> Rotated(const QuaternionT<T> &b) const;
+    inline T InnerProduct(const QuaternionT<T> &q) const;
+    inline T Norm() const;
+    inline T Magnitude() const;
+    inline Matrix3<T> ToMatrix() const;
+    inline Vector4<T> ToVector() const;
+    inline void Normalize();
+    
+    static inline QuaternionT<T> CreateFromVectors(const Vector3<T> &v0, const Vector3<T> &v1);
+    static inline QuaternionT<T> CreateFromAxisAngle(const Vector3<T> &axis, float radians);
     
     T x;
     T y;
@@ -39,6 +48,66 @@ template <typename T>
 inline QuaternionT<T>::QuaternionT(T x, T y, T z, T w): x(x), y(y), z(z), w(w)
 {
     
+}
+
+template <typename T>
+inline QuaternionT<T> QuaternionT<T>::Scaled(T scale) const
+{
+    QuaternionT<T> scaled(x * scale, y * scale, z * scale, w * scale);
+    return scaled;
+}
+
+template <typename T>
+inline QuaternionT<T> QuaternionT<T>::Rotated(const QuaternionT<T> &b) const
+{
+    QuaternionT<T> q;
+    q.w = w * b.w - x * b.x - y * b.y - z * b.z;
+    q.x = w * b.x + x * b.w + y * b.z - z * b.y;
+    q.y = w * b.y + y * b.w + z * b.x - x * b.z;
+    q.z = w * b.z + z * b.w + x * b.y - y * b.x;
+    q.Normalize();
+    return q;
+}
+
+template <typename T>
+inline T QuaternionT<T>::InnerProduct(const QuaternionT<T> &q) const
+{
+    T dot = x * q.x + y * q.y + z * q.z + w * q.w;
+    return dot;
+}
+
+template <typename T>
+inline T QuaternionT<T>::Norm() const
+{
+    T norm = InnerProduct(*this);
+    return norm;
+}
+
+template <typename T>
+inline T QuaternionT<T>::Magnitude() const
+{
+    T magnitude = sqrt(Norm());
+    return magnitude;
+}
+
+template <typename T>
+inline Matrix3<T> QuaternionT<T>::ToMatrix() const
+{
+    
+}
+
+template <typename T>
+inline Vector4<T> QuaternionT<T>::ToVector() const
+{
+    Vector4<T> vector = Vector4<T>(x, y, z, w);
+    return vector;
+}
+
+template <typename T>
+inline void QuaternionT<T>::Normalize()
+{
+    T scale = 1.0f / Magnitude();
+    *this = Scaled(scale);
 }
 
 template <typename T>

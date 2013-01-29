@@ -102,12 +102,13 @@ void Renderer1::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
         vec3 end = MapToSphere(newLocation);
         
         Quaternion delta = Quaternion::CreateFromVectors(start, end);
+        m_orientation = delta.Rotated(m_prevOrientation);
     }
 }
 
 void Renderer1::OnFingerUp(ivec2 location)
 {
-    
+    m_spinning = false;
 }
 
 vec3 Renderer1::MapToSphere(ivec2 touchLocation) const
