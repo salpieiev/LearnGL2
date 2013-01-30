@@ -18,6 +18,8 @@
     GLuint resolveFramebuffer;
     GLuint sampleFramebuffer;
     GLuint colorRenderbuffer;
+    GLuint sampleColorRenderbuffer;
+    GLuint sampleDepthRenderbuffer;
 }
 
 - (void)drawView:(CADisplayLink *)displayLink;
@@ -65,13 +67,11 @@
         glGenFramebuffers(1, &sampleFramebuffer);
         glBindFramebuffer(GL_FRAMEBUFFER, sampleFramebuffer);
         
-        GLuint sampleColorRenderbuffer;
         glGenRenderbuffers(1, &sampleColorRenderbuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, sampleColorRenderbuffer);
         glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, 4, GL_RGBA8_OES, width, height);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, sampleColorRenderbuffer);
         
-        GLuint sampleDepthRenderbuffer;
         glGenRenderbuffers(1, &sampleDepthRenderbuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthRenderbuffer);
         glRenderbufferStorageMultisampleAPPLE(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, width, height);
@@ -93,6 +93,10 @@
 
 - (void)drawView:(CADisplayLink *)displayLink
 {
+    glBindFramebuffer(GL_FRAMEBUFFER, sampleFramebuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, sampleColorRenderbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthRenderbuffer);
+    
     renderer->Render();
     
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, resolveFramebuffer);
@@ -105,7 +109,6 @@
         GL_DEPTH_ATTACHMENT
     };
     glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, discards);
-    
     
     glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
     [self.eaglContext presentRenderbuffer:GL_RENDERBUFFER];
