@@ -82,7 +82,7 @@ Matrix4<T>::Matrix4(const Matrix3<T> &m)
 {
     x.x = m.x.x; x.y = m.x.y; x.z = m.x.z; x.w = 0.0f;
     y.x = m.y.x; y.y = m.y.y; y.z = m.y.z; y.w = 0.0f;
-    z.x = m.z.x; z.y = m.y.z; z.z = m.z.z; z.w = 0.0f;
+    z.x = m.z.x; z.y = m.z.y; z.z = m.z.z; z.w = 0.0f;
     w.x = 0.0f;  w.y = 0.0f;  w.z = 0.0f;  w.w = 1.0f;
 }
 
