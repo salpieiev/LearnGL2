@@ -131,15 +131,14 @@ Vector2<T>::operator Vector2<float>() const
 template <typename T>
 float Vector2<T>::Length() const
 {
-    float length = sqrtf(x * x + y * y);
+    float length = sqrtf(LengthSquared());
     return length;
 }
 
 template <typename T>
 float Vector2<T>::LengthSquared() const
 {
-    float length = Length();
-    float lengthSquared = length * length;
+    float lengthSquared = x * x + y * y;
     return lengthSquared;
 }
 

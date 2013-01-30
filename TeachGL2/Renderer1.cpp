@@ -109,7 +109,6 @@ void Renderer1::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
 
 void Renderer1::OnFingerUp(ivec2 location)
 {
-    cout << m_orientation.x << "\t\t" << m_orientation.y << "\t\t" << m_orientation.z << endl;
     m_spinning = false;
 }
 

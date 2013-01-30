@@ -120,8 +120,9 @@
 {
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self];
+    CGFloat scale = [UIScreen mainScreen].scale;
     
-    ivec2 location = ivec2(touchLocation.x, touchLocation.y);
+    ivec2 location = ivec2(touchLocation.x * scale, touchLocation.y * scale);
     renderer->OnFingerDown(location);
 }
 
@@ -130,9 +131,10 @@
     UITouch *touch = [touches anyObject];
     CGPoint oldTouchLocation = [touch previousLocationInView:self];
     CGPoint newTouchLocation = [touch locationInView:self];
+    CGFloat scale = [UIScreen mainScreen].scale;
     
-    ivec2 oldLocation = ivec2(oldTouchLocation.x, oldTouchLocation.y);
-    ivec2 newLocation = ivec2(newTouchLocation.x, newTouchLocation.y);
+    ivec2 oldLocation = ivec2(oldTouchLocation.x * scale, oldTouchLocation.y * scale);
+    ivec2 newLocation = ivec2(newTouchLocation.x * scale, newTouchLocation.y * scale);
     renderer->OnFingerMove(oldLocation, newLocation);
 }
 
@@ -140,8 +142,9 @@
 {
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self];
+    CGFloat scale = [UIScreen mainScreen].scale;
     
-    ivec2 location = ivec2(touchLocation.x, touchLocation.y);
+    ivec2 location = ivec2(touchLocation.x * scale, touchLocation.y * scale);
     renderer->OnFingerUp(location);
 }
 
@@ -149,8 +152,9 @@
 {
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self];
+    CGFloat scale = [UIScreen mainScreen].scale;
     
-    ivec2 location = ivec2(touchLocation.x, touchLocation.y);
+    ivec2 location = ivec2(touchLocation.x * scale, touchLocation.y * scale);
     renderer->OnFingerUp(location);
 }
 
