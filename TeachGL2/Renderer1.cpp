@@ -77,8 +77,9 @@ void Renderer1::Render() const
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Modelview
-    mat4 modelview;
-    modelview = modelview.Translate(0.0f, 0.0f, -7.0f);
+    mat4 orientation = m_orientation.ToMatrix();
+    mat4 translation = mat4::Translate(0.0f, 0.0f, -7.0f);
+    mat4 modelview = orientation * translation;
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
@@ -108,6 +109,7 @@ void Renderer1::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
 
 void Renderer1::OnFingerUp(ivec2 location)
 {
+    cout << m_orientation.x << "\t\t" << m_orientation.y << "\t\t" << m_orientation.z << endl;
     m_spinning = false;
 }
 
