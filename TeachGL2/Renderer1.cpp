@@ -26,8 +26,8 @@ struct Vertex
 Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
 {
     glViewport(0, 0, width, height);
-//    glEnable(GL_DEPTH_TEST);
-//    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
     
     m_trackballRadius = (float)width / 3.0f;
     m_centerPoint = m_surfaceSize / 2;
