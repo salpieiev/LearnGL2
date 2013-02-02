@@ -162,7 +162,7 @@ vec2 ParametricSurface::ComputeDomain(float x, float y) const
 
 Cone::Cone(float height, float radius): m_height(height), m_radius(radius)
 {
-    ParametricInterval parametricInterval = { ivec2(20, 20), vec2(TwoPi, 1.0f), vec2(30.0f, 20.0f)};
+    ParametricInterval parametricInterval = { ivec2(80, 80), vec2(TwoPi, 1.0f), vec2(30.0f, 20.0f)};
     SetInterval(parametricInterval);
 }
 
@@ -182,7 +182,7 @@ vec3 Cone::Evaluate(const vec2 &domain) const
 
 Sphere::Sphere(float radius): m_radius(radius)
 {
-    ParametricInterval parametricInterval = { ivec2(20, 20), vec2(Pi, TwoPi), vec2(20, 35) };
+    ParametricInterval parametricInterval = { ivec2(160, 160), vec2(Pi, TwoPi), vec2(20, 35) };
     SetInterval(parametricInterval);
 }
 
@@ -202,7 +202,7 @@ vec3 Sphere::Evaluate(const vec2 &domain) const
 
 Torus::Torus(float majorRadius, float minorRadius): m_majorRadius(majorRadius), m_minorRadius(minorRadius)
 {
-    ParametricInterval parametricInterval = { ivec2(20, 20), vec2(TwoPi, TwoPi), vec2(40, 10) };
+    ParametricInterval parametricInterval = { ivec2(80, 80), vec2(TwoPi, TwoPi), vec2(40, 10) };
     SetInterval(parametricInterval);
 }
 
@@ -222,7 +222,7 @@ vec3 Torus::Evaluate(const vec2 &domain) const
 
 TrefoilKnot::TrefoilKnot(float scale): m_scale(scale)
 {
-    ParametricInterval parametricInterval = { ivec2(60, 15), vec2(TwoPi, TwoPi), vec2(100, 8) };
+    ParametricInterval parametricInterval = { ivec2(200, 100), vec2(TwoPi, TwoPi), vec2(100, 8) };
     SetInterval(parametricInterval);
 }
 
@@ -294,7 +294,7 @@ vec3 MobiusStrip::Evaluate(const vec2 &domain) const
 
 KleinBottle::KleinBottle(float scale): m_scale(scale)
 {
-    ParametricInterval parametricInterval = { ivec2(20, 20), vec2(TwoPi, TwoPi), vec2(15, 50) };
+    ParametricInterval parametricInterval = { ivec2(80, 80), vec2(TwoPi, TwoPi), vec2(15, 50) };
     SetInterval(parametricInterval);
 }
 
