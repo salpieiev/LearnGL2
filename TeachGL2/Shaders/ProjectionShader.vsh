@@ -17,7 +17,7 @@ uniform float Shininess;
  
  void main()
  {
-     vec3 N = /*NormalMatrix * */Normal;
+     vec3 N = NormalMatrix * Normal;
      vec3 L = normalize(LightPosition);
      vec3 E = vec3(0, 0, 1);
      vec3 H = normalize(L + E);

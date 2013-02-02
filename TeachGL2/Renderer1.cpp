@@ -99,7 +99,7 @@ void Renderer1::Render() const
     mat3 normalMatrix = modelview.ToMat3();
     
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
-    glUniformMatrix4fv(m_uniformNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
+    glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
     glVertexAttribPointer(m_attribSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
