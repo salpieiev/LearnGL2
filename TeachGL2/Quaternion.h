@@ -95,13 +95,13 @@ inline Matrix3<T> QuaternionT<T>::ToMatrix() const
 {
     Matrix3<T> m;
     m.x.x = 1.0f - 2.0f * (y * y + z * z);
-    m.x.y = 2.0f * (x * y - z * w);
-    m.x.z = 2.0f * (y * w + x * z);
-    m.y.x = 2.0f * (x * y + w * z);
+    m.x.y = 2.0f * (x * y + w * z);
+    m.x.z = 2.0f * (x * z - y * w);
+    m.y.x = 2.0f * (x * y - z * w);
     m.y.y = 1.0f - 2.0f * (x * x + z * z);
-    m.y.z = 2.0f * (y * z - x * w);
-    m.z.x = 2.0f * (x * z - y * w);
-    m.z.y = 2.0f * (y * z + x * w);
+    m.y.z = 2.0f * (y * z + x * w);
+    m.z.x = 2.0f * (y * w + x * z);
+    m.z.y = 2.0f * (y * z - x * w);
     m.z.z = 1.0f - 2.0f * (x * x + y * y);
     return m;
 }

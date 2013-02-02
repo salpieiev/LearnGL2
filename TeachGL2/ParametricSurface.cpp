@@ -254,7 +254,7 @@ vec3 TrefoilKnot::Evaluate(const vec2 &domain) const
     range.x = x + d * (qvn.x * cos(v) + ww.x * sin(v));
     range.y = y + d * (qvn.y * cos(v) + ww.y * sin(v));
     range.z = z + d * ww.z * sin(v);
-    range *= m_scale;
+    range = range * m_scale;
     
     return range;
 }
@@ -286,7 +286,7 @@ vec3 MobiusStrip::Evaluate(const vec2 &domain) const
     range.x = (major + x) * cos(u);
     range.y = (major + x) * sin(u);
     range.z = y;
-    range *= m_scale;
+    range = range * m_scale;
     
     return range;
 }
@@ -312,7 +312,7 @@ vec3 KleinBottle::Evaluate(const vec2 &domain) const
     range.x = u < Pi ? x0 : x1;
     range.y = u < Pi ? -y0 : -y1;
     range.z = (-2 * (1 - cos(u) / 2)) * sin(v);
-    range *= m_scale;
+    range = range * m_scale;
     
     return range;
 }

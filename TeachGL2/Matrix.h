@@ -19,6 +19,8 @@ public:
     
     const T * Pointer() const;
     
+    Matrix3<T> Transposed() const;
+    
     vec3 x;
     vec3 y;
     vec3 z;
@@ -64,6 +66,16 @@ template <typename T>
 const T * Matrix3<T>::Pointer() const
 {
     return &x.x;
+}
+
+template <typename T>
+Matrix3<T> Matrix3<T>::Transposed() const
+{
+    Matrix3<T> m;
+    m.x.x = x.x; m.x.y = y.x; m.x.z = z.x;
+    m.y.x = x.y; m.y.y = y.y; m.y.z = z.y;
+    m.z.x = x.z; m.z.y = y.z; m.z.z = z.z;
+    return m;
 }
 
 
