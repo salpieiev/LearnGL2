@@ -52,7 +52,7 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     glEnableVertexAttribArray(m_attribNormal);
     
     // Create surface
-    m_surface = new Sphere(1.0f);
+    m_surface = new MobiusStrip(1.0f);
     
     vector<float> vertices;
     m_surface->GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals);
@@ -90,7 +90,7 @@ Renderer1::~Renderer1()
 
 void Renderer1::Render() const
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     mat4 orientation = m_orientation.ToMatrix();

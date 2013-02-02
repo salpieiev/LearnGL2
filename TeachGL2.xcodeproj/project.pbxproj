@@ -23,6 +23,8 @@
 		B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B40CB66A16A1C36F002C52EC /* OpenGLView.mm */; };
 		B40CB66D16A1C68F002C52EC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66C16A1C68F002C52EC /* OpenGLES.framework */; };
 		B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66E16A1C695002C52EC /* QuartzCore.framework */; };
+		B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */; };
+		B4A5308E16BD9C4C002F8749 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A5308D16BD9C4C002F8749 /* GLKit.framework */; };
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
 		B4F7F82616AB412E006F0C90 /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F7F82516AB412E006F0C90 /* Star.png */; };
 		B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83216AB4323006F0C90 /* ResourceManager.mm */; };
@@ -59,6 +61,9 @@
 		B40CB66A16A1C36F002C52EC /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		B40CB66C16A1C68F002C52EC /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		B40CB66E16A1C695002C52EC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B4A5308816BD9BAC002F8749 /* TGNativeGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGNativeGLViewController.h; sourceTree = "<group>"; };
+		B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TGNativeGLViewController.mm; sourceTree = "<group>"; };
+		B4A5308D16BD9C4C002F8749 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		B4B8D07C16A20EB9009B418F /* Renderer0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer0.cpp; sourceTree = "<group>"; };
 		B4B8D07D16A20EB9009B418F /* Renderer0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer0.h; sourceTree = "<group>"; };
 		B4B8D08416A21E91009B418F /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
@@ -77,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4A5308E16BD9C4C002F8749 /* GLKit.framework in Frameworks */,
 				B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */,
 				B40CB66D16A1C68F002C52EC /* OpenGLES.framework in Frameworks */,
 				B40CB63B16A1BE14002C52EC /* UIKit.framework in Frameworks */,
@@ -119,6 +125,7 @@
 		B40CB63916A1BE14002C52EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B4A5308D16BD9C4C002F8749 /* GLKit.framework */,
 				B40CB66E16A1C695002C52EC /* QuartzCore.framework */,
 				B40CB66C16A1C68F002C52EC /* OpenGLES.framework */,
 				B40CB63A16A1BE14002C52EC /* UIKit.framework */,
@@ -163,6 +170,8 @@
 			children = (
 				B40CB66516A1C348002C52EC /* TGViewController.h */,
 				B40CB66616A1C348002C52EC /* TGViewController.m */,
+				B4A5308816BD9BAC002F8749 /* TGNativeGLViewController.h */,
+				B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -307,6 +316,7 @@
 				B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */,
 				B404A31216AD9487001F8045 /* Renderer1.cpp in Sources */,
 				B408680516AE9C6600F6CD8D /* ParametricSurface.cpp in Sources */,
+				B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
