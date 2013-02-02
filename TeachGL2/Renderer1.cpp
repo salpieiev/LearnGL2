@@ -78,7 +78,7 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     
     // Setup uniforms
     glUniform3f(m_uniformLightPosition, 0.25f, 0.25f, 1.0f);
-    glUniform3f(m_uniformAmbientLight, 0.2f, 0.2f, 0.2f);
+    glUniform3f(m_uniformAmbientLight, 0.04f, 0.04f, 0.04f);
     glUniform3f(m_uniformSpecularLight, 0.5f, 0.5f, 0.5f);
     glUniform1f(m_uniformShininess, 50);
 }

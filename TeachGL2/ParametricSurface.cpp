@@ -53,7 +53,7 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
             // Set color
             if (flags & VertexFlagsColors)
             {
-                vec4 color = vec4(1.0f, 1.0f, 0.0f, 1.0f);
+                vec4 color = vec4(1.0f, 1.0f, 0.5f, 1.0f);
                 attribute = color.Write(attribute);
             }
             
@@ -262,7 +262,7 @@ vec3 TrefoilKnot::Evaluate(const vec2 &domain) const
 
 MobiusStrip::MobiusStrip(float scale): m_scale(scale)
 {
-    ParametricInterval parametricInterval = { ivec2(40, 20), vec2(TwoPi, TwoPi), vec2(40, 15) };
+    ParametricInterval parametricInterval = { ivec2(100, 60), vec2(TwoPi, TwoPi), vec2(40, 15) };
     SetInterval(parametricInterval);
 }
 
