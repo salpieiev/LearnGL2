@@ -117,7 +117,24 @@ void ParametricSurface::GenerateLineIndices(vector<unsigned short> &indices) con
 
 void ParametricSurface::GenerateTriangleIndices(vector<unsigned short> &indices) const
 {
+    indices.resize(GetTriangleIndexCount());
+    vector<unsigned short>::iterator index = indices.begin();
     
+    for (int j = 0, vertex = 0; j < m_slices.y; j++)
+    {
+        for (int i = 0; i < m_slices.x; i++)
+        {
+            int next = (i + 1) % m_divisions.x;
+            *index++ = vertex + i;
+            *index++ = vertex + next;
+            *index++ = vertex + i + m_divisions.x;
+            *index++ = vertex + next;
+            *index++ = vertex + next + m_divisions.x;
+            *index++ = vertex + i + m_divisions.x;
+        }
+        
+        vertex += m_divisions.x;
+    }
 }
 
 void ParametricSurface::SetInterval(const ParametricInterval &interval)

@@ -18,6 +18,7 @@ struct Vertex
 {
     vec3 Position;
     vec4 Color;
+    vec3 Normal;
 };
 
 
@@ -25,6 +26,8 @@ struct Vertex
 Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
 {
     glViewport(0, 0, width, height);
+//    glEnable(GL_DEPTH_TEST);
+//    glDepthFunc(GL_LEQUAL);
     
     m_trackballRadius = (float)width / 3.0f;
     m_centerPoint = m_surfaceSize / 2;
@@ -34,20 +37,28 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     
     m_attribPosition = glGetAttribLocation(m_program, "Position");
     m_attribSourceColor = glGetAttribLocation(m_program, "SourceColor");
+    m_attribNormal = glGetAttribLocation(m_program, "Normal");
     m_uniformProjection = glGetUniformLocation(m_program, "Projection");
     m_uniformModelview = glGetUniformLocation(m_program, "Modelview");
+    m_uniformNormalMatrix = glGetUniformLocation(m_program, "NormalMatrix");
+    m_uniformLightPosition = glGetUniformLocation(m_program, "LightPosition");
+    m_uniformAmbientLight = glGetUniformLocation(m_program, "AmbientLight");
+    m_uniformSpecularLight = glGetUniformLocation(m_program, "SpecularLight");
+    m_uniformShininess = glGetUniformLocation(m_program, "Shininess");
+    
     
     glEnableVertexAttribArray(m_attribPosition);
     glEnableVertexAttribArray(m_attribSourceColor);
+    glEnableVertexAttribArray(m_attribNormal);
     
     // Create surface
-    m_surface = new Sphere(3.0f);
+    m_surface = new Sphere(1.0f);
     
     vector<float> vertices;
-    m_surface->GenerateVertices(vertices, VertexFlagsColors);
+    m_surface->GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals);
     
     vector<unsigned short> indices;
-    m_surface->GenerateLineIndices(indices);
+    m_surface->GenerateTriangleIndices(indices);
     m_indexCount = indices.size();
     
     // Generate vertex buffer
@@ -64,6 +75,12 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     GLfloat h = 4 * height / width;
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
+    
+    // Setup uniforms
+    glUniform3f(m_uniformLightPosition, 0.25f, 0.25f, 1.0f);
+    glUniform3f(m_uniformAmbientLight, 0.2f, 0.2f, 0.2f);
+    glUniform3f(m_uniformSpecularLight, 0.5f, 0.5f, 0.5f);
+    glUniform1f(m_uniformShininess, 50);
 }
 
 Renderer1::~Renderer1()
@@ -76,16 +93,19 @@ void Renderer1::Render() const
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    // Modelview
     mat4 orientation = m_orientation.ToMatrix();
     mat4 translation = mat4::Translate(0.0f, 0.0f, -7.0f);
     mat4 modelview = orientation * translation;
+    mat3 normalMatrix = modelview.ToMat3();
+    
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
+    glUniformMatrix4fv(m_uniformNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
     glVertexAttribPointer(m_attribSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
+    glVertexAttribPointer(m_attribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
     
-    glDrawElements(GL_LINES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
+    glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
 }
 
 void Renderer1::OnFingerDown(ivec2 location)

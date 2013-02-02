@@ -39,8 +39,16 @@ private:
     GLuint m_program;
     GLint m_attribPosition;
     GLint m_attribSourceColor;
+    GLint m_attribNormal;
+    
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
+    GLuint m_uniformNormalMatrix;
+    GLuint m_uniformLightPosition;
+    GLuint m_uniformAmbientLight;
+    GLuint m_uniformSpecularLight;
+    GLuint m_uniformShininess;
+    
     GLuint m_vertexBuffer;
     GLuint m_indexBuffer;
     GLuint m_indexCount;
