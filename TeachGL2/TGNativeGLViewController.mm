@@ -23,29 +23,22 @@
 
 @implementation TGNativeGLViewController
 
-- (void)viewDidLoad
+- (id)init
 {
-    [super viewDidLoad];
-    
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-
-    if (!self.context) {
-        NSLog(@"Failed to create ES context");
+    self = [super init];
+    if (self) {
+        self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        [EAGLContext setCurrentContext:self.context];
+        
+        CGSize screenSize = [UIScreen mainScreen].bounds.size;
+        CGFloat scale = [UIScreen mainScreen].scale;
+        
+        CGFloat width = screenSize.width * scale;
+        CGFloat height = screenSize.height * scale;
+        
+        renderer = new Renderer1(width, height);
     }
-    
-    GLKView *view = (GLKView *)self.view;
-    view.context = self.context;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    
-    [EAGLContext setCurrentContext:self.context];
-    
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    CGFloat scale = [UIScreen mainScreen].scale;
-    
-    CGFloat width = screenSize.width * scale;
-    CGFloat height = screenSize.height * scale;
-    
-    renderer = new Renderer1(width, height);
+    return self;
 }
 
 #pragma mark - View lifecykle
@@ -60,6 +53,11 @@
     glkView.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     glkView.drawableMultisample = GLKViewDrawableMultisample4X;
     self.view = glkView;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods

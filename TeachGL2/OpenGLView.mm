@@ -49,7 +49,7 @@
         
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
         eaglLayer.opaque = YES;
-        eaglLayer.contentsScale = [UIScreen mainScreen].scale;
+        eaglLayer.contentsScale = scale;
         
         self.eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
         
