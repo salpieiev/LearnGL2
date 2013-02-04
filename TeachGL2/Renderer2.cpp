@@ -9,6 +9,8 @@
 #include "Renderer2.h"
 #include "Shaders/LightShader.vsh"
 #include "Shaders/LightShader.fsh"
+#include "Shaders/SpotLightShader.vsh"
+#include "Shaders/SpotLightShader.fsh"
 
 
 
@@ -20,6 +22,12 @@ struct Vertex
     vec3 LightDirection;
 };
 
+struct RoomVertex
+{
+    vec3 Position;
+    vec3 Normal;
+};
+
 
 
 
@@ -27,39 +35,13 @@ Renderer2::Renderer2(int width, int height): RenderingEngine(width, height)
 {
     m_rotator = new Rotator(m_surfaceSize);
     
-    // Create and link program
-    m_program = BuildProgram(LightVertexShader, LightFragmentShader);
-    glUseProgram(m_program);
+    // Create and link programs
+    PrepareSurfaceProgram();
+    PrepareRoomProgram();
     
-    m_attribPosition = glGetAttribLocation(m_program, "Position");
-    m_attribSourceColor = glGetAttribLocation(m_program, "SourceColor");
-    m_attribNormal = glGetAttribLocation(m_program, "Normal");
-    m_attribLightDirection = glGetAttribLocation(m_program, "LightDirection");
-    
-    m_uniformProjection = glGetUniformLocation(m_program, "Projection");
-    m_uniformModelview = glGetUniformLocation(m_program, "Modelview");
-    m_uniformNormalMatrix = glGetUniformLocation(m_program, "NormalMatrix");
-    m_uniformAmbientLight = glGetUniformLocation(m_program, "AmbientLight");
-    m_uniformSpecularLight = glGetUniformLocation(m_program, "SpecularLight");
-    m_uniformShininess = glGetUniformLocation(m_program, "Shininess");
-    
-    // Generate VBOs for surface
-    m_surface = new Torus(1.8f, 0.5f);
-    
-    vector<float> vertices;
-    m_surface->GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals | VertexFlagsLightDirection);
-    
-    vector<unsigned short> indices;
-    m_surface->GenerateTriangleIndices(indices);
-    m_surfaceIndexCount = indices.size();
-    
-    glGenBuffers(1, &m_surfaceVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &m_surfaceIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_surfaceIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
+    // Generate VBOs
+    GenerateSurfaceBuffer();
+    GenerateRoomBuffer();
 }
 
 Renderer2::~Renderer2()
@@ -79,6 +61,144 @@ void Renderer2::Render() const
     // Enable depth
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
+    
+    // Draw
+    DrawSurface();
+    DrawRoom();
+}
+
+void Renderer2::OnFingerDown(ivec2 location)
+{
+    m_rotator->Start(location);
+}
+
+void Renderer2::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
+{
+    m_rotator->Move(newLocation);
+}
+
+void Renderer2::OnFingerUp(ivec2 location)
+{
+    m_rotator->End(location);
+}
+
+void Renderer2::PrepareSurfaceProgram()
+{
+    m_program = BuildProgram(LightVertexShader, LightFragmentShader);
+    glUseProgram(m_program);
+    
+    m_attribPosition = glGetAttribLocation(m_program, "Position");
+    m_attribSourceColor = glGetAttribLocation(m_program, "SourceColor");
+    m_attribNormal = glGetAttribLocation(m_program, "Normal");
+    m_attribLightDirection = glGetAttribLocation(m_program, "LightDirection");
+    
+    m_uniformProjection = glGetUniformLocation(m_program, "Projection");
+    m_uniformModelview = glGetUniformLocation(m_program, "Modelview");
+    m_uniformNormalMatrix = glGetUniformLocation(m_program, "NormalMatrix");
+    m_uniformAmbientLight = glGetUniformLocation(m_program, "AmbientLight");
+    m_uniformSpecularLight = glGetUniformLocation(m_program, "SpecularLight");
+    m_uniformShininess = glGetUniformLocation(m_program, "Shininess");
+}
+
+void Renderer2::PrepareRoomProgram()
+{
+    m_roomProgram = BuildProgram(SpotLightVertexShader, SpotLightFragmentShader);
+    glUseProgram(m_roomProgram);
+    
+    m_attribRoomPosition = glGetAttribLocation(m_roomProgram, "Position");
+    m_attribRoomSourceColor = glGetAttribLocation(m_roomProgram, "SourceColor");
+    m_attribRoomNormal = glGetAttribLocation(m_roomProgram, "Normal");
+    m_attribRoomLightPosition = glGetAttribLocation(m_roomProgram, "LightPosition");
+    
+    m_uniformRoomProjection = glGetUniformLocation(m_roomProgram, "Projection");
+    m_uniformRoomModelview = glGetUniformLocation(m_roomProgram, "Modelview");
+    m_uniformRoomNormalMatrix = glGetUniformLocation(m_roomProgram, "NormalMatrix");
+    m_uniformRoomAmbientLight = glGetUniformLocation(m_roomProgram, "AmbientLight");
+}
+
+void Renderer2::GenerateSurfaceBuffer()
+{
+    m_surface = new Torus(1.8f, 0.5f);
+    
+    vector<float> vertices;
+    m_surface->GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals | VertexFlagsLightDirection);
+    
+    vector<unsigned short> indices;
+    m_surface->GenerateTriangleIndices(indices);
+    m_surfaceIndexCount = indices.size();
+    
+    glGenBuffers(1, &m_surfaceVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &m_surfaceIndexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_surfaceIndexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
+}
+
+void Renderer2::GenerateRoomBuffer()
+{
+    float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
+    
+    RoomVertex roomVertices[] =
+    {
+        {{-2.0f, -h / 2.0f, -4.0f}, {0.0f, 0.0f, 0.0f}},
+        {{2.0f, -h / 2.0f, -4.0f}, {0.0f, 0.0f, 0.0f}},
+        {{2.0f, h / 2.0f, -4.0f}, {0.0f, 0.0f, 0.0f}},
+        {{-2.0f, h / 2.0f, -4.0f}, {0.0f, 0.0f, 0.0f}},
+        
+        {{-2.0f, -h / 2.0f, -10.0f}, {0.0f, 0.0f, 0.0f}},
+        {{2.0f, -h / 2.0f, -10.0f}, {0.0f, 0.0f, 0.0f}},
+        {{2.0f, h / 2.0f, -10.0f}, {0.0f, 0.0f, 0.0f}},
+        {{-2.0f, h / 2.0f, -10.0f}, {0.0f, 0.0f, 0.0f}}
+    };
+    
+    GLushort roomIndices[] =
+    {
+        0, 4, 3,
+        7, 3, 4,
+        4, 5, 7,
+        6, 7, 5,
+        1, 2, 5,
+        6, 5, 2,
+        6, 2, 7,
+        3, 7, 2,
+        0, 1, 4,
+        5, 4, 1
+    };
+    
+    int indexCount = sizeof(roomIndices) / sizeof(roomIndices[0]);
+    
+    for (int i = 0; i < indexCount; i += 3)
+    {
+        GLushort c = roomIndices[i];
+        GLushort r = roomIndices[i + 1];
+        GLushort l = roomIndices[i + 2];
+        
+        RoomVertex centerVertex = roomVertices[c];
+        RoomVertex rightVertex = roomVertices[r];
+        RoomVertex leftVertex = roomVertices[l];
+        
+        vec3 a(rightVertex.Position.x - centerVertex.Position.x,
+               rightVertex.Position.y - centerVertex.Position.y,
+               rightVertex.Position.z - centerVertex.Position.z);
+        vec3 b(leftVertex.Position.x - centerVertex.Position.x,
+               leftVertex.Position.y - centerVertex.Position.y,
+               leftVertex.Position.z - centerVertex.Position.z);
+        
+        vec3 normal = a.Cross(b).Normalized();
+        
+        roomVertices[c].Normal = normal;
+        roomVertices[r].Normal = normal;
+        roomVertices[l].Normal = normal;
+    }
+    
+    // Wrong!!! Create another buffer for normals
+}
+
+void Renderer2::DrawSurface() const
+{
+    glUseProgram(m_program);
     
     // Apply frustum
     float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
@@ -117,17 +237,27 @@ void Renderer2::Render() const
     glDisableVertexAttribArray(m_attribSourceColor);
 }
 
-void Renderer2::OnFingerDown(ivec2 location)
+void Renderer2::DrawRoom() const
 {
-    m_rotator->Start(location);
+    
 }
 
-void Renderer2::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
-{
-    m_rotator->Move(newLocation);
-}
 
-void Renderer2::OnFingerUp(ivec2 location)
-{
-    m_rotator->End(location);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

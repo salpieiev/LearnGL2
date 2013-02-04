@@ -83,6 +83,8 @@
 		B4FB0FE516BFC6FD007ABBC3 /* LightShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = LightShader.fsh; sourceTree = "<group>"; };
 		B4FB0FE816BFDADB007ABBC3 /* Rotator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rotator.cpp; sourceTree = "<group>"; };
 		B4FB0FE916BFDADB007ABBC3 /* Rotator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rotator.h; sourceTree = "<group>"; };
+		B4FB0FEB16C01D06007ABBC3 /* SpotLightShader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = SpotLightShader.vsh; sourceTree = "<group>"; };
+		B4FB0FEC16C01D16007ABBC3 /* SpotLightShader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = SpotLightShader.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +225,8 @@
 				B408681C16AEE62100F6CD8D /* ProjectionShader.fsh */,
 				B4FB0FE316BFC6F4007ABBC3 /* LightShader.vsh */,
 				B4FB0FE516BFC6FD007ABBC3 /* LightShader.fsh */,
+				B4FB0FEB16C01D06007ABBC3 /* SpotLightShader.vsh */,
+				B4FB0FEC16C01D16007ABBC3 /* SpotLightShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";

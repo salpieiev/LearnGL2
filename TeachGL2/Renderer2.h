@@ -26,9 +26,17 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
+    void PrepareSurfaceProgram();
+    void PrepareRoomProgram();
+    void GenerateSurfaceBuffer();
+    void GenerateRoomBuffer();
+    void DrawSurface() const;
+    void DrawRoom() const;
+    
     Rotator *m_rotator;
     ParametricSurface *m_surface;
     
+    // Surface
     GLuint m_program;
     
     GLuint m_surfaceVertexBuffer;
@@ -46,4 +54,21 @@ private:
     GLuint m_uniformAmbientLight;
     GLuint m_uniformSpecularLight;
     GLuint m_uniformShininess;
+    
+    // Room
+    GLuint m_roomProgram;
+    
+    GLuint m_roomVertexBuffer;
+    GLuint m_roomIndexBuffer;
+    GLuint m_roomIndexCount;
+    
+    GLint m_attribRoomPosition;
+    GLint m_attribRoomSourceColor;
+    GLint m_attribRoomNormal;
+    GLint m_attribRoomLightPosition;
+    
+    GLuint m_uniformRoomProjection;
+    GLuint m_uniformRoomModelview;
+    GLuint m_uniformRoomNormalMatrix;
+    GLuint m_uniformRoomAmbientLight;
 };
