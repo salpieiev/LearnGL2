@@ -35,6 +35,8 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
         floatsPerVertex += 4;
     if (flags & VertexFlagsNormals)
         floatsPerVertex += 3;
+    if (flags & VertexFlagsLightDirection)
+        floatsPerVertex += 3;
     if (flags & VertexFlagsTexCoords)
         floatsPerVertex += 2;
     
@@ -81,6 +83,16 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
                 }
                 
                 attribute = normal.Write(attribute);
+            }
+            
+            // Compute light position
+            if (flags & VertexFlagsLightDirection)
+            {
+                vec3 lightPosition(0.0f, 0.0f, 0.0f);
+                vec3 lightDirection = lightPosition - range;
+                lightDirection.Normalize();
+                
+                attribute = lightDirection.Write(attribute);
             }
             
             // Compute texture coordinates

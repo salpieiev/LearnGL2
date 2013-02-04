@@ -37,7 +37,13 @@ private:
     
     GLint m_attribPosition;
     GLint m_attribSourceColor;
+    GLint m_attribNormal;
+    GLint m_attribLightDirection;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
+    GLuint m_uniformNormalMatrix;
+    GLuint m_uniformAmbientLight;
+    GLuint m_uniformSpecularLight;
+    GLuint m_uniformShininess;
 };

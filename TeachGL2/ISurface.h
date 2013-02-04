@@ -17,7 +17,8 @@ enum VertexFlags
 {
     VertexFlagsColors = 1 << 0,
     VertexFlagsNormals = 1 << 1,
-    VertexFlagsTexCoords = 1 << 2
+    VertexFlagsLightDirection = 1 << 2,
+    VertexFlagsTexCoords = 1 << 3
 };
 
 
