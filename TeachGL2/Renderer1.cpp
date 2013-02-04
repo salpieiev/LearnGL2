@@ -7,8 +7,6 @@
 //
 
 #include "Renderer1.h"
-
-#define STRINGIFY(A)    #A
 #include "Shaders/ProjectionShader.vsh"
 #include "Shaders/ProjectionShader.fsh"
 
@@ -29,8 +27,7 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     
-    m_trackballRadius = (float)width / 3.0f;
-    m_centerPoint = m_surfaceSize / 2;
+    m_rotator = new Rotator(m_surfaceSize);
     
     m_program = BuildProgram(ProjectionVertexShader, ProjectionFragmentShader);
     glUseProgram(m_program);
@@ -90,6 +87,7 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
 
 Renderer1::~Renderer1()
 {
+    delete m_rotator;
     delete m_surface;
 }
 
@@ -98,7 +96,7 @@ void Renderer1::Render() const
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    mat4 orientation = m_orientation.ToMatrix();
+    mat4 orientation = m_rotator->GetOrientation().ToMatrix();
     mat4 translation = mat4::Translate(0.0f, 0.0f, -7.0f);
     mat4 modelview = orientation * translation;
     mat3 normalMatrix = modelview.ToMat3();
@@ -115,49 +113,17 @@ void Renderer1::Render() const
 
 void Renderer1::OnFingerDown(ivec2 location)
 {
-    m_fingerStart = location;
-    m_prevOrientation = m_orientation;
-    m_spinning = true;
+    m_rotator->Start(location);
 }
 
 void Renderer1::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
 {
-    if (m_spinning)
-    {
-        vec3 start = MapToSphere(m_fingerStart);
-        vec3 end = MapToSphere(newLocation);
-        
-        Quaternion delta = Quaternion::CreateFromVectors(start, end);
-        m_orientation = delta.Rotated(m_prevOrientation);
-    }
+    m_rotator->Move(newLocation);
 }
 
 void Renderer1::OnFingerUp(ivec2 location)
 {
-    m_spinning = false;
-}
-
-vec3 Renderer1::MapToSphere(ivec2 touchLocation) const
-{
-    vec2 p = touchLocation - m_centerPoint;
-    
-    // Flip the y-axis because pixel coords increase toward the bottom
-    p.y = -p.y;
-    
-    const float safeRadius = m_trackballRadius - 1.0f;
-    
-    if (p.Length() > safeRadius)
-    {
-        float theta = atan2(p.y, p.x);
-        p.x = safeRadius * cos(theta);
-        p.y = safeRadius * sin(theta);
-    }
-    
-    float z = sqrtf(m_trackballRadius * m_trackballRadius - p.LengthSquared());
-    vec3 mapped = vec3(p.x, p.y, z);
-    mapped /= m_trackballRadius;
-    
-    return mapped;
+    m_rotator->End(location);
 }
 
 

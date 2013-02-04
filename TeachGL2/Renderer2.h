@@ -1,8 +1,8 @@
 //
-//  Renderer1.h
+//  Renderer2.h
 //  TeachGL2
 //
-//  Created by Sergey Alpeev on 1/21/13.
+//  Created by Sergey Alpeev on 2/4/13.
 //  Copyright (c) 2013 Sergey Alpeev. All rights reserved.
 //
 
@@ -13,11 +13,11 @@
 
 
 
-class Renderer1: public RenderingEngine
+class Renderer2: public RenderingEngine
 {
 public:
-    Renderer1(int width, int height);
-    ~Renderer1();
+    Renderer2(int width, int height);
+    ~Renderer2();
     
     void Render() const;
     
@@ -30,19 +30,14 @@ private:
     ParametricSurface *m_surface;
     
     GLuint m_program;
+    
+    GLuint m_surfaceVertexBuffer;
+    GLuint m_surfaceIndexBuffer;
+    GLuint m_surfaceIndexCount;
+    
     GLint m_attribPosition;
     GLint m_attribSourceColor;
-    GLint m_attribNormal;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
-    GLuint m_uniformNormalMatrix;
-    GLuint m_uniformLightPosition;
-    GLuint m_uniformAmbientLight;
-    GLuint m_uniformSpecularLight;
-    GLuint m_uniformShininess;
-    
-    GLuint m_vertexBuffer;
-    GLuint m_indexBuffer;
-    GLuint m_indexCount;
 };

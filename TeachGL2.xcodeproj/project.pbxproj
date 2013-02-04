@@ -28,6 +28,8 @@
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
 		B4F7F82616AB412E006F0C90 /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F7F82516AB412E006F0C90 /* Star.png */; };
 		B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83216AB4323006F0C90 /* ResourceManager.mm */; };
+		B4FB0FE216BFC1BE007ABBC3 /* Renderer2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4FB0FE016BFC1BE007ABBC3 /* Renderer2.cpp */; };
+		B4FB0FEA16BFDADB007ABBC3 /* Rotator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4FB0FE816BFDADB007ABBC3 /* Rotator.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +77,12 @@
 		B4F7F83216AB4323006F0C90 /* ResourceManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourceManager.mm; sourceTree = "<group>"; };
 		B4F7F83416AB43BF006F0C90 /* PointSpriteShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PointSpriteShader.vsh; sourceTree = "<group>"; };
 		B4F7F83616AB43CA006F0C90 /* PointSpriteShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PointSpriteShader.fsh; sourceTree = "<group>"; };
+		B4FB0FE016BFC1BE007ABBC3 /* Renderer2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer2.cpp; sourceTree = "<group>"; };
+		B4FB0FE116BFC1BE007ABBC3 /* Renderer2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer2.h; sourceTree = "<group>"; };
+		B4FB0FE316BFC6F4007ABBC3 /* LightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = LightShader.vsh; sourceTree = "<group>"; };
+		B4FB0FE516BFC6FD007ABBC3 /* LightShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = LightShader.fsh; sourceTree = "<group>"; };
+		B4FB0FE816BFDADB007ABBC3 /* Rotator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rotator.cpp; sourceTree = "<group>"; };
+		B4FB0FE916BFDADB007ABBC3 /* Rotator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rotator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +150,7 @@
 				B4F7F82B16AB42CD006F0C90 /* Math */,
 				B408680016AE9A9400F6CD8D /* Surfaces */,
 				B4B8D07A16A20EA2009B418F /* Renderer */,
+				B4FB0FE716BFDACB007ABBC3 /* Utils */,
 				B40CB66816A1C354002C52EC /* Views */,
 				B40CB66316A1C32A002C52EC /* View Controllers */,
 				B40CB64916A1BE14002C52EC /* TGAppDelegate.h */,
@@ -197,6 +206,8 @@
 				B4B8D07D16A20EB9009B418F /* Renderer0.h */,
 				B404A31016AD9487001F8045 /* Renderer1.cpp */,
 				B404A31116AD9487001F8045 /* Renderer1.h */,
+				B4FB0FE016BFC1BE007ABBC3 /* Renderer2.cpp */,
+				B4FB0FE116BFC1BE007ABBC3 /* Renderer2.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -210,6 +221,8 @@
 				B4F7F83616AB43CA006F0C90 /* PointSpriteShader.fsh */,
 				B408681A16AEE60D00F6CD8D /* ProjectionShader.vsh */,
 				B408681C16AEE62100F6CD8D /* ProjectionShader.fsh */,
+				B4FB0FE316BFC6F4007ABBC3 /* LightShader.vsh */,
+				B4FB0FE516BFC6FD007ABBC3 /* LightShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -238,6 +251,15 @@
 				B404A32016ADA8B8001F8045 /* Quaternion.h */,
 			);
 			name = Math;
+			sourceTree = "<group>";
+		};
+		B4FB0FE716BFDACB007ABBC3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B4FB0FE816BFDADB007ABBC3 /* Rotator.cpp */,
+				B4FB0FE916BFDADB007ABBC3 /* Rotator.h */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,6 +339,8 @@
 				B404A31216AD9487001F8045 /* Renderer1.cpp in Sources */,
 				B408680516AE9C6600F6CD8D /* ParametricSurface.cpp in Sources */,
 				B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */,
+				B4FB0FE216BFC1BE007ABBC3 /* Renderer2.cpp in Sources */,
+				B4FB0FEA16BFDADB007ABBC3 /* Rotator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

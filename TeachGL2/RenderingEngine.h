@@ -17,6 +17,10 @@ using namespace std;
 
 
 
+#define STRINGIFY(A)    #A
+
+
+
 class RenderingEngine
 {
 public:
