@@ -4,11 +4,11 @@ const char *SpotLightVertexShader = STRINGIFY
 attribute vec4 Position;
 attribute vec4 SourceColor;
 attribute vec3 Normal;
-attribute vec3 LightPosition;
 
 uniform mat4 Projection;
 uniform mat4 Modelview;
 uniform mat3 NormalMatrix;
+uniform vec3 LightPosition;
 uniform vec3 AmbientLight;
 
 varying vec4 DestinationColor;

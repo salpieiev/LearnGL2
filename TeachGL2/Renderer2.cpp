@@ -108,11 +108,11 @@ void Renderer2::PrepareRoomProgram()
     m_attribRoomPosition = glGetAttribLocation(m_roomProgram, "Position");
     m_attribRoomSourceColor = glGetAttribLocation(m_roomProgram, "SourceColor");
     m_attribRoomNormal = glGetAttribLocation(m_roomProgram, "Normal");
-    m_attribRoomLightPosition = glGetAttribLocation(m_roomProgram, "LightPosition");
     
     m_uniformRoomProjection = glGetUniformLocation(m_roomProgram, "Projection");
     m_uniformRoomModelview = glGetUniformLocation(m_roomProgram, "Modelview");
     m_uniformRoomNormalMatrix = glGetUniformLocation(m_roomProgram, "NormalMatrix");
+    m_uniformRoomLightPosition = glGetUniformLocation(m_roomProgram, "LightPosition");
     m_uniformRoomAmbientLight = glGetUniformLocation(m_roomProgram, "AmbientLight");
 }
 
@@ -140,17 +140,17 @@ void Renderer2::GenerateRoomBuffer()
 {
     float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
     
-    RoomVertex roomVertices[] =
+    vec3 roomVertices[] =
     {
-        {{-2.0f, -h / 2.0f, -4.0f}, {0.0f, 0.0f, 0.0f}},
-        {{2.0f, -h / 2.0f, -4.0f}, {0.0f, 0.0f, 0.0f}},
-        {{2.0f, h / 2.0f, -4.0f}, {0.0f, 0.0f, 0.0f}},
-        {{-2.0f, h / 2.0f, -4.0f}, {0.0f, 0.0f, 0.0f}},
+        {-2.0f, -h / 2.0f, -4.0f},
+        {2.0f, -h / 2.0f, -4.0f},
+        {2.0f, h / 2.0f, -4.0f},
+        {-2.0f, h / 2.0f, -4.0f},
         
-        {{-2.0f, -h / 2.0f, -10.0f}, {0.0f, 0.0f, 0.0f}},
-        {{2.0f, -h / 2.0f, -10.0f}, {0.0f, 0.0f, 0.0f}},
-        {{2.0f, h / 2.0f, -10.0f}, {0.0f, 0.0f, 0.0f}},
-        {{-2.0f, h / 2.0f, -10.0f}, {0.0f, 0.0f, 0.0f}}
+        {-2.0f, -h / 2.0f, -10.0f},
+        {2.0f, -h / 2.0f, -10.0f},
+        {2.0f, h / 2.0f, -10.0f},
+        {-2.0f, h / 2.0f, -10.0f}
     };
     
     GLushort roomIndices[] =
@@ -167,38 +167,48 @@ void Renderer2::GenerateRoomBuffer()
         5, 4, 1
     };
     
-    int indexCount = sizeof(roomIndices) / sizeof(roomIndices[0]);
+    m_roomVertexCount = sizeof(roomIndices) / sizeof(roomIndices[0]);
+    vector<RoomVertex> vertexBuffer(m_roomVertexCount);
     
-    for (int i = 0; i < indexCount; i += 3)
+    for (int i = 0; i < m_roomVertexCount; i += 3)
     {
         GLushort c = roomIndices[i];
         GLushort r = roomIndices[i + 1];
         GLushort l = roomIndices[i + 2];
         
-        RoomVertex centerVertex = roomVertices[c];
-        RoomVertex rightVertex = roomVertices[r];
-        RoomVertex leftVertex = roomVertices[l];
+        vec3 centerVertex = roomVertices[c];
+        vec3 rightVertex = roomVertices[r];
+        vec3 leftVertex = roomVertices[l];
         
-        vec3 a(rightVertex.Position.x - centerVertex.Position.x,
-               rightVertex.Position.y - centerVertex.Position.y,
-               rightVertex.Position.z - centerVertex.Position.z);
-        vec3 b(leftVertex.Position.x - centerVertex.Position.x,
-               leftVertex.Position.y - centerVertex.Position.y,
-               leftVertex.Position.z - centerVertex.Position.z);
+        vec3 a(rightVertex.x - centerVertex.x,
+               rightVertex.y - centerVertex.y,
+               rightVertex.z - centerVertex.z);
+        vec3 b(leftVertex.x - centerVertex.x,
+               leftVertex.y - centerVertex.y,
+               leftVertex.z - centerVertex.z);
         
         vec3 normal = a.Cross(b).Normalized();
         
-        roomVertices[c].Normal = normal;
-        roomVertices[r].Normal = normal;
-        roomVertices[l].Normal = normal;
+        vertexBuffer[i].Position = centerVertex;
+        vertexBuffer[i + 1].Position = rightVertex;
+        vertexBuffer[i + 2].Position = leftVertex;
+        
+        vertexBuffer[i].Normal = normal;
+        vertexBuffer[i + 1].Normal = normal;
+        vertexBuffer[i + 2].Normal = normal;
     }
     
-    // Wrong!!! Create another buffer for normals
+    glGenBuffers(1, &m_roomVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(RoomVertex), &vertexBuffer[0], GL_STATIC_DRAW);
 }
 
 void Renderer2::DrawSurface() const
 {
     glUseProgram(m_program);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_surfaceIndexBuffer);
     
     // Apply frustum
     float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
@@ -239,7 +249,38 @@ void Renderer2::DrawSurface() const
 
 void Renderer2::DrawRoom() const
 {
+    glUseProgram(m_roomProgram);
     
+    // Bind buffers
+    glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
+    
+    // Apply frustum
+    float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
+    mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
+    glUniformMatrix4fv(m_uniformRoomProjection, 1, GL_FALSE, projection.Pointer());
+    
+    // Apply modelview
+    mat4 modelview;
+    glUniformMatrix4fv(m_uniformRoomModelview, 1, GL_FALSE, modelview.Pointer());
+    glUniformMatrix3fv(m_uniformRoomNormalMatrix, 1, GL_FALSE, modelview.ToMat3().Pointer());
+    glUniformMatrix4fv(m_uniformRoomLightPosition, 1, GL_FALSE, modelview.ToMat3().Pointer());
+    
+    // Draw room
+    glVertexAttrib4f(m_attribRoomSourceColor, 0.5f, 0.5f, 0.5f, 1.0f);
+    glUniform3f(m_uniformRoomLightPosition, 0.1f, 0.25f, 1.0f);
+    glUniform3f(m_uniformRoomAmbientLight, 0.1f, 0.1f, 0.1f);
+    
+    glEnableVertexAttribArray(m_attribRoomPosition);
+    glEnableVertexAttribArray(m_attribRoomNormal);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
+    glVertexAttribPointer(m_attribRoomPosition, 3, GL_FLOAT, GL_FALSE, sizeof(RoomVertex), NULL);
+    glVertexAttribPointer(m_attribRoomNormal, 3, GL_FLOAT, GL_FALSE, sizeof(RoomVertex), (GLvoid *)sizeof(RoomVertex::Position));
+    
+    glDrawArrays(GL_TRIANGLES, 0, m_roomVertexCount);
+    
+    glDisableVertexAttribArray(m_attribRoomPosition);
+    glDisableVertexAttribArray(m_attribRoomNormal);
 }
 
 

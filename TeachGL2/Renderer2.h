@@ -59,16 +59,15 @@ private:
     GLuint m_roomProgram;
     
     GLuint m_roomVertexBuffer;
-    GLuint m_roomIndexBuffer;
-    GLuint m_roomIndexCount;
+    GLuint m_roomVertexCount;
     
     GLint m_attribRoomPosition;
     GLint m_attribRoomSourceColor;
     GLint m_attribRoomNormal;
-    GLint m_attribRoomLightPosition;
     
     GLuint m_uniformRoomProjection;
     GLuint m_uniformRoomModelview;
     GLuint m_uniformRoomNormalMatrix;
+    GLuint m_uniformRoomLightPosition;
     GLuint m_uniformRoomAmbientLight;
 };
