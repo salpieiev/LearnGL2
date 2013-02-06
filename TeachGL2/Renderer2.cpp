@@ -37,11 +37,11 @@ Renderer2::Renderer2(int width, int height): RenderingEngine(width, height)
     
     // Create and link programs
     PrepareSurfaceProgram();
-    PrepareRoomProgram();
+//    PrepareRoomProgram();
     
     // Generate VBOs
     GenerateSurfaceBuffer();
-    GenerateRoomBuffer();
+//    GenerateRoomBuffer();
 }
 
 Renderer2::~Renderer2()
@@ -64,7 +64,7 @@ void Renderer2::Render() const
     
     // Draw
     DrawSurface();
-    DrawRoom();
+//    DrawRoom();
 }
 
 void Renderer2::OnFingerDown(ivec2 location)
@@ -207,9 +207,6 @@ void Renderer2::DrawSurface() const
 {
     glUseProgram(m_program);
     
-    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_surfaceIndexBuffer);
-    
     // Apply frustum
     float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
@@ -228,6 +225,10 @@ void Renderer2::DrawSurface() const
     glUniform3f(m_uniformSpecularLight, 0.5f, 0.5f, 0.5f);
     glUniform1f(m_uniformShininess, 50.0f);
     
+    // Bind buffers
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_surfaceIndexBuffer);
+    
     // Draw surface
     glEnableVertexAttribArray(m_attribPosition);
     glEnableVertexAttribArray(m_attribSourceColor);
@@ -241,18 +242,19 @@ void Renderer2::DrawSurface() const
     
     glDrawElements(GL_TRIANGLES, m_surfaceIndexCount, GL_UNSIGNED_SHORT, NULL);
     
-    glDisableVertexAttribArray(m_attribLightDirection);
-    glDisableVertexAttribArray(m_attribNormal);
     glDisableVertexAttribArray(m_attribPosition);
     glDisableVertexAttribArray(m_attribSourceColor);
+    glDisableVertexAttribArray(m_attribNormal);
+    glDisableVertexAttribArray(m_attribLightDirection);
+    
+    // Unbind buffers
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void Renderer2::DrawRoom() const
 {
     glUseProgram(m_roomProgram);
-    
-    // Bind buffers
-    glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
     
     // Apply frustum
     float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
@@ -265,15 +267,19 @@ void Renderer2::DrawRoom() const
     glUniformMatrix3fv(m_uniformRoomNormalMatrix, 1, GL_FALSE, modelview.ToMat3().Pointer());
     glUniformMatrix4fv(m_uniformRoomLightPosition, 1, GL_FALSE, modelview.ToMat3().Pointer());
     
-    // Draw room
+    // Setup attributes and uniforms
     glVertexAttrib4f(m_attribRoomSourceColor, 0.5f, 0.5f, 0.5f, 1.0f);
     glUniform3f(m_uniformRoomLightPosition, 0.1f, 0.25f, 1.0f);
     glUniform3f(m_uniformRoomAmbientLight, 0.1f, 0.1f, 0.1f);
     
+    // Bind buffers
+    glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
+    
+    // Draw room
     glEnableVertexAttribArray(m_attribRoomPosition);
     glEnableVertexAttribArray(m_attribRoomNormal);
     
-    glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
     glVertexAttribPointer(m_attribRoomPosition, 3, GL_FLOAT, GL_FALSE, sizeof(RoomVertex), NULL);
     glVertexAttribPointer(m_attribRoomNormal, 3, GL_FLOAT, GL_FALSE, sizeof(RoomVertex), (GLvoid *)sizeof(RoomVertex::Position));
     
@@ -281,6 +287,9 @@ void Renderer2::DrawRoom() const
     
     glDisableVertexAttribArray(m_attribRoomPosition);
     glDisableVertexAttribArray(m_attribRoomNormal);
+    
+    // Unbind buffers
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 

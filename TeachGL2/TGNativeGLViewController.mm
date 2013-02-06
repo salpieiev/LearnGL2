@@ -7,7 +7,7 @@
 //
 
 #import "TGNativeGLViewController.h"
-#import "Renderer1.h"
+#import "Renderers.h"
 
 
 
