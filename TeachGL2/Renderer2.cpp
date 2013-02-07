@@ -37,11 +37,11 @@ Renderer2::Renderer2(int width, int height): RenderingEngine(width, height)
     
     // Create and link programs
     PrepareSurfaceProgram();
-//    PrepareRoomProgram();
+    PrepareRoomProgram();
     
     // Generate VBOs
     GenerateSurfaceBuffer();
-//    GenerateRoomBuffer();
+    GenerateRoomBuffer();
 }
 
 Renderer2::~Renderer2()
@@ -64,7 +64,7 @@ void Renderer2::Render() const
     
     // Draw
     DrawSurface();
-//    DrawRoom();
+    DrawRoom();
 }
 
 void Renderer2::OnFingerDown(ivec2 location)
@@ -269,11 +269,10 @@ void Renderer2::DrawRoom() const
     
     // Setup attributes and uniforms
     glVertexAttrib4f(m_attribRoomSourceColor, 0.5f, 0.5f, 0.5f, 1.0f);
-    glUniform3f(m_uniformRoomLightPosition, 0.1f, 0.25f, 1.0f);
+    glUniform3f(m_uniformRoomLightPosition, 0.0f, 0.0f, 0.0f);
     glUniform3f(m_uniformRoomAmbientLight, 0.1f, 0.1f, 0.1f);
     
     // Bind buffers
-    glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, m_roomVertexBuffer);
     
     // Draw room
