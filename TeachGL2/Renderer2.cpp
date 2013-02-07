@@ -269,7 +269,7 @@ void Renderer2::DrawRoom() const
     
     // Setup attributes and uniforms
     glVertexAttrib4f(m_attribRoomSourceColor, 0.5f, 0.5f, 0.5f, 1.0f);
-    glUniform3f(m_uniformRoomLightPosition, 0.0f, 0.0f, 0.0f);
+    glUniform3f(m_uniformRoomLightPosition, 0.0f, 0.0f, -7.0f);
     glUniform3f(m_uniformRoomAmbientLight, 0.1f, 0.1f, 0.1f);
     
     // Bind buffers

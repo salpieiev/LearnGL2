@@ -30,7 +30,16 @@ void main()
     lightDirection = normalize(lightDirection);
     
     // Compute spot cutoff factor
-    // Later!!!
+    vec3 spotLightDirection = vec3(0.0, 0.0, -1.0);
+    
+    float spotFactor = dot(-lightDirection, spotLightDirection);
+    
+    if (spotFactor >= cos(radians(60.0)))
+        spotFactor = pow(spotFactor, 0.1);
+    else
+        spotFactor = 0.0;
+    
+    attenuationFactor *= spotFactor;
     
     // Compute Color
     vec3 N = NormalMatrix * Normal;
