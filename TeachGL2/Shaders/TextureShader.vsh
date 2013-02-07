@@ -4,6 +4,7 @@ const char *TextureVertexShader = STRINGIFY
 attribute vec4 Position;
 attribute vec4 SourceColor;
 attribute vec3 Normal;
+attribute vec2 TextureCoordIn;
 
 uniform mat4 Projection;
 uniform mat4 Modelview;
@@ -14,6 +15,7 @@ uniform vec3 SpecularLight;
 uniform float Shininess;
 
 varying vec4 DestinationColor;
+varying vec2 TextureCoordOut;
 
 void main()
 {
@@ -28,6 +30,9 @@ void main()
     vec3 diffuseColor = vec3(SourceColor.x, SourceColor.y, SourceColor.z);
     vec3 color = AmbientLight + df * diffuseColor + sf * SpecularLight;
     DestinationColor = vec4(color, 1);
+    
+    TextureCoordOut = TextureCoordIn;
+//    TextureCoordOut = gl_Position.xy * 2.0;
     
     gl_Position = Projection * Modelview * Position;
 }

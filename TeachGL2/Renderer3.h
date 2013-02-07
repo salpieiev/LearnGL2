@@ -33,6 +33,7 @@ private:
     GLint m_attribPosition;
     GLint m_attribSourceColor;
     GLint m_attribNormal;
+    GLint m_attribTextureCoord;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
@@ -45,4 +46,6 @@ private:
     GLuint m_vertexBuffer;
     GLuint m_indexBuffer;
     GLuint m_indexCount;
+    
+    GLuint m_textureFlag;
 };
