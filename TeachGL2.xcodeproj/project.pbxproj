@@ -23,6 +23,7 @@
 		B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B40CB66A16A1C36F002C52EC /* OpenGLView.mm */; };
 		B40CB66D16A1C68F002C52EC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66C16A1C68F002C52EC /* OpenGLES.framework */; };
 		B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66E16A1C695002C52EC /* QuartzCore.framework */; };
+		B41C292916C3FB5900D5C936 /* Renderer3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B41C292816C3FB5900D5C936 /* Renderer3.cpp */; };
 		B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */; };
 		B4A5308E16BD9C4C002F8749 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A5308D16BD9C4C002F8749 /* GLKit.framework */; };
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
@@ -63,6 +64,10 @@
 		B40CB66A16A1C36F002C52EC /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		B40CB66C16A1C68F002C52EC /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		B40CB66E16A1C695002C52EC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B41C292716C3FB5900D5C936 /* Renderer3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer3.h; sourceTree = "<group>"; };
+		B41C292816C3FB5900D5C936 /* Renderer3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer3.cpp; sourceTree = "<group>"; };
+		B41C292A16C3FB8400D5C936 /* TextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TextureShader.vsh; sourceTree = "<group>"; };
+		B41C292B16C3FB8400D5C936 /* TextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TextureShader.fsh; sourceTree = "<group>"; };
 		B4A5308816BD9BAC002F8749 /* TGNativeGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGNativeGLViewController.h; sourceTree = "<group>"; };
 		B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TGNativeGLViewController.mm; sourceTree = "<group>"; };
 		B4A5308D16BD9C4C002F8749 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -210,6 +215,8 @@
 				B404A31116AD9487001F8045 /* Renderer1.h */,
 				B4FB0FE016BFC1BE007ABBC3 /* Renderer2.cpp */,
 				B4FB0FE116BFC1BE007ABBC3 /* Renderer2.h */,
+				B41C292816C3FB5900D5C936 /* Renderer3.cpp */,
+				B41C292716C3FB5900D5C936 /* Renderer3.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -227,6 +234,8 @@
 				B4FB0FE516BFC6FD007ABBC3 /* LightShader.fsh */,
 				B4FB0FEB16C01D06007ABBC3 /* SpotLightShader.vsh */,
 				B4FB0FEC16C01D16007ABBC3 /* SpotLightShader.fsh */,
+				B41C292A16C3FB8400D5C936 /* TextureShader.vsh */,
+				B41C292B16C3FB8400D5C936 /* TextureShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -345,6 +354,7 @@
 				B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */,
 				B4FB0FE216BFC1BE007ABBC3 /* Renderer2.cpp in Sources */,
 				B4FB0FEA16BFDADB007ABBC3 /* Rotator.cpp in Sources */,
+				B41C292916C3FB5900D5C936 /* Renderer3.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
