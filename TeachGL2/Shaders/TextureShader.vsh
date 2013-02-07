@@ -32,7 +32,6 @@ void main()
     DestinationColor = vec4(color, 1);
     
     TextureCoordOut = TextureCoordIn;
-//    TextureCoordOut = gl_Position.xy * 2.0;
     
     gl_Position = Projection * Modelview * Position;
 }
