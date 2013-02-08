@@ -10,7 +10,7 @@
 
 
 
-void ResourceManager::LoadPngImage(const string &fileName)
+TextureDescription ResourceManager::LoadPngImage(const string &fileName)
 {
     NSString *file = [NSString stringWithCString:fileName.c_str() encoding:NSUTF8StringEncoding];
     NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
@@ -19,26 +19,34 @@ void ResourceManager::LoadPngImage(const string &fileName)
     UIImage *image = [UIImage imageWithContentsOfFile:filePath];
     CGImageRef cgImage = image.CGImage;
     
-    m_imageSize.x = CGImageGetWidth(cgImage);
-    m_imageSize.y = CGImageGetHeight(cgImage);
+    TextureDescription description;
+    description.size.x = CGImageGetWidth(cgImage);
+    description.size.y = CGImageGetHeight(cgImage);
+    description.imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
+    description.bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
     
-    m_imageData = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
-}
-
-void ResourceManager::UnloadImage()
-{
-    m_imageSize = ivec2();
+    BOOL hasAlpha = CGImageGetAlphaInfo(cgImage) != kCGImageAlphaNone;
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(cgImage);
     
-    CFRelease(m_imageData);
-    m_imageData = NULL;
-}
-
-void * ResourceManager::GetImageData() const
-{
-    return (void *)CFDataGetBytePtr(m_imageData);
-}
-
-ivec2 ResourceManager::GetImageSize() const
-{
-    return m_imageSize;
+    CGColorSpaceModel colorSpaceModel = CGColorSpaceGetModel(colorSpace);
+    switch (colorSpaceModel)
+    {
+        case kCGColorSpaceModelMonochrome:
+        {
+            description.format = hasAlpha ? TextureFormatGrayAlpha : TextureFormatGray;
+            break;
+        }
+        case kCGColorSpaceModelRGB:
+        {
+            description.format  = hasAlpha ? TextureFormatRGBA : TextureFormatRGB;
+            break;
+        }
+        default:
+        {
+            assert("Unsupported color space");
+            break;
+        }
+    }
+    
+    return description;
 }

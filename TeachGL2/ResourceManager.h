@@ -15,15 +15,40 @@ using namespace std;
 
 
 
+enum TextureFormat
+{
+    TextureFormatGray,
+    TextureFormatGrayAlpha,
+    TextureFormatRGB,
+    TextureFormatRGBA
+};
+
+
+
+class TextureDescription
+{
+public:
+    TextureDescription() {}
+    ~TextureDescription()
+    {
+        if (imageData) CFRelease(imageData);
+    }
+    
+    void * GetImageData() const
+    {
+        return (void *)CFDataGetBytePtr(imageData);
+    }
+    
+    TextureFormat format;
+    int bitsPerComponent;
+    ivec2 size;
+    CFDataRef imageData;
+};
+
+
+
 class ResourceManager
 {
 public:
-    void LoadPngImage(const string &fileName);
-    void UnloadImage();
-    void * GetImageData() const;
-    ivec2 GetImageSize() const;
-    
-private:
-    CFDataRef m_imageData;
-    ivec2 m_imageSize;
+    TextureDescription LoadPngImage(const string &fileName);
 };
