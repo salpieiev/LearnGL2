@@ -85,19 +85,19 @@ Renderer3::Renderer3(int width, int height): RenderingEngine(width, height)
     // Generate Flag texture
     glGenTextures(1, &m_textureFlag);
     glBindTexture(GL_TEXTURE_2D, m_textureFlag);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
     m_resourceManager->LoadPngImage("tile_floor.png");
-    
     GLvoid *imageData = m_resourceManager->GetImageData();
     ivec2 imageSize = m_resourceManager->GetImageSize();
-    
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-    
     m_resourceManager->UnloadImage();
+    
+    glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
+    glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 Renderer3::~Renderer3()
