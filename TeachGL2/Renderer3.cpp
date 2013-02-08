@@ -91,8 +91,8 @@ Renderer3::Renderer3(int width, int height): RenderingEngine(width, height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
     TextureDescription textureDescription = m_resourceManager->LoadPngImage("tile_floor.png");
-    GLvoid *imageData = textureDescription.GetImageData();
-    ivec2 imageSize = textureDescription.size;
+    GLvoid *imageData = textureDescription.GetTexData();
+    ivec2 imageSize = textureDescription.GetTexSize();
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
     
     glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);

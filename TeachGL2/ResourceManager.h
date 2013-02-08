@@ -28,20 +28,25 @@ enum TextureFormat
 class TextureDescription
 {
 public:
-    TextureDescription() {}
-    ~TextureDescription()
-    {
-        if (imageData) CFRelease(imageData);
-    }
+    TextureDescription();
+    ~TextureDescription();
     
-    void * GetImageData() const
-    {
-        return (void *)CFDataGetBytePtr(imageData);
-    }
+    void SetTexFormat(TextureFormat format);
+    TextureFormat GetTexFormat() const;
     
-    TextureFormat format;
+    void SetBitsPerComponent(int bits);
+    int GetBitsPerComponent() const;
+    
+    void SetTexSize(ivec2 texSize);
+    ivec2 GetTexSize() const;
+    
+    void SetTexData(CFDataRef data);
+    void * GetTexData() const;
+    
+private:
+    TextureFormat texFormat;
     int bitsPerComponent;
-    ivec2 size;
+    ivec2 texSize;
     CFDataRef imageData;
 };
 

@@ -125,10 +125,13 @@ void Renderer0::GenPointSprite()
 {
     TextureDescription textureDescription = m_resourceManager->LoadPngImage("Star.png");
     
+    ivec2 texSize = textureDescription.GetTexSize();
+    void * texData = textureDescription.GetTexData();
+    
     glGenTextures(1, &textures.Star);
     glBindTexture(GL_TEXTURE_2D, textures.Star);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureDescription.size.x, textureDescription.size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureDescription.GetImageData());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texSize.x, texSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
 }
 
 void Renderer0::DrawPointSprites() const
