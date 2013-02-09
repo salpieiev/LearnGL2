@@ -89,6 +89,41 @@ GLuint RenderingEngine::BuildProgram(const char *vertexShaderSource, const char 
     return program;
 }
 
+void RenderingEngine::SetPngTexture(const string &name) const
+{
+    TextureDescription description = m_resourceManager->LoadPngImage(name);
+    
+    GLenum format;
+    switch (description.GetTexFormat())
+    {
+        case TextureFormatGray: format = GL_LUMINANCE; break;
+        case TextureFormatGrayAlpha: format = GL_LUMINANCE_ALPHA; break;
+        case TextureFormatRGB: format = GL_RGB; break;
+        case TextureFormatRGBA: format = GL_RGBA; break;
+    }
+    
+    GLenum type = 0;
+    switch (description.GetBitsPerComponent())
+    {
+        // Check order. May be incorrect. Page 190 iPhone 3D Programming
+        case 4:
+        {
+            if (format == GL_RGBA)
+            {
+                type = GL_UNSIGNED_SHORT_4_4_4_4;
+                break;
+            }
+        }
+        case 8: type = GL_UNSIGNED_BYTE; break;
+        default: assert("Unsupported format");
+    }
+    
+    void *data = description.GetTexData();
+    ivec2 size = description.GetTexSize();
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, format, size.x, size.y, 0, format, type, data);
+}
+
 
 
 void SALog(const char *formatStr, ...)

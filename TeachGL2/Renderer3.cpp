@@ -47,10 +47,10 @@ Renderer3::Renderer3(int width, int height): RenderingEngine(width, height)
     
     // Create surface
 //    m_surface = new Cone(5.0f, 1.8f);
-    m_surface = new Sphere(2.0f);
+//    m_surface = new Sphere(2.0f);
 //    m_surface = new Torus(1.8f, 0.5f);
 //    m_surface = new TrefoilKnot(3.0f);
-//    m_surface = new MobiusStrip(1.5f);
+    m_surface = new MobiusStrip(1.5f);
 //    m_surface = new KleinBottle(0.3f);
     
     vector<float> vertices;
@@ -90,10 +90,12 @@ Renderer3::Renderer3(int width, int height): RenderingEngine(width, height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
-    TextureDescription textureDescription = m_resourceManager->LoadPngImage("tile_floor.png");
-    GLvoid *imageData = textureDescription.GetTexData();
-    ivec2 imageSize = textureDescription.GetTexSize();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+//    TextureDescription textureDescription = m_resourceManager->LoadPngImage("tile_floor.png");
+//    GLvoid *imageData = textureDescription.GetTexData();
+//    ivec2 imageSize = textureDescription.GetTexSize();
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageSize.x, imageSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+
+    SetPngTexture("Star.png");
     
     glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
     glGenerateMipmap(GL_TEXTURE_2D);
