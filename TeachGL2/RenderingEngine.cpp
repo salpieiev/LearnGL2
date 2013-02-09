@@ -130,31 +130,26 @@ void RenderingEngine::SetPVRTexture(const string &name) const
     TextureDescription description = m_resourceManager->LoadPVRImage(name);
     
     unsigned char *data = (unsigned char *)description.GetTexData();
-    int bitsPerPixel = 0;
     GLenum format = 0;
     switch (description.GetTexFormat())
     {
         case TextureFormatPVRTC_RGBA2:
         {
-            bitsPerPixel = 2;
             format = GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG;
             break;
         }
         case TextureFormatPVRTC_RGB2:
         {
-            bitsPerPixel = 2;
             format = GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG;
             break;
         }
         case TextureFormatPVRTC_RGBA4:
         {
-            bitsPerPixel = 4;
             format = GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG;
             break;
         }
         case TextureFormatPVRTC_RGB4:
         {
-            bitsPerPixel = 4;
             format = GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
             break;
         }
@@ -167,7 +162,7 @@ void RenderingEngine::SetPVRTexture(const string &name) const
     
     for (int level = 0; width > 0 && height > 0; level++)
     {
-        GLsizei size = std::max(32, width * height * bitsPerPixel / 8);
+        GLsizei size = std::max(32, width * height * description.GetBitsPerComponent() / 8);
         glCompressedTexImage2D(GL_TEXTURE_2D, level, format, width, height, 0, size, data);
         data += size;
         width >>= 1;

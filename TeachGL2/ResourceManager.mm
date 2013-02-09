@@ -87,9 +87,9 @@ void * TextureDescription::GetTexData() const
     if (!hasPVRHeader)
         return data;
     
-    PVR_Texture_Header *header = (PVR_Texture_Header *)data;
+    PVRTextureHeaderV3 *header = (PVRTextureHeaderV3 *)data;
     char *charData = (char *)data;
-    unsigned int headerSize = header->dwHeaderSize;
+    unsigned int headerSize = PVRTEX3_HEADERSIZE + header->u32MetaDataSize;
     charData += headerSize;
     return charData;
 }
@@ -158,32 +158,33 @@ TextureDescription ResourceManager::LoadPVRImage(const string &fileName)
     description.SetTexData((CFDataRef)CFBridgingRetain(fileData));
     description.SetHasPVRHeader(true);
     
-    PVR_Texture_Header *textureHeader = (PVR_Texture_Header *)description.GetTexHeader();
-    bool hasAlpha = textureHeader->dwAlphaBitMask;
+    PVRTextureHeaderV3 *textureHeader = (PVRTextureHeaderV3 *)description.GetTexHeader();
     
-    unsigned int pixelType = (textureHeader->dwpfFlags & PVRTEX_PIXELTYPE);
-    switch (pixelType)
+    unsigned int pixelFormat = textureHeader->u64PixelFormat;
+    switch (pixelFormat)
     {
-        /*case OGL_RGB_565:
-            description.Format = TextureFormat565;
-            break;
-        case OGL_RGBA_5551:
-            description.Format = TextureFormat5551;
-            break;
-        case OGL_RGBA_4444:
-            description.Format = TextureFormatRgba;
-            description.BitsPerComponent = 4;
-            break;*/
-        case OGL_PVRTC2:
+        case ePVRTPF_PVRTCI_2bpp_RGB:
         {
-            TextureFormat texFormat = hasAlpha ? TextureFormatPVRTC_RGBA2 : TextureFormatPVRTC_RGB2;
-            description.SetTexFormat(texFormat);
+            description.SetBitsPerComponent(2);
+            description.SetTexFormat(TextureFormatPVRTC_RGB2);
             break;
         }
-        case OGL_PVRTC4:
+        case ePVRTPF_PVRTCI_2bpp_RGBA:
         {
-            TextureFormat texFormat = hasAlpha ? TextureFormatPVRTC_RGBA4 : TextureFormatPVRTC_RGB4;
-            description.SetTexFormat(texFormat);
+            description.SetBitsPerComponent(2);
+            description.SetTexFormat(TextureFormatPVRTC_RGBA2);
+            break;
+        }
+        case ePVRTPF_PVRTCI_4bpp_RGB:
+        {
+            description.SetBitsPerComponent(4);
+            description.SetTexFormat(TextureFormatPVRTC_RGB4);
+            break;
+        }
+        case ePVRTPF_PVRTCI_4bpp_RGBA:
+        {
+            description.SetBitsPerComponent(4);
+            description.SetTexFormat(TextureFormatPVRTC_RGBA4);
             break;
         }
         default:
@@ -191,9 +192,9 @@ TextureDescription ResourceManager::LoadPVRImage(const string &fileName)
             break;
     }
     
-    ivec2 texSize = ivec2(textureHeader->dwWidth, textureHeader->dwHeight);
+    ivec2 texSize = ivec2(textureHeader->u32Width, textureHeader->u32Height);
     description.SetTexSize(texSize);
-    description.SetMipCount(textureHeader->dwMipMapCount);
+    description.SetMipCount(textureHeader->u32MIPMapCount);
     return description;
 }
 
