@@ -23,6 +23,7 @@
 		B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B40CB66A16A1C36F002C52EC /* OpenGLView.mm */; };
 		B40CB66D16A1C68F002C52EC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66C16A1C68F002C52EC /* OpenGLES.framework */; };
 		B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66E16A1C695002C52EC /* QuartzCore.framework */; };
+		B415B2F516C6B170005876AF /* tile_floor.pvr in Resources */ = {isa = PBXBuildFile; fileRef = B415B2F416C6B170005876AF /* tile_floor.pvr */; };
 		B41C292916C3FB5900D5C936 /* Renderer3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B41C292816C3FB5900D5C936 /* Renderer3.cpp */; };
 		B41C293116C3FDB600D5C936 /* tile_floor.png in Resources */ = {isa = PBXBuildFile; fileRef = B41C293016C3FDB600D5C936 /* tile_floor.png */; };
 		B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */; };
@@ -65,6 +66,9 @@
 		B40CB66A16A1C36F002C52EC /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		B40CB66C16A1C68F002C52EC /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		B40CB66E16A1C695002C52EC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B415B2F116C69EF2005876AF /* PVRTGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTGlobal.h; sourceTree = "<group>"; };
+		B415B2F216C69EF2005876AF /* PVRTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTTexture.h; sourceTree = "<group>"; };
+		B415B2F416C6B170005876AF /* tile_floor.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = tile_floor.pvr; sourceTree = "<group>"; };
 		B41C292716C3FB5900D5C936 /* Renderer3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer3.h; sourceTree = "<group>"; };
 		B41C292816C3FB5900D5C936 /* Renderer3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer3.cpp; sourceTree = "<group>"; };
 		B41C292A16C3FB8400D5C936 /* TextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TextureShader.vsh; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 		B40CB64016A1BE14002C52EC /* TeachGL2 */ = {
 			isa = PBXGroup;
 			children = (
+				B415B2F016C69E03005876AF /* PowerVR */,
 				B4B8D08316A21E53009B418F /* Shaders */,
 				B4F7F82B16AB42CD006F0C90 /* Math */,
 				B408680016AE9A9400F6CD8D /* Surfaces */,
@@ -203,6 +208,23 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		B415B2F016C69E03005876AF /* PowerVR */ = {
+			isa = PBXGroup;
+			children = (
+				B415B2F116C69EF2005876AF /* PVRTGlobal.h */,
+				B415B2F216C69EF2005876AF /* PVRTTexture.h */,
+			);
+			path = PowerVR;
+			sourceTree = "<group>";
+		};
+		B415B2F316C6B153005876AF /* PVR */ = {
+			isa = PBXGroup;
+			children = (
+				B415B2F416C6B170005876AF /* tile_floor.pvr */,
+			);
+			path = PVR;
+			sourceTree = "<group>";
+		};
 		B4B8D07A16A20EA2009B418F /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +267,7 @@
 		B4F7F82216AB40DA006F0C90 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B415B2F316C6B153005876AF /* PVR */,
 				B4F7F82416AB40F3006F0C90 /* Images */,
 			);
 			path = Resources;
@@ -336,6 +359,7 @@
 				B40CB65116A1BE14002C52EC /* Default-568h@2x.png in Resources */,
 				B4F7F82616AB412E006F0C90 /* Star.png in Resources */,
 				B41C293116C3FDB600D5C936 /* tile_floor.png in Resources */,
+				B415B2F516C6B170005876AF /* tile_floor.pvr in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

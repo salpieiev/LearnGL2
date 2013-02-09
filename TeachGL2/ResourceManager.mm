@@ -7,12 +7,18 @@
 //
 
 #include "ResourceManager.h"
+#include "PVRTTexture.h"
 
 
 
 TextureDescription::TextureDescription()
 {
+    texFormat = TextureFormatNone;
+    bitsPerComponent = 0;
+    mipCount = 0;
+    texSize = ivec2(0, 0);
     imageData = NULL;
+    hasPVRHeader = false;
 }
 
 TextureDescription::~TextureDescription()
@@ -40,6 +46,16 @@ int TextureDescription::GetBitsPerComponent() const
     return bitsPerComponent;
 }
 
+void TextureDescription::SetMipCount(int count)
+{
+    mipCount = count;
+}
+
+int TextureDescription::GetMipCount() const
+{
+    return mipCount;
+}
+
 void TextureDescription::SetTexSize(ivec2 size)
 {
     texSize = size;
@@ -55,9 +71,37 @@ void TextureDescription::SetTexData(CFDataRef data)
     imageData = data;
 }
 
+void * TextureDescription::GetTexHeader() const
+{
+    if (!hasPVRHeader)
+        return NULL;
+    
+    void *data = (void *)CFDataGetBytePtr(imageData);
+    return data;
+}
+
 void * TextureDescription::GetTexData() const
 {
-    return (void *)CFDataGetBytePtr(imageData);
+    void *data = (void *)CFDataGetBytePtr(imageData);
+    
+    if (!hasPVRHeader)
+        return data;
+    
+    PVR_Texture_Header *header = (PVR_Texture_Header *)data;
+    char *charData = (char *)data;
+    unsigned int headerSize = header->dwHeaderSize;
+    charData += headerSize;
+    return charData;
+}
+
+void TextureDescription::SetHasPVRHeader(bool hasHeader)
+{
+    hasPVRHeader = hasHeader;
+}
+
+bool TextureDescription::GeetHasPVRHeader() const
+{
+    return hasPVRHeader;
 }
 
 
@@ -95,10 +139,62 @@ TextureDescription ResourceManager::LoadPngImage(const string &fileName)
         }
         default:
         {
-            assert("Unsupported color space");
+            assert(!"Unsupported color space");
             break;
         }
     }
     
     return description;
 }
+
+TextureDescription ResourceManager::LoadPVRImage(const string &fileName)
+{
+    NSString *file = [NSString stringWithCString:fileName.c_str() encoding:NSUTF8StringEncoding];
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    NSString *filePath = [resourcePath stringByAppendingPathComponent:file];
+    NSData *fileData = [NSData dataWithContentsOfFile:filePath];
+    
+    TextureDescription description;
+    description.SetTexData((CFDataRef)CFBridgingRetain(fileData));
+    description.SetHasPVRHeader(true);
+    
+    PVR_Texture_Header *textureHeader = (PVR_Texture_Header *)description.GetTexHeader();
+    bool hasAlpha = textureHeader->dwAlphaBitMask;
+    
+    unsigned int pixelType = (textureHeader->dwpfFlags & PVRTEX_PIXELTYPE);
+    switch (pixelType)
+    {
+        /*case OGL_RGB_565:
+            description.Format = TextureFormat565;
+            break;
+        case OGL_RGBA_5551:
+            description.Format = TextureFormat5551;
+            break;
+        case OGL_RGBA_4444:
+            description.Format = TextureFormatRgba;
+            description.BitsPerComponent = 4;
+            break;*/
+        case OGL_PVRTC2:
+        {
+            TextureFormat texFormat = hasAlpha ? TextureFormatPVRTC_RGBA2 : TextureFormatPVRTC_RGB2;
+            description.SetTexFormat(texFormat);
+            break;
+        }
+        case OGL_PVRTC4:
+        {
+            TextureFormat texFormat = hasAlpha ? TextureFormatPVRTC_RGBA4 : TextureFormatPVRTC_RGB4;
+            description.SetTexFormat(texFormat);
+            break;
+        }
+        default:
+            assert(!"Unsupported PVR image");
+            break;
+    }
+    
+    ivec2 texSize = ivec2(textureHeader->dwWidth, textureHeader->dwHeight);
+    description.SetTexSize(texSize);
+    description.SetMipCount(textureHeader->dwMipMapCount);
+    return description;
+}
+
+
