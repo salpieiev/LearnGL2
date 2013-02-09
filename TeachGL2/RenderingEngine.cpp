@@ -162,6 +162,7 @@ void RenderingEngine::SetPVRTexture(const string &name) const
     
     for (int level = 0; width > 0 && height > 0; level++)
     {
+        // Why bits per component? Should be bytes per component?
         GLsizei size = std::max(32, width * height * description.GetBitsPerComponent() / 8);
         glCompressedTexImage2D(GL_TEXTURE_2D, level, format, width, height, 0, size, data);
         data += size;
