@@ -25,6 +25,7 @@
 		B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66E16A1C695002C52EC /* QuartzCore.framework */; };
 		B415B2F516C6B170005876AF /* tile_floor.pvr in Resources */ = {isa = PBXBuildFile; fileRef = B415B2F416C6B170005876AF /* tile_floor.pvr */; };
 		B415B2F916C6EE46005876AF /* tile_floor565.pvr in Resources */ = {isa = PBXBuildFile; fileRef = B415B2F816C6EE46005876AF /* tile_floor565.pvr */; };
+		B415B2FD16C6F7E0005876AF /* girl.png in Resources */ = {isa = PBXBuildFile; fileRef = B415B2FC16C6F7E0005876AF /* girl.png */; };
 		B41C292916C3FB5900D5C936 /* Renderer3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B41C292816C3FB5900D5C936 /* Renderer3.cpp */; };
 		B41C293116C3FDB600D5C936 /* tile_floor.png in Resources */ = {isa = PBXBuildFile; fileRef = B41C293016C3FDB600D5C936 /* tile_floor.png */; };
 		B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */; };
@@ -71,6 +72,7 @@
 		B415B2F216C69EF2005876AF /* PVRTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTTexture.h; sourceTree = "<group>"; };
 		B415B2F416C6B170005876AF /* tile_floor.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = tile_floor.pvr; sourceTree = "<group>"; };
 		B415B2F816C6EE46005876AF /* tile_floor565.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = tile_floor565.pvr; sourceTree = "<group>"; };
+		B415B2FC16C6F7E0005876AF /* girl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = girl.png; sourceTree = "<group>"; };
 		B41C292716C3FB5900D5C936 /* Renderer3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer3.h; sourceTree = "<group>"; };
 		B41C292816C3FB5900D5C936 /* Renderer3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer3.cpp; sourceTree = "<group>"; };
 		B41C292A16C3FB8400D5C936 /* TextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TextureShader.vsh; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 		B4F7F82416AB40F3006F0C90 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B415B2FC16C6F7E0005876AF /* girl.png */,
 				B4F7F82516AB412E006F0C90 /* Star.png */,
 				B41C293016C3FDB600D5C936 /* tile_floor.png */,
 			);
@@ -364,6 +367,7 @@
 				B41C293116C3FDB600D5C936 /* tile_floor.png in Resources */,
 				B415B2F516C6B170005876AF /* tile_floor.pvr in Resources */,
 				B415B2F916C6EE46005876AF /* tile_floor565.pvr in Resources */,
+				B415B2FD16C6F7E0005876AF /* girl.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
