@@ -34,6 +34,8 @@
 		B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */; };
 		B4DB9A6216C82F8900E3B748 /* MapShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A6016C82F8900E3B748 /* MapShader.fsh */; };
 		B4DB9A6316C82F8900E3B748 /* MapShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A6116C82F8900E3B748 /* MapShader.vsh */; };
+		B4DB9A6716C8317B00E3B748 /* sphere_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B4DB9A6616C8317B00E3B748 /* sphere_map.png */; };
+		B4DB9A6916C8327400E3B748 /* cube_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B4DB9A6816C8327400E3B748 /* cube_map.png */; };
 		B4F7F82616AB412E006F0C90 /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F7F82516AB412E006F0C90 /* Star.png */; };
 		B4F7F83316AB4323006F0C90 /* ResourceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4F7F83216AB4323006F0C90 /* ResourceManager.mm */; };
 		B4FB0FE216BFC1BE007ABBC3 /* Renderer2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4FB0FE016BFC1BE007ABBC3 /* Renderer2.cpp */; };
@@ -92,6 +94,8 @@
 		B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer4.cpp; sourceTree = "<group>"; };
 		B4DB9A6016C82F8900E3B748 /* MapShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MapShader.fsh; sourceTree = "<group>"; };
 		B4DB9A6116C82F8900E3B748 /* MapShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MapShader.vsh; sourceTree = "<group>"; };
+		B4DB9A6616C8317B00E3B748 /* sphere_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sphere_map.png; sourceTree = "<group>"; };
+		B4DB9A6816C8327400E3B748 /* cube_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube_map.png; sourceTree = "<group>"; };
 		B4F7F82516AB412E006F0C90 /* Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star.png; sourceTree = "<group>"; };
 		B4F7F82C16AB42E2006F0C90 /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
 		B4F7F82D16AB42E2006F0C90 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
@@ -292,6 +296,8 @@
 		B4F7F82416AB40F3006F0C90 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B4DB9A6616C8317B00E3B748 /* sphere_map.png */,
+				B4DB9A6816C8327400E3B748 /* cube_map.png */,
 				B415B2FC16C6F7E0005876AF /* girl.png */,
 				B4F7F82516AB412E006F0C90 /* Star.png */,
 				B41C293016C3FDB600D5C936 /* tile_floor.png */,
@@ -379,6 +385,8 @@
 				B415B2F516C6B170005876AF /* tile_floor.pvr in Resources */,
 				B415B2F916C6EE46005876AF /* tile_floor565.pvr in Resources */,
 				B415B2FD16C6F7E0005876AF /* girl.png in Resources */,
+				B4DB9A6716C8317B00E3B748 /* sphere_map.png in Resources */,
+				B4DB9A6916C8327400E3B748 /* cube_map.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
