@@ -35,7 +35,8 @@ public:
 protected:
     GLuint BuildShader(const char *source, GLenum shaderType) const;
     GLuint BuildProgram(const char *vertexShader, const char *fragmentShader) const;
-    void SetPngTexture(const string &name) const;
+    void SetPngPOTTexture(const string &name) const;
+    void SetPngNPOTTexture(const string &name) const;
     void SetPVRTexture(const string &name) const;
     
     ivec2 m_surfaceSize;

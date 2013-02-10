@@ -123,7 +123,7 @@ void Renderer0::DrawTriangleWithoutVBO() const
 
 void Renderer0::GenPointSprite()
 {
-    TextureDescription textureDescription = m_resourceManager->LoadPngImage("Star.png");
+    TextureDescription textureDescription = m_resourceManager->LoadPngPOTImage("Star.png");
     
     ivec2 texSize = textureDescription.GetTexSize();
     void * texData = textureDescription.GetTexData();

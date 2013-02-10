@@ -50,6 +50,9 @@ public:
     void SetTexSize(ivec2 texSize);
     ivec2 GetTexSize() const;
     
+    void SetTexOriginalSize(ivec2 texSize);
+    ivec2 GetTexOriginalSize() const;
+    
     void SetTexData(CFDataRef data);
     void * GetTexHeader() const;
     void * GetTexData() const;
@@ -62,6 +65,7 @@ private:
     int bitsPerComponent;
     int mipCount;
     ivec2 texSize;
+    ivec2 originalSize;
     CFDataRef imageData;
     bool hasPVRHeader;
 };
@@ -71,6 +75,10 @@ private:
 class ResourceManager
 {
 public:
-    TextureDescription LoadPngImage(const string &fileName);
-    TextureDescription LoadPVRImage(const string &fileName);
+    TextureDescription LoadPngPOTImage(const string &fileName) const;
+    TextureDescription LoadPngNPOTImage(const string &fileName) const;
+    TextureDescription LoadPVRImage(const string &fileName) const;
+    
+private:
+    unsigned int NextPOT(unsigned int n) const;
 };

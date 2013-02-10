@@ -8,6 +8,9 @@
 
 #include "ResourceManager.h"
 #include "PVRTTexture.h"
+#include <iostream>
+
+using namespace std;
 
 
 
@@ -17,6 +20,7 @@ TextureDescription::TextureDescription()
     bitsPerComponent = 0;
     mipCount = 0;
     texSize = ivec2(0, 0);
+    originalSize = ivec2(0, 0);
     imageData = NULL;
     hasPVRHeader = false;
 }
@@ -66,6 +70,16 @@ ivec2 TextureDescription::GetTexSize() const
     return texSize;
 }
 
+void TextureDescription::SetTexOriginalSize(ivec2 texSize)
+{
+    originalSize = texSize;
+}
+
+ivec2 TextureDescription::GetTexOriginalSize() const
+{
+    return originalSize;
+}
+
 void TextureDescription::SetTexData(CFDataRef data)
 {
     imageData = data;
@@ -106,12 +120,11 @@ bool TextureDescription::GeetHasPVRHeader() const
 
 
 
-TextureDescription ResourceManager::LoadPngImage(const string &fileName)
+TextureDescription ResourceManager::LoadPngPOTImage(const string &fileName) const
 {
     NSString *file = [NSString stringWithCString:fileName.c_str() encoding:NSUTF8StringEncoding];
     NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
     NSString *filePath = [resourcePath stringByAppendingPathComponent:file];
-    
     UIImage *image = [UIImage imageWithContentsOfFile:filePath];
     CGImageRef cgImage = image.CGImage;
     
@@ -147,7 +160,41 @@ TextureDescription ResourceManager::LoadPngImage(const string &fileName)
     return description;
 }
 
-TextureDescription ResourceManager::LoadPVRImage(const string &fileName)
+TextureDescription ResourceManager::LoadPngNPOTImage(const string &fileName) const
+{
+    NSString *file = [NSString stringWithCString:fileName.c_str() encoding:NSUTF8StringEncoding];
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    NSString *filePath = [resourcePath stringByAppendingPathComponent:file];
+    UIImage *image = [UIImage imageWithContentsOfFile:filePath];
+    CGImageRef cgImage = image.CGImage;
+    
+    ivec2 originalSize = ivec2(CGImageGetWidth(cgImage), CGImageGetHeight(cgImage));
+    ivec2 potSize = ivec2(NextPOT(originalSize.x), NextPOT(originalSize.y));
+    
+    TextureDescription description;
+    description.SetTexOriginalSize(originalSize);
+    description.SetTexSize(potSize);
+    description.SetBitsPerComponent(8);
+    description.SetTexFormat(TextureFormatRGBA);
+    
+    int bpp = description.GetBitsPerComponent() / 2;
+    int byteCount = potSize.x * potSize.y * bpp;
+    unsigned char *data = (unsigned char *)calloc(byteCount, 1);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big;
+    CGContextRef context = CGBitmapContextCreate(data, potSize.x, potSize.y, description.GetBitsPerComponent(), bpp * potSize.x, colorSpace, bitmapInfo);
+    CGColorSpaceRelease(colorSpace);
+    CGRect rect = CGRectMake(0, 0, potSize.x, potSize.y);
+    CGContextDrawImage(context, rect, cgImage);
+    CGContextRelease(context);
+    
+    NSData *imageData = [NSData dataWithBytesNoCopy:data length:byteCount freeWhenDone:YES];
+    description.SetTexData((CFDataRef)CFBridgingRetain(imageData));
+    return description;
+}
+
+TextureDescription ResourceManager::LoadPVRImage(const string &fileName) const
 {
     NSString *file = [NSString stringWithCString:fileName.c_str() encoding:NSUTF8StringEncoding];
     NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
@@ -196,6 +243,18 @@ TextureDescription ResourceManager::LoadPVRImage(const string &fileName)
     description.SetTexSize(texSize);
     description.SetMipCount(textureHeader->u32MIPMapCount);
     return description;
+}
+
+unsigned int ResourceManager::NextPOT(unsigned int n) const
+{
+    n--;
+    n |= n >> 1;
+    n |= n >> 2;
+    n |= n >> 4;
+    n |= n >> 8;
+    n |= n >> 16;
+    n++;
+    return n;
 }
 
 

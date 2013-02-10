@@ -90,11 +90,11 @@ Renderer3::Renderer3(int width, int height): RenderingEngine(width, height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-//    SetPngTexture("tile_floor.png");
-    SetPVRTexture("tile_floor.pvr");
+    SetPngPOTTexture("Star.png");
+//    SetPVRTexture("tile_floor.pvr");
     
-//    glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
-//    glGenerateMipmap(GL_TEXTURE_2D);
+    glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
+    glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 Renderer3::~Renderer3()
