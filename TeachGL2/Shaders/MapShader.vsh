@@ -17,6 +17,7 @@ uniform float Shininess;
 varying vec4 DestinationColor;
 varying vec2 TextureCoordOut;
 
+
 void main()
 {
     vec3 N = NormalMatrix * Normal;
@@ -35,5 +36,6 @@ void main()
     
     gl_Position = Projection * Modelview * Position;
 }
+
 
 );

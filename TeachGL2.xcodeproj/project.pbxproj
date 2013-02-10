@@ -32,8 +32,6 @@
 		B4A5308E16BD9C4C002F8749 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A5308D16BD9C4C002F8749 /* GLKit.framework */; };
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
 		B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */; };
-		B4DB9A6216C82F8900E3B748 /* MapShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A6016C82F8900E3B748 /* MapShader.fsh */; };
-		B4DB9A6316C82F8900E3B748 /* MapShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A6116C82F8900E3B748 /* MapShader.vsh */; };
 		B4DB9A6716C8317B00E3B748 /* sphere_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B4DB9A6616C8317B00E3B748 /* sphere_map.png */; };
 		B4DB9A6916C8327400E3B748 /* cube_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B4DB9A6816C8327400E3B748 /* cube_map.png */; };
 		B4F7F82616AB412E006F0C90 /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F7F82516AB412E006F0C90 /* Star.png */; };
@@ -278,8 +276,8 @@
 				B4FB0FEC16C01D16007ABBC3 /* SpotLightShader.fsh */,
 				B41C292A16C3FB8400D5C936 /* TextureShader.vsh */,
 				B41C292B16C3FB8400D5C936 /* TextureShader.fsh */,
-				B4DB9A6016C82F8900E3B748 /* MapShader.fsh */,
 				B4DB9A6116C82F8900E3B748 /* MapShader.vsh */,
+				B4DB9A6016C82F8900E3B748 /* MapShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -411,8 +409,6 @@
 				B4FB0FEA16BFDADB007ABBC3 /* Rotator.cpp in Sources */,
 				B41C292916C3FB5900D5C936 /* Renderer3.cpp in Sources */,
 				B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */,
-				B4DB9A6216C82F8900E3B748 /* MapShader.fsh in Sources */,
-				B4DB9A6316C82F8900E3B748 /* MapShader.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
