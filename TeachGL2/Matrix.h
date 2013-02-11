@@ -19,6 +19,8 @@ public:
     
     const T * Pointer() const;
     
+    Vector3<T> operator * (const Vector3<T> v) const;
+    
     Matrix3<T> Transposed() const;
     
     vec3 x;
@@ -66,6 +68,16 @@ template <typename T>
 const T * Matrix3<T>::Pointer() const
 {
     return &x.x;
+}
+
+template <typename T>
+Vector3<T> Matrix3<T>::operator * (const Vector3<T> v) const
+{
+    Vector3<T> vector;
+    vector.x = x.x * v.x + x.y * v.y + x.z * v.z;
+    vector.y = y.x * v.x + y.y * v.y + y.z * v.z;
+    vector.z = z.x * v.x + z.y * v.y + z.z * v.z;
+    return vector;
 }
 
 template <typename T>

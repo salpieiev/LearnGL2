@@ -45,6 +45,8 @@ public:
     Vector3();
     Vector3(T x, T y, T z);
     
+    const T * Pointer() const;
+    
     Vector3<T> operator -() const;
     Vector3<T> operator +(const Vector3<T> &vector) const;
     Vector3<T> operator -(const Vector3<T> &vector) const;
@@ -160,7 +162,13 @@ Vector3<T>::Vector3(): x(0), y(0), z(0)
 }
 
 template <typename T>
-Vector3<T> Vector3<T>::operator-() const
+const T * Vector3<T>::Pointer() const
+{
+    return &x;
+}
+
+template <typename T>
+Vector3<T> Vector3<T>::operator -() const
 {
     return Vector3<T>(-x, -y, -z);
 }

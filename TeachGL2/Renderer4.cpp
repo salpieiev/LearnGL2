@@ -16,7 +16,6 @@ struct Vertex
 {
     vec3 Position;
     vec3 Normal;
-    vec2 TexCoord;
 };
 
 
@@ -33,28 +32,23 @@ Renderer4::Renderer4(int width, int height): RenderingEngine(width, height)
     glUseProgram(m_program);
     
     m_attribPosition = glGetAttribLocation(m_program, "Position");
-    m_attribSourceColor = glGetAttribLocation(m_program, "SourceColor");
     m_attribNormal = glGetAttribLocation(m_program, "Normal");
-    m_attribTextureCoord = glGetAttribLocation(m_program, "TextureCoordIn");
     
     m_uniformProjection = glGetUniformLocation(m_program, "Projection");
     m_uniformModelview = glGetUniformLocation(m_program, "Modelview");
     m_uniformNormalMatrix = glGetUniformLocation(m_program, "NormalMatrix");
-    m_uniformLightPosition = glGetUniformLocation(m_program, "LightPosition");
-    m_uniformAmbientLight = glGetUniformLocation(m_program, "AmbientLight");
-    m_uniformSpecularLight = glGetUniformLocation(m_program, "SpecularLight");
-    m_uniformShininess = glGetUniformLocation(m_program, "Shininess");
+    m_uniformEyePosition = glGetUniformLocation(m_program, "EyePosition");
     
     // Create surface
 //    m_surface = new Cone(5.0f, 1.8f);
-//    m_surface = new Sphere(2.0f);
+    m_surface = new Sphere(2.0f);
 //    m_surface = new Torus(1.8f, 0.5f);
 //    m_surface = new TrefoilKnot(3.0f);
-    m_surface = new MobiusStrip(1.5f);
+//    m_surface = new MobiusStrip(1.5f);
 //    m_surface = new KleinBottle(0.3f);
     
     vector<float> vertices;
-    m_surface->GenerateVertices(vertices, VertexFlagsNormals | VertexFlagsTexCoords);
+    m_surface->GenerateVertices(vertices, VertexFlagsNormals);
     
     vector<unsigned short> indices;
     m_surface->GenerateTriangleIndices(indices);
@@ -75,26 +69,22 @@ Renderer4::Renderer4(int width, int height): RenderingEngine(width, height)
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
     
-    // Setup uniforms
-    glVertexAttrib4f(m_attribSourceColor, 1.0f, 1.0f, 1.0f, 1.0f);
-    glUniform3f(m_uniformLightPosition, 0.25f, 0.25f, 1.0f);
-    glUniform3f(m_uniformAmbientLight, 0.04f, 0.04f, 0.04f);
-    glUniform3f(m_uniformSpecularLight, 0.5f, 0.5f, 0.5f);
-    glUniform1f(m_uniformShininess, 50);
+    // Generate texture
+    glGenTextures(1, &m_texture);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
     
-    // Generate Flag texture
-    glGenTextures(1, &m_textureFlag);
-    glBindTexture(GL_TEXTURE_2D, m_textureFlag);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    SetPngPOTTexture("Star.png");
-//    SetPVRTexture("tile_floor.pvr");
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    
+    SetCubeMapTexture("cube_map_left.png", GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+    SetCubeMapTexture("cube_map_right.png", GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+    SetCubeMapTexture("cube_map_bottom.png", GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+    SetCubeMapTexture("cube_map_top.png", GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+    SetCubeMapTexture("cube_map_back.png", GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
+    SetCubeMapTexture("cube_map_front.png", GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
     
     glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 }
 
 Renderer4::~Renderer4()
@@ -116,21 +106,24 @@ void Renderer4::Render() const
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
     glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
     
+    // Setup uniforms
+    vec3 eyeWorldSpace = vec3(0.25f, 0.25f, 1.0f);
+    vec3 eyeObjectSpace = /*normalMatrix * */eyeWorldSpace;
+    
+    glUniform3fv(m_uniformEyePosition, 1, eyeObjectSpace.Pointer());
+    
     // Enable Attributes
     glEnableVertexAttribArray(m_attribPosition);
     glEnableVertexAttribArray(m_attribNormal);
-    glEnableVertexAttribArray(m_attribTextureCoord);
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
     glVertexAttribPointer(m_attribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
-    glVertexAttribPointer(m_attribTextureCoord, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Normal)));
     
     glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
     
     // Disable attributes
     glDisableVertexAttribArray(m_attribPosition);
     glDisableVertexAttribArray(m_attribNormal);
-    glDisableVertexAttribArray(m_attribTextureCoord);
 }
 
 void Renderer4::OnFingerDown(ivec2 location)

@@ -38,6 +38,7 @@ protected:
     void SetPngPOTTexture(const string &name) const;
     void SetPngNPOTTexture(const string &name) const;
     void SetPVRTexture(const string &name) const;
+    void SetCubeMapTexture(const string &name, GLenum side) const;
     
     ivec2 m_surfaceSize;
     ResourceManager *m_resourceManager;
