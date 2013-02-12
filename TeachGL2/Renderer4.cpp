@@ -24,7 +24,7 @@ Renderer4::Renderer4(int width, int height): RenderingEngine(width, height)
 {
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
+    glDepthFunc(GL_LESS);
     
     m_rotator = new Rotator(m_surfaceSize);
     
@@ -41,10 +41,10 @@ Renderer4::Renderer4(int width, int height): RenderingEngine(width, height)
     
     // Create surface
 //    m_surface = new Cone(5.0f, 1.8f);
-    m_surface = new Sphere(2.0f);
+//    m_surface = new Sphere(2.0f);
 //    m_surface = new Torus(1.8f, 0.5f);
 //    m_surface = new TrefoilKnot(3.0f);
-//    m_surface = new MobiusStrip(1.5f);
+    m_surface = new MobiusStrip(1.5f);
 //    m_surface = new KleinBottle(0.3f);
     
     vector<float> vertices;
@@ -107,8 +107,8 @@ void Renderer4::Render() const
     glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
     
     // Setup uniforms
-    vec3 eyeWorldSpace = vec3(0.25f, 0.25f, 1.0f);
-    vec3 eyeObjectSpace = /*normalMatrix * */eyeWorldSpace;
+    vec3 eyeWorldSpace = vec3(0.0f, 0.0f, -10.0f);
+    vec3 eyeObjectSpace = normalMatrix * eyeWorldSpace;
     
     glUniform3fv(m_uniformEyePosition, 1, eyeObjectSpace.Pointer());
     

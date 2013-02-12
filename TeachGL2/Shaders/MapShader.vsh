@@ -23,8 +23,10 @@ void main()
     // Compute eye direction in object space
     mediump vec3 EyeDir = normalize(Position.xyz - EyePosition);
     
-//    ReflectDir = NormalMatrix * CubeMap(EyeDir, Normal);
-    ReflectDir = NormalMatrix * Position.xyz;
+    vec3 reflection = NormalMatrix * CubeMap(EyeDir, Normal);
+    ReflectDir = vec3(reflection.x, -reflection.y, reflection.z);       // Invert top and bottom
+    
+//    ReflectDir = NormalMatrix * Position.xyz;
 }
 
 
