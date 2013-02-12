@@ -37,6 +37,7 @@
 		B43A2F7816C94AAF0028B546 /* cube_map_left.png in Resources */ = {isa = PBXBuildFile; fileRef = B43A2F7216C94AAF0028B546 /* cube_map_left.png */; };
 		B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */; };
 		B4A5308E16BD9C4C002F8749 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A5308D16BD9C4C002F8749 /* GLKit.framework */; };
+		B4AFB9BA16CA65B800EF25D9 /* Renderer5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */; };
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
 		B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */; };
 		B4DB9A6716C8317B00E3B748 /* sphere_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B4DB9A6616C8317B00E3B748 /* sphere_map.png */; };
@@ -97,14 +98,18 @@
 		B4A5308816BD9BAC002F8749 /* TGNativeGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGNativeGLViewController.h; sourceTree = "<group>"; };
 		B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TGNativeGLViewController.mm; sourceTree = "<group>"; };
 		B4A5308D16BD9C4C002F8749 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		B4AFB9B416CA63A000EF25D9 /* SphereMapShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SphereMapShader.fsh; sourceTree = "<group>"; };
+		B4AFB9B516CA63A000EF25D9 /* SphereMapShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SphereMapShader.vsh; sourceTree = "<group>"; };
+		B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer5.cpp; sourceTree = "<group>"; };
+		B4AFB9B916CA65B800EF25D9 /* Renderer5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer5.h; sourceTree = "<group>"; };
 		B4B8D07C16A20EB9009B418F /* Renderer0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer0.cpp; sourceTree = "<group>"; };
 		B4B8D07D16A20EB9009B418F /* Renderer0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer0.h; sourceTree = "<group>"; };
 		B4B8D08416A21E91009B418F /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		B4B8D08616A21E9A009B418F /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
 		B4DB9A5D16C82F1500E3B748 /* Renderer4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer4.h; sourceTree = "<group>"; };
 		B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer4.cpp; sourceTree = "<group>"; };
-		B4DB9A6016C82F8900E3B748 /* MapShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MapShader.fsh; sourceTree = "<group>"; };
-		B4DB9A6116C82F8900E3B748 /* MapShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MapShader.vsh; sourceTree = "<group>"; };
+		B4DB9A6016C82F8900E3B748 /* CubeMapShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CubeMapShader.fsh; sourceTree = "<group>"; };
+		B4DB9A6116C82F8900E3B748 /* CubeMapShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CubeMapShader.vsh; sourceTree = "<group>"; };
 		B4DB9A6616C8317B00E3B748 /* sphere_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sphere_map.png; sourceTree = "<group>"; };
 		B4F7F82516AB412E006F0C90 /* Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star.png; sourceTree = "<group>"; };
 		B4F7F82C16AB42E2006F0C90 /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
@@ -281,8 +286,10 @@
 				B4FB0FE116BFC1BE007ABBC3 /* Renderer2.h */,
 				B41C292816C3FB5900D5C936 /* Renderer3.cpp */,
 				B41C292716C3FB5900D5C936 /* Renderer3.h */,
-				B4DB9A5D16C82F1500E3B748 /* Renderer4.h */,
 				B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */,
+				B4DB9A5D16C82F1500E3B748 /* Renderer4.h */,
+				B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */,
+				B4AFB9B916CA65B800EF25D9 /* Renderer5.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -302,8 +309,10 @@
 				B4FB0FEC16C01D16007ABBC3 /* SpotLightShader.fsh */,
 				B41C292A16C3FB8400D5C936 /* TextureShader.vsh */,
 				B41C292B16C3FB8400D5C936 /* TextureShader.fsh */,
-				B4DB9A6116C82F8900E3B748 /* MapShader.vsh */,
-				B4DB9A6016C82F8900E3B748 /* MapShader.fsh */,
+				B4DB9A6116C82F8900E3B748 /* CubeMapShader.vsh */,
+				B4DB9A6016C82F8900E3B748 /* CubeMapShader.fsh */,
+				B4AFB9B516CA63A000EF25D9 /* SphereMapShader.vsh */,
+				B4AFB9B416CA63A000EF25D9 /* SphereMapShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -441,6 +450,7 @@
 				B4FB0FEA16BFDADB007ABBC3 /* Rotator.cpp in Sources */,
 				B41C292916C3FB5900D5C936 /* Renderer3.cpp in Sources */,
 				B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */,
+				B4AFB9BA16CA65B800EF25D9 /* Renderer5.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

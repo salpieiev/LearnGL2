@@ -1,14 +1,14 @@
 //
-//  Renderer4.cpp
+//  Renderer5.cpp
 //  TeachGL2
 //
 //  Created by Sergey Alpeev on 1/21/13.
 //  Copyright (c) 2013 Sergey Alpeev. All rights reserved.
 //
 
-#include "Renderer4.h"
-#include "Shaders/CubeMapShader.vsh"
-#include "Shaders/CubeMapShader.fsh"
+#include "Renderer5.h"
+#include "Shaders/SphereMapShader.vsh"
+#include "Shaders/SphereMapShader.fsh"
 
 
 
@@ -20,7 +20,7 @@ struct Vertex
 
 
 
-Renderer4::Renderer4(int width, int height): RenderingEngine(width, height)
+Renderer5::Renderer5(int width, int height): RenderingEngine(width, height)
 {
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
@@ -28,7 +28,7 @@ Renderer4::Renderer4(int width, int height): RenderingEngine(width, height)
     
     m_rotator = new Rotator(m_surfaceSize);
     
-    m_program = BuildProgram(MapVertexShader, MapFragmentShader);
+    m_program = BuildProgram(SphereMapVertexShader, SphereMapFragmentShader);
     glUseProgram(m_program);
     
     m_attribPosition = glGetAttribLocation(m_program, "Position");
@@ -41,10 +41,10 @@ Renderer4::Renderer4(int width, int height): RenderingEngine(width, height)
     
     // Create surface
 //    m_surface = new Cone(5.0f, 1.8f);
-//    m_surface = new Sphere(2.0f);
+    m_surface = new Sphere(2.0f);
 //    m_surface = new Torus(1.8f, 0.5f);
 //    m_surface = new TrefoilKnot(3.0f);
-    m_surface = new MobiusStrip(1.5f);
+//    m_surface = new MobiusStrip(1.5f);
 //    m_surface = new KleinBottle(0.3f);
     
     vector<float> vertices;
@@ -71,29 +71,23 @@ Renderer4::Renderer4(int width, int height): RenderingEngine(width, height)
     
     // Generate texture
     glGenTextures(1, &m_texture);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    
-    SetCubeMapTexture("cube_map_left.png", GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
-    SetCubeMapTexture("cube_map_right.png", GL_TEXTURE_CUBE_MAP_POSITIVE_X);
-    SetCubeMapTexture("cube_map_bottom.png", GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
-    SetCubeMapTexture("cube_map_top.png", GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
-    SetCubeMapTexture("cube_map_back.png", GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
-    SetCubeMapTexture("cube_map_front.png", GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+    SetPngPOTTexture("sphere_map.png");
     
     glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
-    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+    glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-Renderer4::~Renderer4()
+Renderer5::~Renderer5()
 {
     delete m_rotator;
     delete m_surface;
 }
 
-void Renderer4::Render() const
+void Renderer5::Render() const
 {
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -126,17 +120,17 @@ void Renderer4::Render() const
     glDisableVertexAttribArray(m_attribNormal);
 }
 
-void Renderer4::OnFingerDown(ivec2 location)
+void Renderer5::OnFingerDown(ivec2 location)
 {
     m_rotator->Start(location);
 }
 
-void Renderer4::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
+void Renderer5::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
 {
     m_rotator->Move(newLocation);
 }
 
-void Renderer4::OnFingerUp(ivec2 location)
+void Renderer5::OnFingerUp(ivec2 location)
 {
     m_rotator->End(location);
 }
