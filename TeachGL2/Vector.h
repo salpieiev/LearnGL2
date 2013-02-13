@@ -76,6 +76,7 @@ class Vector4
 public:
     Vector4();
     Vector4(T x, T y, T z, T w);
+    Vector4(const Vector3<T> &v, T w);
     
     const T * Pointer() const;
     template <typename P> P * Write(P *pData);
@@ -312,6 +313,12 @@ Vector4<T>::Vector4(): x(0), y(0), z(0), w(0)
 
 template <typename T>
 Vector4<T>::Vector4(T x, T y, T z, T w): x(x), y(y), z(z), w(w)
+{
+    
+}
+
+template <typename T>
+Vector4<T>::Vector4(const Vector3<T> &v, T w): x(v.x), y(v.y), z(v.z), w(w)
 {
     
 }

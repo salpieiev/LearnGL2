@@ -19,7 +19,7 @@ public:
     
     const T * Pointer() const;
     
-    Vector3<T> operator * (const Vector3<T> v) const;
+    Vector3<T> operator * (const Vector3<T> &v) const;
     
     Matrix3<T> Transposed() const;
     
@@ -39,7 +39,9 @@ public:
     
     const T * Pointer() const;
     
-    Matrix4<T> operator * (const Matrix4<T> m) const;
+    Matrix4<T> operator * (const Matrix4<T> &m) const;
+    Vector4<T> operator * (const Vector4<T> &v) const;
+    Matrix4<T> Transposed() const;
     Matrix3<T> ToMat3() const;
     
     static inline Matrix4<T> Translate(T x, T y, T z);
@@ -48,6 +50,7 @@ public:
     static inline Matrix4<T> RotateY(T degrees);
     static inline Matrix4<T> RotateZ(T degrees);
     static inline Matrix4<T> Frustum(T left, T right, T bottom, T top, T near, T far);
+    static inline Matrix4<T> LookAt(const vec3 &eye, const vec3 &target, const vec3 &up);
     
     vec4 x;
     vec4 y;
@@ -71,7 +74,7 @@ const T * Matrix3<T>::Pointer() const
 }
 
 template <typename T>
-Vector3<T> Matrix3<T>::operator * (const Vector3<T> v) const
+Vector3<T> Matrix3<T>::operator * (const Vector3<T> &v) const
 {
     Vector3<T> vector;
     vector.x = x.x * v.x + x.y * v.y + x.z * v.z;
@@ -117,7 +120,7 @@ inline const T * Matrix4<T>::Pointer() const
 }
 
 template <typename T>
-inline Matrix4<T> Matrix4<T>::operator * (const Matrix4<T> b) const
+inline Matrix4<T> Matrix4<T>::operator * (const Matrix4<T> &b) const
 {
     Matrix4<T> m;
     
@@ -141,6 +144,28 @@ inline Matrix4<T> Matrix4<T>::operator * (const Matrix4<T> b) const
     m.w.z = w.x * b.x.z + w.y * b.y.z + w.z * b.z.z + w.w * b.w.z;
     m.w.w = w.x * b.x.w + w.y * b.y.w + w.z * b.z.w + w.w * b.w.w;
     
+    return m;
+}
+
+template <typename T>
+inline Vector4<T> Matrix4<T>::operator * (const Vector4<T> &b) const
+{
+    Vector4<T> v;
+    v.x = x.x * b.x + x.y * b.y + x.z * b.z + x.w * b.w;
+    v.y = y.x * b.x + y.y * b.y + y.z * b.z + y.w * b.w;
+    v.z = z.x * b.x + z.y * b.y + z.z * b.z + z.w * b.w;
+    v.w = w.x * b.x + w.y * b.y + w.z * b.z + w.w * b.w;
+    return v;
+}
+
+template <typename T>
+Matrix4<T> Matrix4<T>::Transposed() const
+{
+    Matrix4<T> m;
+    m.x.x = x.x; m.x.y = y.x; m.x.z = z.x; m.x.w = w.x;
+    m.y.x = x.y; m.y.y = y.y; m.y.z = z.y; m.y.w = w.y;
+    m.z.x = x.z; m.z.y = y.z; m.z.z = z.z; m.z.w = w.z;
+    m.w.x = x.w; m.w.y = y.w; m.w.z = z.w; m.w.w = w.w;
     return m;
 }
 
@@ -236,6 +261,26 @@ inline Matrix4<T> Matrix4<T>::Frustum(T left, T right, T bottom, T top, T near, 
     m.y.x = 0; m.y.y = b; m.y.z = 0; m.y.w = 0;
     m.z.x = c; m.z.y = d; m.z.z = e; m.z.w = -1;
     m.w.x = 0; m.w.y = 0; m.w.z = f; m.w.w = 0;
+    return m;
+}
+
+template <typename T>
+inline Matrix4<T> Matrix4<T>::LookAt(const vec3 &eye, const vec3 &target, const vec3 &up)
+{
+    vec3 z = (eye - target).Normalized();
+    vec3 x = up.Cross(z).Normalized();
+    vec3 y = z.Cross(x).Normalized();
+    
+    Matrix4<T> m;
+    m.x = vec4(x, 0.0f);
+    m.y = vec4(y, 0.0f);
+    m.z = vec4(z, 0.0f);
+    m.w = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    
+    vec4 eyePrime = m * Vector4<float>(-eye, 1.0f);
+    m = m.Transposed();
+    m.w = eyePrime;
+    
     return m;
 }
 
