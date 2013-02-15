@@ -79,6 +79,8 @@ public:
     TextureDescription LoadPngNPOTImage(const string &fileName) const;
     TextureDescription LoadPVRImage(const string &fileName) const;
     
+    string ReadTextFile(const string &fileName) const;
+    
 private:
     unsigned int NextPOT(unsigned int n) const;
 };

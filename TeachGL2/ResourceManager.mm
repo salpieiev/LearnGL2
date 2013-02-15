@@ -245,6 +245,17 @@ TextureDescription ResourceManager::LoadPVRImage(const string &fileName) const
     return description;
 }
 
+string ResourceManager::ReadTextFile(const string &fileName) const
+{
+    NSString *resourcePath = [NSBundle mainBundle].resourcePath;
+    NSString *file = [NSString stringWithCString:fileName.c_str() encoding:NSUTF8StringEncoding];
+    NSString *fullPath = [resourcePath stringByAppendingPathComponent:file];
+    
+    NSString *fileContents = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:nil];
+    string contents = string([fileContents cStringUsingEncoding:NSUTF8StringEncoding]);
+    return contents;
+}
+
 unsigned int ResourceManager::NextPOT(unsigned int n) const
 {
     n--;

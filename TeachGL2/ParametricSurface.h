@@ -61,6 +61,19 @@ private:
 };
 
 
+class Cylinder: public ParametricSurface
+{
+public:
+    Cylinder(float height, float radius);
+    
+    vec3 Evaluate(const vec2 &domain) const;
+    
+private:
+    float m_height;
+    float m_radius;
+};
+
+
 class Sphere: public ParametricSurface
 {
 public:

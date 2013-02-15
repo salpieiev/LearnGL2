@@ -50,10 +50,11 @@ Renderer1::Renderer1(int width, int height): RenderingEngine(width, height)
     
     // Create surface
 //    m_surface = new Cone(5.0f, 1.8f);
+    m_surface = new Cylinder(3.0f, 0.5f);
 //    m_surface = new Sphere(2.0f);
 //    m_surface = new Torus(1.8f, 0.5f);
 //    m_surface = new TrefoilKnot(3.0f);
-    m_surface = new MobiusStrip(1.5f);
+//    m_surface = new MobiusStrip(1.5f);
 //    m_surface = new KleinBottle(0.3f);
     
     vector<float> vertices;
