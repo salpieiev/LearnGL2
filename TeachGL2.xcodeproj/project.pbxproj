@@ -40,6 +40,8 @@
 		B4A5308E16BD9C4C002F8749 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A5308D16BD9C4C002F8749 /* GLKit.framework */; };
 		B4AFB9BA16CA65B800EF25D9 /* Renderer5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */; };
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
+		B4BA65F916CE883600B1C037 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65F716CE883600B1C037 /* Bone.cpp */; };
+		B4BA65FC16CE8E4500B1C037 /* BoneChain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65FA16CE8E4500B1C037 /* BoneChain.cpp */; };
 		B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */; };
 		B4DB9A6716C8317B00E3B748 /* sphere_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B4DB9A6616C8317B00E3B748 /* sphere_map.png */; };
 		B4F7F82616AB412E006F0C90 /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F7F82516AB412E006F0C90 /* Star.png */; };
@@ -111,6 +113,10 @@
 		B4B8D07D16A20EB9009B418F /* Renderer0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer0.h; sourceTree = "<group>"; };
 		B4B8D08416A21E91009B418F /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		B4B8D08616A21E9A009B418F /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
+		B4BA65F716CE883600B1C037 /* Bone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bone.cpp; sourceTree = "<group>"; };
+		B4BA65F816CE883600B1C037 /* Bone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bone.h; sourceTree = "<group>"; };
+		B4BA65FA16CE8E4500B1C037 /* BoneChain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoneChain.cpp; sourceTree = "<group>"; };
+		B4BA65FB16CE8E4500B1C037 /* BoneChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneChain.h; sourceTree = "<group>"; };
 		B4DB9A5D16C82F1500E3B748 /* Renderer4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer4.h; sourceTree = "<group>"; };
 		B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer4.cpp; sourceTree = "<group>"; };
 		B4DB9A6016C82F8900E3B748 /* CubeMapShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CubeMapShader.fsh; sourceTree = "<group>"; };
@@ -196,6 +202,7 @@
 			children = (
 				B415B2F016C69E03005876AF /* PowerVR */,
 				B4B8D08316A21E53009B418F /* Shaders */,
+				B4BA65F616CE87F300B1C037 /* Entities */,
 				B4F7F82B16AB42CD006F0C90 /* Math */,
 				B408680016AE9A9400F6CD8D /* Surfaces */,
 				B4B8D07A16A20EA2009B418F /* Renderer */,
@@ -324,6 +331,17 @@
 				B4379D9D16CB9E0300C18643 /* VertexSkinningShader.fsh */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		B4BA65F616CE87F300B1C037 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				B4BA65F716CE883600B1C037 /* Bone.cpp */,
+				B4BA65F816CE883600B1C037 /* Bone.h */,
+				B4BA65FA16CE8E4500B1C037 /* BoneChain.cpp */,
+				B4BA65FB16CE8E4500B1C037 /* BoneChain.h */,
+			);
+			name = Entities;
 			sourceTree = "<group>";
 		};
 		B4F7F82216AB40DA006F0C90 /* Resources */ = {
@@ -461,6 +479,8 @@
 				B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */,
 				B4AFB9BA16CA65B800EF25D9 /* Renderer5.cpp in Sources */,
 				B4379D9C16CB9D9F00C18643 /* Renderer6.cpp in Sources */,
+				B4BA65F916CE883600B1C037 /* Bone.cpp in Sources */,
+				B4BA65FC16CE8E4500B1C037 /* BoneChain.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

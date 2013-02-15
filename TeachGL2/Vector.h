@@ -341,6 +341,7 @@ P * Vector4<T>::Write(P *pData)
 
 
 typedef Vector2<int> ivec2;
+typedef Vector3<int> ivec3;
 typedef Vector2<float> vec2;
 typedef Vector3<float> vec3;
 typedef Vector4<float> vec4;
