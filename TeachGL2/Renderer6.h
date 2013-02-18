@@ -49,7 +49,10 @@ private:
     GLuint m_uniformSpecularLight;
     GLuint m_uniformShininess;
     
-    GLuint m_vertexBuffer;
-    GLuint m_indexBuffer;
-    GLuint m_indexCount;
+    GLuint m_boneVertexBuffer;
+    GLuint m_boneVertexCount;
+    
+//    GLuint m_vertexBuffer;
+//    GLuint m_indexBuffer;
+//    GLuint m_indexCount;
 };

@@ -9,22 +9,23 @@
 #include "Renderer6.h"
 #include "Shaders/VertexSkinningShader.vsh"
 #include "Shaders/VertexSkinningShader.fsh"
+#include "BoneChain.h"
 
 
 
-const vec3 Eye(0.5f, 1, 62);
-const vec3 Target(0.5f, 1, 0);
+const vec3 Eye(0.0f, 0.0f, 7.0f);
+const vec3 Target(0.0f, 0.0f, 0.0f);
 const vec3 Up(0, 1, 0);
 
 struct Vertex
 {
     vec3 Position;
-    vec4 Color;
-    vec3 Normal;
-    vec2 BoneWeights;
-    float Padding0;
-    unsigned short boneIndices;
-    unsigned short Padding1;
+//    vec4 Color;
+//    vec3 Normal;
+//    vec2 BoneWeights;
+//    float Padding0;
+//    unsigned short boneIndices;
+//    unsigned short Padding1;
 };
 
 typedef vector<Vertex> VertexList;
@@ -56,46 +57,36 @@ Renderer6::Renderer6(int width, int height): RenderingEngine(width, height)
     m_program = BuildProgram(VertexSkinningVertexShader, VertexSkinningFragmentShader);
     glUseProgram(m_program);
     
-    m_attribPosition = glGetAttribLocation(m_program, "Position");
-    m_attribSourceColor = glGetAttribLocation(m_program, "SourceColor");
-    m_attribNormal = glGetAttribLocation(m_program, "Normal");
-    m_uniformProjection = glGetUniformLocation(m_program, "Projection");
-    m_uniformModelview = glGetUniformLocation(m_program, "Modelview");
-    m_uniformNormalMatrix = glGetUniformLocation(m_program, "NormalMatrix");
-    m_uniformLightPosition = glGetUniformLocation(m_program, "LightPosition");
-    m_uniformAmbientLight = glGetUniformLocation(m_program, "AmbientLight");
-    m_uniformSpecularLight = glGetUniformLocation(m_program, "SpecularLight");
-    m_uniformShininess = glGetUniformLocation(m_program, "Shininess");
+    m_attribPosition = glGetAttribLocation(m_program, "a_position");
+    m_attribSourceColor = glGetAttribLocation(m_program, "a_color");
+    m_attribNormal = glGetAttribLocation(m_program, "a_normal");
+    m_uniformProjection = glGetUniformLocation(m_program, "u_projection");
+    m_uniformModelview = glGetUniformLocation(m_program, "u_modelview");
+    m_uniformNormalMatrix = glGetUniformLocation(m_program, "u_normalMatrix");
+    m_uniformLightPosition = glGetUniformLocation(m_program, "u_lightPosition");
+    m_uniformAmbientLight = glGetUniformLocation(m_program, "u_ambientLight");
+    m_uniformSpecularLight = glGetUniformLocation(m_program, "u_specularLight");
+    m_uniformShininess = glGetUniformLocation(m_program, "u_shininess");
     
     
     glEnableVertexAttribArray(m_attribPosition);
-    glEnableVertexAttribArray(m_attribSourceColor);
-    glEnableVertexAttribArray(m_attribNormal);
     
     // Create surface
-//    m_surface = new Cone(5.0f, 1.8f);
-//    m_surface = new Sphere(2.0f);
-//    m_surface = new Torus(1.8f, 0.5f);
-    m_surface = new TrefoilKnot(3.0f);
-//    m_surface = new MobiusStrip(1.5f);
-//    m_surface = new KleinBottle(0.3f);
+    BoneChain chain;
+    chain.AddBone(Bone(vec3(0.5f, 0.5f, 0.0f)));
+    chain.AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
+    chain.AddBone(Bone(vec3(0.0f, 0.0f, 0.5f)));
+    chain.AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
+    chain.AddBone(Bone(vec3(0.5f, -0.5f, -0.5f)));
+    chain.AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
     
-    vector<float> vertices;
-    m_surface->GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals);
+    vector<float> boneData = chain.GetVertexData();
+    m_boneVertexCount = chain.GetVertexCount();
     
-    vector<unsigned short> indices;
-    m_surface->GenerateTriangleIndices(indices);
-    m_indexCount = indices.size();
-    
-    // Generate vertex buffer
-    glGenBuffers(1, &m_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-    
-    // Generate index buffer
-    glGenBuffers(1, &m_indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
+    // Generate bone vertex buffer
+    glGenBuffers(1, &m_boneVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_boneVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * boneData.size(), &boneData[0], GL_STATIC_DRAW);
     
     // Set frustum
     GLfloat h = 4 * height / width;
@@ -121,18 +112,17 @@ void Renderer6::Render() const
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     mat4 orientation = m_rotator->GetOrientation().ToMatrix();
-    mat4 translation = mat4::Translate(0.0f, 0.0f, -7.0f);
+    mat4 translation = mat4::LookAt(Eye, Target, Up);
     mat4 modelview = orientation * translation;
     mat3 normalMatrix = modelview.ToMat3();
     
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
     glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
+    glVertexAttrib4f(m_attribSourceColor, 1.0f, 0.0f, 0.0f, 1.0f);
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-    glVertexAttribPointer(m_attribSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
-    glVertexAttribPointer(m_attribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
     
-    glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
+    glDrawArrays(GL_LINE_STRIP, 0, m_boneVertexCount);
 }
 
 void Renderer6::OnFingerDown(ivec2 location)
@@ -152,7 +142,9 @@ void Renderer6::OnFingerUp(ivec2 location)
 
 void Renderer6::ComputeMatrices(const Skeleton &skeleton, const MatrixList &matrices)
 {
-    mat4 modelview = mat4::LookAt(Eye, Target, Up);
+    mat4 orientation = m_rotator->GetOrientation().ToMatrix();
+    mat4 translation = mat4::LookAt(Eye, Target, Up);
+    mat4 modelview = orientation * translation;
     
     float x = 0.0f;
     IndexList::const_iterator lineIndex = skeleton.Indices.begin();

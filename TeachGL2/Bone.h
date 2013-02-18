@@ -22,5 +22,4 @@ public:
     
 private:
     vec3 m_projection;
-//    vector
 };

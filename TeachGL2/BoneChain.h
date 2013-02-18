@@ -22,7 +22,12 @@ public:
     void SetStartPosition(vec3 startPosition);
     vec3 GetStartPosition() const;
     
+    void AddBone(const Bone &bone) const;
+    
+    vector<float> GetVertexData() const;
+    unsigned int GetVertexCount() const;
+    
 private:
     vec3 m_startPosition;
-    vector<Bone> m_bones;
+    vector<Bone> *m_bones;
 };
