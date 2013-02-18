@@ -67,3 +67,28 @@ unsigned int BoneChain::GetVertexCount() const
 {
     return m_bones->size() + 1;
 }
+
+void BoneChain::BoneCoordinateAtIndex(int boneIndex, vec3 &start, vec3 &end) const
+{
+    vec3 a = m_startPosition;
+    vec3 b;
+    
+    for (int i = 0; i < m_bones->size(); i++)
+    {
+        Bone bone = (*m_bones)[i];
+        b = a + bone.GetProjection();
+        
+        if (i == boneIndex)
+        {
+            start = a;
+            end = b;
+            return;
+        }
+        else
+        {
+            a = b;
+        }
+    }
+}
+
+

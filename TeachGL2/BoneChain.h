@@ -28,6 +28,8 @@ public:
     vector<float> GetVertexData() const;
     unsigned int GetVertexCount() const;
     
+    void BoneCoordinateAtIndex(int boneIndex, vec3 &start, vec3 &end) const;
+    
 private:
     vec3 m_startPosition;
     vector<Bone> *m_bones;

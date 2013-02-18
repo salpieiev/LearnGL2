@@ -10,12 +10,7 @@
 #include "RenderingEngine.h"
 #include "ParametricSurface.h"
 #include "Rotator.h"
-
-
-
-class BoneChain;
-struct Skeleton;
-typedef vector<mat4> MatrixList;
+#include "BoneChain.h"
 
 
 
@@ -32,7 +27,7 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
-    void ComputeMatrices(const Skeleton &skeleton, MatrixList &matrices);
+    void ComputeMatrices(vector<mat4> &matrices);
     
     Rotator *m_rotator;
     ParametricSurface *m_surface;
@@ -52,7 +47,6 @@ private:
     GLuint m_uniformShininess;
     
     GLuint m_boneVertexBuffer;
-    GLuint m_boneVertexCount;
     
 //    GLuint m_vertexBuffer;
 //    GLuint m_indexBuffer;

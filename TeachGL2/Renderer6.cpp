@@ -9,7 +9,6 @@
 #include "Renderer6.h"
 #include "Shaders/VertexSkinningShader.vsh"
 #include "Shaders/VertexSkinningShader.fsh"
-#include "BoneChain.h"
 
 
 
@@ -31,17 +30,11 @@ struct Vertex
 typedef vector<Vertex> VertexList;
 typedef vector<GLushort> IndexList;
 
-struct Skeleton
-{
-    IndexList Indices;
-    VertexList Vertices;
-};
-
 struct SkinnedFigure
 {
     GLuint IndexBuffer;
     GLuint VertexBuffer;
-    MatrixList Matrices;
+    vector<mat4> Matrices;
 };
 
 
@@ -68,7 +61,6 @@ Renderer6::Renderer6(int width, int height): RenderingEngine(width, height)
     m_uniformSpecularLight = glGetUniformLocation(m_program, "u_specularLight");
     m_uniformShininess = glGetUniformLocation(m_program, "u_shininess");
     
-    
     glEnableVertexAttribArray(m_attribPosition);
     
     // Create surface
@@ -80,8 +72,10 @@ Renderer6::Renderer6(int width, int height): RenderingEngine(width, height)
     m_chain->AddBone(Bone(vec3(0.5f, -0.5f, -0.5f)));
     m_chain->AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
     
+    vector<mat4> matrices;
+    ComputeMatrices(matrices);
+    
     vector<float> boneData = m_chain->GetVertexData();
-    m_boneVertexCount = m_chain->GetVertexCount();
     
     // Generate bone vertex buffer
     glGenBuffers(1, &m_boneVertexBuffer);
@@ -123,7 +117,7 @@ void Renderer6::Render() const
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
     
-    glDrawArrays(GL_LINE_STRIP, 0, m_boneVertexCount);
+    glDrawArrays(GL_LINE_STRIP, 0, m_chain->GetVertexCount());
 }
 
 void Renderer6::OnFingerDown(ivec2 location)
@@ -141,19 +135,23 @@ void Renderer6::OnFingerUp(ivec2 location)
     m_rotator->End(location);
 }
 
-void Renderer6::ComputeMatrices(const Skeleton &skeleton, MatrixList &matrices)
+void Renderer6::ComputeMatrices(vector<mat4> &matrices)
 {
     mat4 orientation = m_rotator->GetOrientation().ToMatrix();
     mat4 translation = mat4::LookAt(Eye, Target, Up);
     mat4 modelview = orientation * translation;
     
     float offset = 0.0f;
-    IndexList::const_iterator lineIndex = skeleton.Indices.begin();
-    for (int boneIndex = 0; boneIndex < m_chain->GetBones()->size(); boneIndex++)
+    int bonesCount = m_chain->GetBones()->size();
+    matrices.resize(bonesCount);
+    
+    for (int boneIndex = 0; boneIndex < bonesCount; boneIndex++)
     {
         // Compute the length, orientation and midpoint of this bone
-        vec3 start = skeleton.Vertices[*lineIndex++].Position;
-        vec3 end = skeleton.Vertices[*lineIndex++].Position;
+        vec3 start;
+        vec3 end;
+        
+        m_chain->BoneCoordinateAtIndex(boneIndex, start, end);
         
         float length = (start - end).Length();
         vec3 orientation = (start - end) / length;
