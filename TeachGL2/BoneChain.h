@@ -23,6 +23,7 @@ public:
     vec3 GetStartPosition() const;
     
     void AddBone(const Bone &bone) const;
+    vector<Bone> * GetBones() const;
     
     vector<float> GetVertexData() const;
     unsigned int GetVertexCount() const;

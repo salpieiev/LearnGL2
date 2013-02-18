@@ -16,6 +16,7 @@ class Matrix3
 {
 public:
     Matrix3();
+    Matrix3(vec3 x, vec3 y, vec3 z);
     
     const T * Pointer() const;
     
@@ -45,6 +46,7 @@ public:
     Matrix3<T> ToMat3() const;
     
     static inline Matrix4<T> Translate(T x, T y, T z);
+    static inline Matrix4<T> Translate(const Vector3<T> &v);
     static inline Matrix4<T> Scale(T x, T y, T z);
     static inline Matrix4<T> RotateX(T degrees);
     static inline Matrix4<T> RotateY(T degrees);
@@ -63,6 +65,12 @@ public:
 
 template <typename T>
 Matrix3<T>::Matrix3()
+{
+    
+}
+
+template <typename T>
+Matrix3<T>::Matrix3(vec3 x, vec3 y, vec3 z): x(x), y(y), z(z)
 {
     
 }
@@ -188,6 +196,12 @@ inline Matrix4<T> Matrix4<T>::Translate(T x, T y, T z)
     m.z.x = 0.0f; m.z.y = 0.0f; m.z.z = 1.0f; m.z.w = 0.0f;
     m.w.x = x;    m.w.y = y;    m.w.z = z;    m.w.w = 1.0f;
     return m;
+}
+
+template <typename T>
+inline Matrix4<T> Matrix4<T>::Translate(const Vector3<T> &v)
+{
+    return Matrix4<T>::Translate(v.x, v.y, v.z);
 }
 
 template <typename T>

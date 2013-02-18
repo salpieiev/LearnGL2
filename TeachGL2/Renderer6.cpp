@@ -72,16 +72,16 @@ Renderer6::Renderer6(int width, int height): RenderingEngine(width, height)
     glEnableVertexAttribArray(m_attribPosition);
     
     // Create surface
-    BoneChain chain;
-    chain.AddBone(Bone(vec3(0.5f, 0.5f, 0.0f)));
-    chain.AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
-    chain.AddBone(Bone(vec3(0.0f, 0.0f, 0.5f)));
-    chain.AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
-    chain.AddBone(Bone(vec3(0.5f, -0.5f, -0.5f)));
-    chain.AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
+    m_chain = new BoneChain();
+    m_chain->AddBone(Bone(vec3(0.5f, 0.5f, 0.0f)));
+    m_chain->AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
+    m_chain->AddBone(Bone(vec3(0.0f, 0.0f, 0.5f)));
+    m_chain->AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
+    m_chain->AddBone(Bone(vec3(0.5f, -0.5f, -0.5f)));
+    m_chain->AddBone(Bone(vec3(0.5f, -0.5f, 0.0f)));
     
-    vector<float> boneData = chain.GetVertexData();
-    m_boneVertexCount = chain.GetVertexCount();
+    vector<float> boneData = m_chain->GetVertexData();
+    m_boneVertexCount = m_chain->GetVertexCount();
     
     // Generate bone vertex buffer
     glGenBuffers(1, &m_boneVertexBuffer);
@@ -104,6 +104,7 @@ Renderer6::~Renderer6()
 {
     delete m_rotator;
     delete m_surface;
+    delete m_chain;
 }
 
 void Renderer6::Render() const
@@ -140,15 +141,55 @@ void Renderer6::OnFingerUp(ivec2 location)
     m_rotator->End(location);
 }
 
-void Renderer6::ComputeMatrices(const Skeleton &skeleton, const MatrixList &matrices)
+void Renderer6::ComputeMatrices(const Skeleton &skeleton, MatrixList &matrices)
 {
     mat4 orientation = m_rotator->GetOrientation().ToMatrix();
     mat4 translation = mat4::LookAt(Eye, Target, Up);
     mat4 modelview = orientation * translation;
     
-    float x = 0.0f;
+    float offset = 0.0f;
     IndexList::const_iterator lineIndex = skeleton.Indices.begin();
-    
+    for (int boneIndex = 0; boneIndex < m_chain->GetBones()->size(); boneIndex++)
+    {
+        // Compute the length, orientation and midpoint of this bone
+        vec3 start = skeleton.Vertices[*lineIndex++].Position;
+        vec3 end = skeleton.Vertices[*lineIndex++].Position;
+        
+        float length = (start - end).Length();
+        vec3 orientation = (start - end) / length;
+        vec3 midpoint = (start + end) / 2.0f;
+        
+        // Find the endpoints of the unflexed bone, that sits at the origin
+        vec3 a(0.0f, 0.0f, 0.0f);
+        vec3 b(length, 0.0f, 0.0f);
+        
+        if (offset > 0.0f)
+        {
+            a.x += offset;
+            b.x += offset;
+        }
+        offset = b.x;
+        
+        // Compute the matrix that transforms the unflexed bone to its current state
+        vec3 A = orientation;
+        vec3 B = vec3(-A.y, A.x, 0.0f);
+        vec3 C = A.Cross(B);
+        
+        mat3 basis(A, B, C);
+        vec3 T = (a + b) / 2.0f;
+        mat4 rotation = mat4::Translate(-T) * mat4(basis);
+        mat4 translation = mat4::Translate(midpoint);
+        matrices[boneIndex] = rotation * translation * modelview;
+    }
 }
+
+
+
+
+
+
+
+
+
 
 

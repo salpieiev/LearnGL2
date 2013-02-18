@@ -38,6 +38,11 @@ void BoneChain::AddBone(const Bone &bone) const
     m_bones->push_back(bone);
 }
 
+vector<Bone> * BoneChain::GetBones() const
+{
+    return m_bones;
+}
+
 vector<float> BoneChain::GetVertexData() const
 {
     int vertexCount = m_bones->size() + 1;

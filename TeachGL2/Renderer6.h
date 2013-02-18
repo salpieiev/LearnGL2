@@ -13,6 +13,7 @@
 
 
 
+class BoneChain;
 struct Skeleton;
 typedef vector<mat4> MatrixList;
 
@@ -31,10 +32,11 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
-    void ComputeMatrices(const Skeleton &skeleton, const MatrixList &matrices);
+    void ComputeMatrices(const Skeleton &skeleton, MatrixList &matrices);
     
     Rotator *m_rotator;
     ParametricSurface *m_surface;
+    BoneChain *m_chain;
     
     GLuint m_program;
     GLint m_attribPosition;
