@@ -216,17 +216,14 @@ void Renderer6::DrawSkin() const
     
     for (int i = 0; i < m_matrices.size(); i++)
     {
+        mat4 targetMatrix = m_matrices[i];
+        
         mat4 orientation = m_rotator->GetOrientation().ToMatrix();
         mat4 translation1 = mat4::Translate(0, 0, -7);
         mat4 translation2 = mat4::Translate(0, 0, 7);
         
-        mat4 modelview = translation2 * m_matrices[i] * orientation * translation1;
+        mat4 modelview = translation2 * targetMatrix * orientation * translation1;
         mat3 normalMatrix = modelview.ToMat3();
-//
-//        mat4 orientation = m_rotator->GetOrientation().ToMatrix();
-//        mat4 translation = mat4::LookAt(Eye, Target, Up);
-//        mat4 modelview = orientation * translation;
-//        mat3 normalMatrix = modelview.ToMat3();
         
         glUniformMatrix4fv(m_uniformSkinModelview, 1, GL_FALSE, modelview.Pointer());
         glUniformMatrix4fv(m_uniformSkinNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
@@ -276,10 +273,6 @@ void Renderer6::ComputeMatrices(vector<mat4> &matrices)
         vec3 B = orientation;
         vec3 A = mat4::RotateZ(90).ToMat3() * orientation;
         vec3 C = A.Cross(B);
-        
-//        vec3 A = orientation;
-//        vec3 B = vec3(-A.y, A.x, A.z);
-//        vec3 C = A.Cross(B);
         
         mat3 basis(A, B, C);
         vec3 T = (a + b) / 2.0f;
