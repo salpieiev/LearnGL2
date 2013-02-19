@@ -218,7 +218,7 @@ void Renderer6::DrawSkin() const
     {
         mat4 orientation = m_rotator->GetOrientation().ToMatrix();
         
-        mat4 modelview = orientation * m_matrices[i];
+        mat4 modelview = m_matrices[i] * orientation;
         mat3 normalMatrix = modelview.ToMat3();
 //
 //        mat4 orientation = m_rotator->GetOrientation().ToMatrix();
@@ -261,7 +261,7 @@ void Renderer6::ComputeMatrices(vector<mat4> &matrices)
         
         // Find the endpoints of the unflexed bone, that sits at the origin
         vec3 a(0.0f, 0.0f, 0.0f);
-        vec3 b(length, 0.0f, 0.0f);
+        vec3 b(0.0f, length, 0.0f);
         
         if (offset > 0.0f)
         {
@@ -271,15 +271,20 @@ void Renderer6::ComputeMatrices(vector<mat4> &matrices)
         offset = b.x;
         
         // Compute the matrix that transforms the unflexed bone to its current state
-        vec3 A = orientation;
-        vec3 B = vec3(-A.y, A.x, 0.0f);
+        vec3 B = orientation;
+        vec3 A = mat4::RotateZ(90).ToMat3() * orientation;
         vec3 C = A.Cross(B);
+        
+//        vec3 A = orientation;
+//        vec3 B = vec3(-A.y, A.x, A.z);
+//        vec3 C = A.Cross(B);
         
         mat3 basis(A, B, C);
         vec3 T = (a + b) / 2.0f;
         mat4 rotation = mat4::Translate(-T) * mat4(basis);
         mat4 translation = mat4::Translate(midpoint);
-        matrices[boneIndex] = rotation * translation * modelview;
+        mat4 resultMatrix = rotation * translation * modelview;
+        matrices[boneIndex] = resultMatrix;
     }
 }
 
