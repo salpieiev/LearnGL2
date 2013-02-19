@@ -40,6 +40,7 @@ private:
     Rotator *m_rotator;
     ParametricSurface *m_skinCylinder;
     BoneChain *m_chain;
+    vector<mat4> m_matrices;
     
     GLuint m_boneProgram;
     GLuint m_skinProgram;

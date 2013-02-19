@@ -134,8 +134,7 @@ void Renderer6::GenerateBoneData()
     m_chain->AddBone(Bone(vec3(0.707f, -0.707f, -0.707f)));
     m_chain->AddBone(Bone(vec3(0.707f, -0.707f, 0.0f)));
     
-    vector<mat4> matrices;
-    ComputeMatrices(matrices);
+    ComputeMatrices(m_matrices);
     
     vector<float> boneData = m_chain->GetVertexData();
     
@@ -215,19 +214,27 @@ void Renderer6::DrawSkin() const
     glBindBuffer(GL_ARRAY_BUFFER, m_skinVertexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_skinIndexBuffer);
     
-    mat4 orientation = m_rotator->GetOrientation().ToMatrix();
-    mat4 translation = mat4::LookAt(Eye, Target, Up);
-    mat4 modelview = orientation * translation;
-    mat3 normalMatrix = modelview.ToMat3();
-    
-    glUniformMatrix4fv(m_uniformSkinModelview, 1, GL_FALSE, modelview.Pointer());
-    glUniformMatrix4fv(m_uniformSkinNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
-    glVertexAttrib4f(m_attribSkinSourceColor, 0.0f, 1.0f, 0.0f, 1.0f);
-    
-    glVertexAttribPointer(m_attribSkinPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-    
-    GLsizei indexCount = m_skinCylinder->GetLineIndexCount();
-    glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_SHORT, NULL);
+    for (int i = 0; i < m_matrices.size(); i++)
+    {
+        mat4 orientation = m_rotator->GetOrientation().ToMatrix();
+        
+        mat4 modelview = orientation * m_matrices[i];
+        mat3 normalMatrix = modelview.ToMat3();
+//
+//        mat4 orientation = m_rotator->GetOrientation().ToMatrix();
+//        mat4 translation = mat4::LookAt(Eye, Target, Up);
+//        mat4 modelview = orientation * translation;
+//        mat3 normalMatrix = modelview.ToMat3();
+        
+        glUniformMatrix4fv(m_uniformSkinModelview, 1, GL_FALSE, modelview.Pointer());
+        glUniformMatrix4fv(m_uniformSkinNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
+        glVertexAttrib4f(m_attribSkinSourceColor, 0.0f, 1.0f, 0.0f, 1.0f);
+        
+        glVertexAttribPointer(m_attribSkinPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+        
+        GLsizei indexCount = m_skinCylinder->GetLineIndexCount();
+        glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_SHORT, NULL);
+    }
 }
 
 void Renderer6::ComputeMatrices(vector<mat4> &matrices)
@@ -248,8 +255,8 @@ void Renderer6::ComputeMatrices(vector<mat4> &matrices)
         
         m_chain->BoneCoordinateAtIndex(boneIndex, start, end);
         
-        float length = (start - end).Length();
-        vec3 orientation = (start - end) / length;
+        float length = (end - start).Length();
+        vec3 orientation = (end - start) / length;
         vec3 midpoint = (start + end) / 2.0f;
         
         // Find the endpoints of the unflexed bone, that sits at the origin
