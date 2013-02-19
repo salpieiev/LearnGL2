@@ -27,28 +27,40 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
+    void PrepareBoneProgram();
+    void PrepareSkinProgram();
+    void GenerateBoneData();
+    void GenerateSkinData();
+    void SetupBoneUniforms();
+    void SetupSkinUniforms();
+    void DrawBones() const;
+    void DrawSkin() const;
     void ComputeMatrices(vector<mat4> &matrices);
     
     Rotator *m_rotator;
-    ParametricSurface *m_surface;
+    ParametricSurface *m_skinCylinder;
     BoneChain *m_chain;
     
-    GLuint m_program;
-    GLint m_attribPosition;
-    GLint m_attribSourceColor;
-    GLint m_attribNormal;
+    GLuint m_boneProgram;
+    GLuint m_skinProgram;
     
-    GLuint m_uniformProjection;
-    GLuint m_uniformModelview;
-    GLuint m_uniformNormalMatrix;
-    GLuint m_uniformLightPosition;
-    GLuint m_uniformAmbientLight;
-    GLuint m_uniformSpecularLight;
-    GLuint m_uniformShininess;
+    GLint m_attribBonePosition;
+    GLint m_attribBoneSourceColor;
+    GLint m_attribSkinPosition;
+    GLint m_attribSkinSourceColor;
+    GLint m_attribSkinNormal;
+    
+    GLuint m_uniformBoneProjection;
+    GLuint m_uniformBoneModelview;
+    GLuint m_uniformSkinProjection;
+    GLuint m_uniformSkinModelview;
+    GLuint m_uniformSkinNormalMatrix;
+    GLuint m_uniformSkinLightPosition;
+    GLuint m_uniformSkinAmbientLight;
+    GLuint m_uniformSkinSpecularLight;
+    GLuint m_uniformSkinShininess;
     
     GLuint m_boneVertexBuffer;
-    
-//    GLuint m_vertexBuffer;
-//    GLuint m_indexBuffer;
-//    GLuint m_indexCount;
+    GLuint m_skinVertexBuffer;
+    GLuint m_skinIndexBuffer;
 };

@@ -62,6 +62,8 @@
 		B408680416AE9C6600F6CD8D /* ParametricSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParametricSurface.h; sourceTree = "<group>"; };
 		B408681A16AEE60D00F6CD8D /* ProjectionShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ProjectionShader.vsh; sourceTree = "<group>"; };
 		B408681C16AEE62100F6CD8D /* ProjectionShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ProjectionShader.fsh; sourceTree = "<group>"; };
+		B40A2A8616D387FD000F4694 /* BoneShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BoneShader.fsh; sourceTree = "<group>"; };
+		B40A2A8716D387FD000F4694 /* BoneShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BoneShader.vsh; sourceTree = "<group>"; };
 		B40CB63616A1BE14002C52EC /* TeachGL2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeachGL2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CB63A16A1BE14002C52EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B40CB63C16A1BE14002C52EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -327,6 +329,8 @@
 				B4DB9A6016C82F8900E3B748 /* CubeMapShader.fsh */,
 				B4AFB9B516CA63A000EF25D9 /* SphereMapShader.vsh */,
 				B4AFB9B416CA63A000EF25D9 /* SphereMapShader.fsh */,
+				B40A2A8716D387FD000F4694 /* BoneShader.vsh */,
+				B40A2A8616D387FD000F4694 /* BoneShader.fsh */,
 				B4379D9E16CB9E0300C18643 /* VertexSkinningShader.vsh */,
 				B4379D9D16CB9E0300C18643 /* VertexSkinningShader.fsh */,
 			);

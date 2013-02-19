@@ -194,7 +194,7 @@ vec3 Cone::Evaluate(const vec2 &domain) const
 
 Cylinder::Cylinder(float height, float radius): m_height(height), m_radius(radius)
 {
-    ParametricInterval parametricInterval = { ivec2(80, 80), vec2(TwoPi, 1.0f), vec2(20, 20) };
+    ParametricInterval parametricInterval = { ivec2(20, 20), vec2(TwoPi, 1.0f), vec2(20, 20) };
     SetInterval(parametricInterval);
 }
 
@@ -204,7 +204,7 @@ vec3 Cylinder::Evaluate(const vec2 &domain) const
     float v = domain.y;
     
     float x = m_radius * cos(u);
-    float y = m_height * (v - 0.5f);
+    float y = m_height * v;
     float z = m_radius * -sin(u);
     
     vec3 range = vec3(x, y, z);
