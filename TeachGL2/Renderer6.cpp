@@ -217,8 +217,10 @@ void Renderer6::DrawSkin() const
     for (int i = 0; i < m_matrices.size(); i++)
     {
         mat4 orientation = m_rotator->GetOrientation().ToMatrix();
+        mat4 translation1 = mat4::Translate(0, 0, -7);
+        mat4 translation2 = mat4::Translate(0, 0, 7);
         
-        mat4 modelview = m_matrices[i] * orientation;
+        mat4 modelview = translation2 * m_matrices[i] * orientation * translation1;
         mat3 normalMatrix = modelview.ToMat3();
 //
 //        mat4 orientation = m_rotator->GetOrientation().ToMatrix();
