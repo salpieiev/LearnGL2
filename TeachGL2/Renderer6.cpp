@@ -129,9 +129,8 @@ void Renderer6::GenerateBoneData()
     m_chain = new BoneChain();
     m_chain->AddBone(Bone(vec3(0.707f, 0.707f, 0.0f)));
     m_chain->AddBone(Bone(vec3(0.707f, -0.707f, 0.0f)));
-    m_chain->AddBone(Bone(vec3(0.0f, 0.0f, 0.707f)));
-    m_chain->AddBone(Bone(vec3(0.707f, -0.707f, 0.0f)));
-    m_chain->AddBone(Bone(vec3(0.707f, -0.707f, -0.707f)));
+    m_chain->AddBone(Bone(vec3(-0.707f, -0.707f, 0.0f)));
+    m_chain->AddBone(Bone(vec3(1.0f, 0.0f, 0.0f)));
     m_chain->AddBone(Bone(vec3(0.707f, -0.707f, 0.0f)));
     
     ComputeMatrices(m_matrices);
