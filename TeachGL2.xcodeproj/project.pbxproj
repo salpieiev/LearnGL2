@@ -104,6 +104,8 @@
 		B43A2F7016C94AAF0028B546 /* cube_map_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube_map_bottom.png; sourceTree = "<group>"; };
 		B43A2F7116C94AAF0028B546 /* cube_map_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube_map_top.png; sourceTree = "<group>"; };
 		B43A2F7216C94AAF0028B546 /* cube_map_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube_map_left.png; sourceTree = "<group>"; };
+		B4904A0616D4D86F00FF4DAF /* SimpleVertexSkinningShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleVertexSkinningShader.fsh; sourceTree = "<group>"; };
+		B4904A0716D4D86F00FF4DAF /* SimpleVertexSkinningShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleVertexSkinningShader.vsh; sourceTree = "<group>"; };
 		B4A5308816BD9BAC002F8749 /* TGNativeGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGNativeGLViewController.h; sourceTree = "<group>"; };
 		B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TGNativeGLViewController.mm; sourceTree = "<group>"; };
 		B4A5308D16BD9C4C002F8749 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -331,6 +333,8 @@
 				B4AFB9B416CA63A000EF25D9 /* SphereMapShader.fsh */,
 				B40A2A8716D387FD000F4694 /* BoneShader.vsh */,
 				B40A2A8616D387FD000F4694 /* BoneShader.fsh */,
+				B4904A0716D4D86F00FF4DAF /* SimpleVertexSkinningShader.vsh */,
+				B4904A0616D4D86F00FF4DAF /* SimpleVertexSkinningShader.fsh */,
 				B4379D9E16CB9E0300C18643 /* VertexSkinningShader.vsh */,
 				B4379D9D16CB9E0300C18643 /* VertexSkinningShader.fsh */,
 			);

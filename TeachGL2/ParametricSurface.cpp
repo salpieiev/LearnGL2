@@ -7,6 +7,9 @@
 //
 
 #include "ParametricSurface.h"
+#include <iostream>
+
+using namespace std;
 
 
 
@@ -28,7 +31,7 @@ int ParametricSurface::GetTriangleIndexCount() const
     return triangleIndexCount;
 }
 
-void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char flags) const
+void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char flags, ivec2 boneIndices) const
 {
     int floatsPerVertex = 3;
     if (flags & VertexFlagsColors)
@@ -39,6 +42,8 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
         floatsPerVertex += 3;
     if (flags & VertexFlagsTexCoords)
         floatsPerVertex += 2;
+    if (flags & VertexFlagsBoneWeights)
+        floatsPerVertex += 4;
     
     vertices.resize(GetVertexCount() * floatsPerVertex);
     float *attribute = &vertices[0];
@@ -102,6 +107,29 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
                 float t = m_textureCount.y * j / m_slices.y;
                 vec2 texCoord = vec2(s, t);
                 attribute = texCoord.Write(attribute);
+            }
+            
+            // Compute bone weights
+            if (flags & VertexFlagsBoneWeights)
+            {
+                int midY = m_divisions.y / 2;
+                int index = (j < midY) ? j : j + 1;
+                
+                int weightIndex = midY - abs(midY - index);
+                int flexibleIndex = 0.33f * m_divisions.y;
+                
+                float weightValue = 1.0f;
+                if (weightIndex <= flexibleIndex && boneIndices.x != boneIndices.y) {
+                    weightValue = (float)weightIndex / flexibleIndex;
+                    
+                    // Clamp to [0.5; 1.0] range
+                    weightValue = weightValue / 2.0f + 0.5f;
+                }
+                
+                *attribute++ = weightValue;
+                *attribute++ = 1.0 - weightValue;
+                *attribute++ = boneIndices.x;
+                *attribute++ = boneIndices.y;
             }
         }
     }

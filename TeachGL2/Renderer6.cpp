@@ -9,8 +9,8 @@
 #include "Renderer6.h"
 #include "Shaders/BoneShader.vsh"
 #include "Shaders/BoneShader.fsh"
-#include "Shaders/VertexSkinningShader.vsh"
-#include "Shaders/VertexSkinningShader.fsh"
+#include "Shaders/SimpleVertexSkinningShader.vsh"
+#include "Shaders/SimpleVertexSkinningShader.fsh"
 
 
 
@@ -21,12 +21,8 @@ const vec3 Up(0, 1, 0);
 struct Vertex
 {
     vec3 Position;
-//    vec4 Color;
-//    vec3 Normal;
-//    vec2 BoneWeights;
-//    float Padding0;
-//    unsigned short boneIndices;
-//    unsigned short Padding1;
+    vec2 BoneWeights;
+    vec2 BoneIndices;
 };
 
 typedef vector<Vertex> VertexList;
@@ -100,8 +96,6 @@ void Renderer6::PrepareBoneProgram()
     
     m_uniformBoneProjection = glGetUniformLocation(m_boneProgram, "Projection");
     m_uniformBoneModelview = glGetUniformLocation(m_boneProgram, "Modelview");
-    
-    glEnableVertexAttribArray(m_attribBonePosition);
 }
 
 void Renderer6::PrepareSkinProgram()
@@ -111,16 +105,11 @@ void Renderer6::PrepareSkinProgram()
     
     m_attribSkinPosition = glGetAttribLocation(m_skinProgram, "a_position");
     m_attribSkinSourceColor = glGetAttribLocation(m_skinProgram, "a_color");
-    m_attribSkinNormal = glGetAttribLocation(m_skinProgram, "a_normal");
+    m_attribSkinBoneWeights = glGetAttribLocation(m_skinIndexBuffer, "a_boneWeights");
+    m_attribSkinBoneIndices = glGetAttribLocation(m_skinIndexBuffer, "a_boneIndices");
+    
     m_uniformSkinProjection = glGetUniformLocation(m_skinProgram, "u_projection");
     m_uniformSkinModelview = glGetUniformLocation(m_skinProgram, "u_modelview");
-    m_uniformSkinNormalMatrix = glGetUniformLocation(m_skinProgram, "u_normalMatrix");
-    m_uniformSkinLightPosition = glGetUniformLocation(m_skinProgram, "u_lightPosition");
-    m_uniformSkinAmbientLight = glGetUniformLocation(m_skinProgram, "u_ambientLight");
-    m_uniformSkinSpecularLight = glGetUniformLocation(m_skinProgram, "u_specularLight");
-    m_uniformSkinShininess = glGetUniformLocation(m_skinProgram, "u_shininess");
-    
-    glEnableVertexAttribArray(m_attribSkinPosition);
 }
 
 void Renderer6::GenerateBoneData()
@@ -147,19 +136,38 @@ void Renderer6::GenerateSkinData()
 {
     m_skinCylinder = new Cylinder(1.0f, 0.25f);
     
-    vector<float> vertices;
-    vector<GLushort> indices;
-    
-    m_skinCylinder->GenerateVertices(vertices);
-    m_skinCylinder->GenerateLineIndices(indices);
+    int bonesCount = m_chain->GetBones()->size();
+    for (int i = 0; i < bonesCount; i++)
+    {
+        vector<float> vertices;
+        vector<GLushort> indices;
+        
+        if (i == 0) {
+            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec2(0, 0));
+        } else if (i == bonesCount - 1) {
+            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec2(i, i));
+        } else {
+            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec2(i, i + 1));
+        }
+        
+        m_skinCylinder->GenerateLineIndices(indices);
+        
+        for (int j = 0; j < vertices.size(); j++) {
+            m_skinVertices.push_back(vertices[j]);
+        }
+        
+        for (int j = 0; j < indices.size(); j++) {
+            m_skinIndices.push_back(indices[j]);
+        }
+    }
     
     glGenBuffers(1, &m_skinVertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, m_skinVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_skinVertices.size(), &m_skinVertices[0], GL_STATIC_DRAW);
     
     glGenBuffers(1, &m_skinIndexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_skinIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * indices.size(), &indices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * m_skinIndices.size(), &m_skinIndices[0], GL_STATIC_DRAW);
 }
 
 void Renderer6::SetupBoneUniforms()
@@ -180,12 +188,6 @@ void Renderer6::SetupSkinUniforms()
     GLfloat h = 4 * m_surfaceSize.y / m_surfaceSize.x;
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformSkinProjection, 1, GL_FALSE, projection.Pointer());
-    
-    // Setup uniforms
-    glUniform3f(m_uniformSkinLightPosition, 0.25f, 0.25f, 1.0f);
-    glUniform3f(m_uniformSkinAmbientLight, 0.04f, 0.04f, 0.04f);
-    glUniform3f(m_uniformSkinSpecularLight, 0.5f, 0.5f, 0.5f);
-    glUniform1f(m_uniformSkinShininess, 50);
 }
 
 void Renderer6::DrawBones() const
@@ -201,9 +203,13 @@ void Renderer6::DrawBones() const
     glUniformMatrix4fv(m_uniformBoneModelview, 1, GL_FALSE, modelview.Pointer());
     glVertexAttrib4f(m_attribBoneSourceColor, 1.0f, 0.0f, 0.0f, 1.0f);
     
+    glEnableVertexAttribArray(m_attribBonePosition);
+    
     glVertexAttribPointer(m_attribBonePosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, NULL);
     
     glDrawArrays(GL_LINE_STRIP, 0, m_chain->GetVertexCount());
+    
+    glDisableVertexAttribArray(m_attribBonePosition);
 }
 
 void Renderer6::DrawSkin() const
@@ -212,6 +218,12 @@ void Renderer6::DrawSkin() const
     
     glBindBuffer(GL_ARRAY_BUFFER, m_skinVertexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_skinIndexBuffer);
+    
+    glEnableVertexAttribArray(m_attribSkinPosition);
+    glEnableVertexAttribArray(m_attribSkinBoneWeights);
+    glEnableVertexAttribArray(m_attribSkinBoneIndices);
+    
+    GLsizei offset = 0;
     
     for (int i = 0; i < m_matrices.size(); i++)
     {
@@ -222,17 +234,22 @@ void Renderer6::DrawSkin() const
         mat4 translation2 = mat4::Translate(0, 0, 7);
         
         mat4 modelview = translation2 * targetMatrix * orientation * translation1;
-        mat3 normalMatrix = modelview.ToMat3();
         
         glUniformMatrix4fv(m_uniformSkinModelview, 1, GL_FALSE, modelview.Pointer());
-        glUniformMatrix4fv(m_uniformSkinNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
         glVertexAttrib4f(m_attribSkinSourceColor, 0.0f, 1.0f, 0.0f, 1.0f);
         
         glVertexAttribPointer(m_attribSkinPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+        glVertexAttribPointer(m_attribSkinBoneWeights, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position)));
+        glVertexAttribPointer(m_attribSkinBoneIndices, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::BoneWeights)));
         
         GLsizei indexCount = m_skinCylinder->GetLineIndexCount();
-        glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_SHORT, NULL);
+        glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_SHORT, (GLvoid *)offset);
+        offset += indexCount;
     }
+    
+    glDisableVertexAttribArray(m_attribSkinPosition);
+    glDisableVertexAttribArray(m_attribSkinBoneWeights);
+    glDisableVertexAttribArray(m_attribSkinBoneIndices);
 }
 
 void Renderer6::ComputeMatrices(vector<mat4> &matrices)

@@ -39,6 +39,8 @@ private:
     
     Rotator *m_rotator;
     ParametricSurface *m_skinCylinder;
+    vector<float> m_skinVertices;
+    vector<GLushort> m_skinIndices;
     BoneChain *m_chain;
     vector<mat4> m_matrices;
     
@@ -49,17 +51,13 @@ private:
     GLint m_attribBoneSourceColor;
     GLint m_attribSkinPosition;
     GLint m_attribSkinSourceColor;
-    GLint m_attribSkinNormal;
+    GLint m_attribSkinBoneWeights;
+    GLint m_attribSkinBoneIndices;
     
     GLuint m_uniformBoneProjection;
     GLuint m_uniformBoneModelview;
     GLuint m_uniformSkinProjection;
     GLuint m_uniformSkinModelview;
-    GLuint m_uniformSkinNormalMatrix;
-    GLuint m_uniformSkinLightPosition;
-    GLuint m_uniformSkinAmbientLight;
-    GLuint m_uniformSkinSpecularLight;
-    GLuint m_uniformSkinShininess;
     
     GLuint m_boneVertexBuffer;
     GLuint m_skinVertexBuffer;
