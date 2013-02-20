@@ -21,6 +21,7 @@ const vec3 Up(0, 1, 0);
 struct Vertex
 {
     vec3 Position;
+    vec4 Color;
     vec2 BoneWeights;
     vec2 BoneIndices;
 };
@@ -220,6 +221,7 @@ void Renderer6::DrawSkin() const
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_skinIndexBuffer);
     
     glEnableVertexAttribArray(m_attribSkinPosition);
+    glEnableVertexAttribArray(m_attribSkinSourceColor);
     glEnableVertexAttribArray(m_attribSkinBoneWeights);
     glEnableVertexAttribArray(m_attribSkinBoneIndices);
     
@@ -236,11 +238,11 @@ void Renderer6::DrawSkin() const
         mat4 modelview = translation2 * targetMatrix * orientation * translation1;
         
         glUniformMatrix4fv(m_uniformSkinModelview, 1, GL_FALSE, modelview.Pointer());
-        glVertexAttrib4f(m_attribSkinSourceColor, 0.0f, 1.0f, 0.0f, 1.0f);
         
         glVertexAttribPointer(m_attribSkinPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-        glVertexAttribPointer(m_attribSkinBoneWeights, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position)));
-        glVertexAttribPointer(m_attribSkinBoneIndices, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::BoneWeights)));
+        glVertexAttribPointer(m_attribSkinSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position)));
+        glVertexAttribPointer(m_attribSkinBoneWeights, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
+        glVertexAttribPointer(m_attribSkinBoneIndices, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color) + sizeof(Vertex::BoneWeights)));
         
         GLsizei indexCount = m_skinCylinder->GetLineIndexCount();
         glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_SHORT, (GLvoid *)offset);
@@ -248,6 +250,7 @@ void Renderer6::DrawSkin() const
     }
     
     glDisableVertexAttribArray(m_attribSkinPosition);
+    glDisableVertexAttribArray(m_attribSkinSourceColor);
     glDisableVertexAttribArray(m_attribSkinBoneWeights);
     glDisableVertexAttribArray(m_attribSkinBoneIndices);
 }

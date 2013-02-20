@@ -43,7 +43,7 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
     if (flags & VertexFlagsTexCoords)
         floatsPerVertex += 2;
     if (flags & VertexFlagsBoneWeights)
-        floatsPerVertex += 4;
+        floatsPerVertex += 8;
     
     vertices.resize(GetVertexCount() * floatsPerVertex);
     float *attribute = &vertices[0];
@@ -115,6 +115,8 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
                 int midY = m_divisions.y / 2;
                 int index = (j < midY) ? j : j + 1;
                 
+                cout << j << endl;
+                
                 int weightIndex = midY - abs(midY - index);
                 int flexibleIndex = 0.33f * m_divisions.y;
                 
@@ -125,6 +127,14 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
                     // Clamp to [0.5; 1.0] range
                     weightValue = weightValue / 2.0f + 0.5f;
                 }
+                
+                vec4 color = vec4(0.0f, 1.0f, 0.0f, 1.0f);
+                if (j < 5 || j > 15) {
+//                    cout << j << "   " << i << "   " << weightValue << endl;
+                    color = vec4(0.0f, 0.0f, 1.0f, 1.0f);
+                }
+                
+                attribute = color.Write(attribute);
                 
                 *attribute++ = weightValue;
                 *attribute++ = 1.0 - weightValue;
