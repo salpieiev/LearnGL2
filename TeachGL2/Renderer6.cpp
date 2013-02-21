@@ -106,8 +106,8 @@ void Renderer6::PrepareSkinProgram()
     
     m_attribSkinPosition = glGetAttribLocation(m_skinProgram, "a_position");
     m_attribSkinSourceColor = glGetAttribLocation(m_skinProgram, "a_color");
-    m_attribSkinBoneWeights = glGetAttribLocation(m_skinIndexBuffer, "a_boneWeights");
-    m_attribSkinBoneIndices = glGetAttribLocation(m_skinIndexBuffer, "a_boneIndices");
+    m_attribSkinBoneWeights = glGetAttribLocation(m_skinProgram, "a_boneWeights");
+    m_attribSkinBoneIndices = glGetAttribLocation(m_skinProgram, "a_boneIndices");
     
     m_uniformSkinProjection = glGetUniformLocation(m_skinProgram, "u_projection");
     m_uniformSkinModelview = glGetUniformLocation(m_skinProgram, "u_modelview");
@@ -138,6 +138,7 @@ void Renderer6::GenerateSkinData()
     m_skinCylinder = new Cylinder(1.0f, 0.25f);
     
     int bonesCount = m_chain->GetBones()->size();
+    int offset = 0;
     for (int i = 0; i < bonesCount; i++)
     {
         vector<float> vertices;
@@ -158,8 +159,10 @@ void Renderer6::GenerateSkinData()
         }
         
         for (int j = 0; j < indices.size(); j++) {
-            m_skinIndices.push_back(indices[j]);
+            m_skinIndices.push_back(indices[j] + offset);
         }
+        
+        offset += m_skinCylinder->GetVertexCount();
     }
     
     glGenBuffers(1, &m_skinVertexBuffer);
@@ -225,8 +228,7 @@ void Renderer6::DrawSkin() const
     glEnableVertexAttribArray(m_attribSkinBoneWeights);
     glEnableVertexAttribArray(m_attribSkinBoneIndices);
     
-    GLsizei offset = 0;
-    
+    vector<mat4> rotatedMatices(m_matrices.size());
     for (int i = 0; i < m_matrices.size(); i++)
     {
         mat4 targetMatrix = m_matrices[i];
@@ -235,19 +237,18 @@ void Renderer6::DrawSkin() const
         mat4 translation1 = mat4::Translate(0, 0, -7);
         mat4 translation2 = mat4::Translate(0, 0, 7);
         
-        mat4 modelview = translation2 * targetMatrix * orientation * translation1;
-        
-        glUniformMatrix4fv(m_uniformSkinModelview, 1, GL_FALSE, modelview.Pointer());
-        
-        glVertexAttribPointer(m_attribSkinPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-        glVertexAttribPointer(m_attribSkinSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position)));
-        glVertexAttribPointer(m_attribSkinBoneWeights, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
-        glVertexAttribPointer(m_attribSkinBoneIndices, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color) + sizeof(Vertex::BoneWeights)));
-        
-        GLsizei indexCount = m_skinCylinder->GetLineIndexCount();
-        glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_SHORT, (GLvoid *)offset);
-        offset += indexCount;
+        rotatedMatices[i] = translation2 * targetMatrix * orientation * translation1;
     }
+    
+    glUniformMatrix4fv(m_uniformSkinModelview, rotatedMatices.size(), GL_FALSE, rotatedMatices[0].Pointer());
+    
+    glVertexAttribPointer(m_attribSkinPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+    glVertexAttribPointer(m_attribSkinSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position)));
+    glVertexAttribPointer(m_attribSkinBoneWeights, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
+    glVertexAttribPointer(m_attribSkinBoneIndices, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color) + sizeof(Vertex::BoneWeights)));
+    
+    GLsizei indexCount = m_skinCylinder->GetLineIndexCount() * m_matrices.size();
+    glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_SHORT, NULL);
     
     glDisableVertexAttribArray(m_attribSkinPosition);
     glDisableVertexAttribArray(m_attribSkinSourceColor);
