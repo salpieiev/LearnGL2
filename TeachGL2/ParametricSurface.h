@@ -28,7 +28,7 @@ public:
     int GetLineIndexCount() const;
     int GetTriangleIndexCount() const;
     
-    void GenerateVertices(vector<float> &vertices, unsigned char flags = 0, ivec2 boneIndices = ivec2(0, 0)) const;
+    void GenerateVertices(vector<float> &vertices, unsigned char flags = 0, ivec3 boneIndices = ivec3(0, 0, 0)) const;
     void GenerateLineIndices(vector<unsigned short> &indices) const;
     void GenerateTriangleIndices(vector<unsigned short> &indices) const;
     

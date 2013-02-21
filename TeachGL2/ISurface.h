@@ -34,7 +34,7 @@ public:
     virtual int GetLineIndexCount() const = 0;
     virtual int GetTriangleIndexCount() const = 0;
     
-    virtual void GenerateVertices(vector<float> &vertices, unsigned char flags = 0, ivec2 boneIndices = ivec2(0, 0)) const = 0;
+    virtual void GenerateVertices(vector<float> &vertices, unsigned char flags = 0, ivec3 boneIndices = ivec3(0, 0, 0)) const = 0;
     virtual void GenerateLineIndices(vector<unsigned short> &indices) const = 0;
     virtual void GenerateTriangleIndices(vector<unsigned short> &indices) const = 0;
 };

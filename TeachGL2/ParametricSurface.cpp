@@ -31,7 +31,7 @@ int ParametricSurface::GetTriangleIndexCount() const
     return triangleIndexCount;
 }
 
-void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char flags, ivec2 boneIndices) const
+void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char flags, ivec3 boneIndices) const
 {
     int floatsPerVertex = 3;
     if (flags & VertexFlagsColors)
@@ -114,16 +114,27 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
             {
                 int startFlexibleIndex = 0.33f * m_divisions.y;
                 int endFlexibleIndex = m_divisions.y - startFlexibleIndex;
+                ivec2 indices;
                 
                 float weightValue = 1.0f;
                 if (j < startFlexibleIndex)
                 {
                     weightValue = (float)j / (startFlexibleIndex - 1);
+                    
+                    indices.x = boneIndices.x;
+                    indices.y = boneIndices.y;
                 }
                 else if (j >= endFlexibleIndex)
                 {
                     int index = (m_divisions.y - 1) - j;
                     weightValue = (float)index / (startFlexibleIndex - 1);
+                    
+                    indices.x = boneIndices.y;
+                    indices.y = boneIndices.z;
+                } else {
+                    weightValue = 1.0f;
+                    indices.x = boneIndices.y;
+                    indices.y = boneIndices.y;
                 }
                 
                 // Clamp to [0.5; 1.0] range
@@ -134,9 +145,11 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
                 attribute = color.Write(attribute);
                 
                 *attribute++ = weightValue;
-                *attribute++ = 1.0 - weightValue;
-                *attribute++ = boneIndices.x;
-                *attribute++ = boneIndices.y;
+                *attribute++ = 1.0f - weightValue;
+                *attribute++ = indices.x;
+                *attribute++ = indices.y;
+                
+                cout << boneIndices.x << "   " << boneIndices.y << "   " << boneIndices.z << "     " << indices.x << "   " << indices.y << endl;
             }
         }
     }

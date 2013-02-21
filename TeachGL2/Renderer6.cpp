@@ -145,11 +145,11 @@ void Renderer6::GenerateSkinData()
         vector<GLushort> indices;
         
         if (i == 0) {
-            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec2(0, 0));
+            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec3(0, 0, 1));
         } else if (i == bonesCount - 1) {
-            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec2(i, i));
+            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec3(i - 1, i, i));
         } else {
-            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec2(i, i + 1));
+            m_skinCylinder->GenerateVertices(vertices, VertexFlagsBoneWeights, ivec3(i - 1, i, i + 1));
         }
         
         m_skinCylinder->GenerateLineIndices(indices);
