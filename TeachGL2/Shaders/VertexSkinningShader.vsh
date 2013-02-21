@@ -39,17 +39,14 @@ void do_skinning(in vec4 position, in vec3 normal, inout vec4 skinned_position, 
 
 void main()
 {
-    vec4 skinnedPosition = a_position;
-    vec3 skinnedNormal = a_normal;
-
-    /*vec4 skinnedPosition;
+    vec4 skinnedPosition;
     vec3 skinnedNormal;
     
-    do_skinning(a_position, a_normal, skinnedPosition, skinnedNormal);*/
+    do_skinning(a_position, a_normal, skinnedPosition, skinnedNormal);
     
     gl_Position = u_projection * u_modelview * skinnedPosition;
     
-    /*vec3 N = u_normalMatrix * skinnedNormal;
+    vec3 N = u_normalMatrix * skinnedNormal;
     vec3 L = u_normalMatrix * u_lightPosition;
     vec3 E = vec3(0, 0, 1);
     vec3 H = normalize(L + E);
@@ -59,7 +56,7 @@ void main()
     
     vec3 diffuseColor = vec3(a_color.x, a_color.y, a_color.z);
     vec3 color = u_ambientLight + df * diffuseColor + sf * u_specularLight;
-    v_color = vec4(color, 1);*/
+    v_color = vec4(color, 1);
     
     v_color = a_color;
 }
