@@ -112,9 +112,10 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
             // Compute bone weights
             if (flags & VertexFlagsBoneWeights)
             {
-                int startFlexibleIndex = 0.33f * m_divisions.y;
+                int startFlexibleIndex = 0.45f * m_divisions.y;
                 int endFlexibleIndex = m_divisions.y - startFlexibleIndex;
                 ivec2 indices;
+                bool invertValues = false;
                 
                 float weightValue = 1.0f;
                 if (j < startFlexibleIndex)
@@ -128,6 +129,7 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
                 {
                     int index = (m_divisions.y - 1) - j;
                     weightValue = (float)index / (startFlexibleIndex - 1);
+                    invertValues = true;
                     
                     indices.x = boneIndices.y;
                     indices.y = boneIndices.z;
@@ -144,12 +146,15 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
                 
                 attribute = color.Write(attribute);
                 
-                *attribute++ = weightValue;
-                *attribute++ = 1.0f - weightValue;
+                if (invertValues) {
+                    *attribute++ = weightValue;
+                    *attribute++ = 1.0f - weightValue;
+                } else {
+                    *attribute++ = 1.0f - weightValue;
+                    *attribute++ = weightValue;
+                }
                 *attribute++ = indices.x;
                 *attribute++ = indices.y;
-                
-                cout << boneIndices.x << "   " << boneIndices.y << "   " << boneIndices.z << "     " << indices.x << "   " << indices.y << endl;
             }
         }
     }
