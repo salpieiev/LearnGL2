@@ -15,3 +15,4 @@
 #include "Renderer4.h"
 #include "Renderer5.h"
 #include "Renderer6.h"
+#include "Renderer7.h"

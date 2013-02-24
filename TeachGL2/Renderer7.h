@@ -1,0 +1,28 @@
+//
+//  Renderer7.h
+//  TeachGL2
+//
+//  Created by Sergey Alpeev on 23.02.13.
+//  Copyright (c) 2013 Sergey Alpeev. All rights reserved.
+//
+
+#pragma once
+#include "RenderingEngine.h"
+
+
+
+class Renderer7: public RenderingEngine
+{
+public:
+    Renderer7(int width, int height);
+    ~Renderer7();
+    
+    void Render() const;
+    
+    void OnFingerDown(ivec2 location);
+    void OnFingerMove(ivec2 oldLocation, ivec2 newLocation);
+    void OnFingerUp(ivec2 location);
+    
+private:
+    
+};

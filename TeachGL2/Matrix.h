@@ -52,6 +52,7 @@ public:
     static inline Matrix4<T> RotateY(T degrees);
     static inline Matrix4<T> RotateZ(T degrees);
     static inline Matrix4<T> Frustum(T left, T right, T bottom, T top, T near, T far);
+    static inline Matrix4<T> Ortho(T left, T right, T bottom, T top, T near, T far);
     static inline Matrix4<T> LookAt(const vec3 &eye, const vec3 &target, const vec3 &up);
     
     vec4 x;
@@ -276,6 +277,12 @@ inline Matrix4<T> Matrix4<T>::Frustum(T left, T right, T bottom, T top, T near, 
     m.z.x = c; m.z.y = d; m.z.z = e; m.z.w = -1;
     m.w.x = 0; m.w.y = 0; m.w.z = f; m.w.w = 0;
     return m;
+}
+
+template <typename T>
+inline Matrix4<T> Matrix4<T>::Ortho(T left, T right, T bottom, T top, T near, T far)
+{
+    
 }
 
 template <typename T>
