@@ -282,7 +282,19 @@ inline Matrix4<T> Matrix4<T>::Frustum(T left, T right, T bottom, T top, T near, 
 template <typename T>
 inline Matrix4<T> Matrix4<T>::Ortho(T left, T right, T bottom, T top, T near, T far)
 {
+    T a = 2 / (right - left);
+    T b = -(right + left) / (right - left);
+    T c = 2 / (top - bottom);
+    T d = -(top + bottom) / (top - bottom);
+    T e = -2 / (far - near);
+    T f = -(far + near) / (far - near);
     
+    Matrix4<T> m;
+    m.x.x = a; m.x.y = 0; m.x.z = 0; m.x.w = 0;
+    m.y.x = 0; m.y.y = c; m.y.z = 0; m.y.w = 0;
+    m.z.x = 0; m.z.y = 0; m.z.z = e; m.z.w = 0;
+    m.w.x = b; m.w.y = d; m.w.z = f; m.w.w = 1;
+    return m;
 }
 
 template <typename T>

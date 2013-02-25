@@ -124,6 +124,8 @@
 		B4BA65F816CE883600B1C037 /* Bone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bone.h; sourceTree = "<group>"; };
 		B4BA65FA16CE8E4500B1C037 /* BoneChain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoneChain.cpp; sourceTree = "<group>"; };
 		B4BA65FB16CE8E4500B1C037 /* BoneChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneChain.h; sourceTree = "<group>"; };
+		B4C1CA6116DB8DD90048E4F2 /* MultitextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MultitextureShader.vsh; sourceTree = "<group>"; };
+		B4C1CA6316DB8DEC0048E4F2 /* MultitextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MultitextureShader.fsh; sourceTree = "<group>"; };
 		B4DB9A5D16C82F1500E3B748 /* Renderer4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer4.h; sourceTree = "<group>"; };
 		B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer4.cpp; sourceTree = "<group>"; };
 		B4DB9A6016C82F8900E3B748 /* CubeMapShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CubeMapShader.fsh; sourceTree = "<group>"; };
@@ -346,6 +348,8 @@
 				B4904A0616D4D86F00FF4DAF /* SimpleVertexSkinningShader.fsh */,
 				B4379D9E16CB9E0300C18643 /* VertexSkinningShader.vsh */,
 				B4379D9D16CB9E0300C18643 /* VertexSkinningShader.fsh */,
+				B4C1CA6116DB8DD90048E4F2 /* MultitextureShader.vsh */,
+				B4C1CA6316DB8DEC0048E4F2 /* MultitextureShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";

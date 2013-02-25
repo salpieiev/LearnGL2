@@ -24,5 +24,13 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
+    GLuint m_program;
     
+    GLuint m_backTexture;
+    
+    GLint m_attribPosition;
+    GLint m_attribTexCoord;
+    
+    GLuint m_uniformProjection;
+    GLuint m_uniformModelview;
 };
