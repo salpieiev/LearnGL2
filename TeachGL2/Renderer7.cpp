@@ -24,8 +24,12 @@ Renderer7::Renderer7(int width, int height): RenderingEngine(width, height)
     
     m_uniformProjection = glGetUniformLocation(m_program, "u_projection");
     m_uniformModelview = glGetUniformLocation(m_program, "u_modelview");
+    m_uniformBaseSampler = glGetUniformLocation(m_program, "u_baseSampler");
+    m_uniformLightSampler = glGetUniformLocation(m_program, "u_lightSampler");
     
     // Generate back texture
+    glActiveTexture(GL_TEXTURE0);
+    
     glGenTextures(1, &m_backTexture);
     glBindTexture(GL_TEXTURE_2D, m_backTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -35,6 +39,23 @@ Renderer7::Renderer7(int width, int height): RenderingEngine(width, height)
     
     glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
     glGenerateMipmap(GL_TEXTURE_2D);
+    
+    glUniform1i(m_uniformBaseSampler, 0);
+    
+    // Generate light texture
+    glActiveTexture(GL_TEXTURE1);
+    
+    glGenTextures(1, &m_lightTexture);
+    glBindTexture(GL_TEXTURE_2D, m_lightTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    SetPngPOTTexture("lightmap.png");
+    
+    glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    
+    glUniform1i(m_uniformLightSampler, 1);
 }
 
 Renderer7::~Renderer7()

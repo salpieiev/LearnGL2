@@ -27,10 +27,13 @@ private:
     GLuint m_program;
     
     GLuint m_backTexture;
+    GLuint m_lightTexture;
     
     GLint m_attribPosition;
     GLint m_attribTexCoord;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
+    GLuint m_uniformBaseSampler;
+    GLuint m_uniformLightSampler;
 };
