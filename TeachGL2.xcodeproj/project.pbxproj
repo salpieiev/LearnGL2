@@ -38,6 +38,7 @@
 		B43A2F7816C94AAF0028B546 /* cube_map_left.png in Resources */ = {isa = PBXBuildFile; fileRef = B43A2F7216C94AAF0028B546 /* cube_map_left.png */; };
 		B4A5308B16BD9BAD002F8749 /* TGNativeGLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */; };
 		B4A5308E16BD9C4C002F8749 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A5308D16BD9C4C002F8749 /* GLKit.framework */; };
+		B4A8470016DF9D7800E8F623 /* Renderer8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4A846FE16DF9D7800E8F623 /* Renderer8.cpp */; };
 		B4AFB9BA16CA65B800EF25D9 /* Renderer5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */; };
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
 		B4BA65F916CE883600B1C037 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65F716CE883600B1C037 /* Bone.cpp */; };
@@ -112,6 +113,10 @@
 		B4A5308816BD9BAC002F8749 /* TGNativeGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGNativeGLViewController.h; sourceTree = "<group>"; };
 		B4A5308916BD9BAC002F8749 /* TGNativeGLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TGNativeGLViewController.mm; sourceTree = "<group>"; };
 		B4A5308D16BD9C4C002F8749 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		B4A846FE16DF9D7800E8F623 /* Renderer8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer8.cpp; sourceTree = "<group>"; };
+		B4A846FF16DF9D7800E8F623 /* Renderer8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer8.h; sourceTree = "<group>"; };
+		B4ABC82316DFAB1800C05AD0 /* FogShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = FogShader.vsh; sourceTree = "<group>"; };
+		B4ABC82516DFAB2700C05AD0 /* FogShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = FogShader.fsh; sourceTree = "<group>"; };
 		B4AFB9B416CA63A000EF25D9 /* SphereMapShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SphereMapShader.fsh; sourceTree = "<group>"; };
 		B4AFB9B516CA63A000EF25D9 /* SphereMapShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SphereMapShader.vsh; sourceTree = "<group>"; };
 		B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer5.cpp; sourceTree = "<group>"; };
@@ -319,6 +324,8 @@
 				B4379D9B16CB9D9F00C18643 /* Renderer6.h */,
 				B4ECDB1916D94315003117EA /* Renderer7.cpp */,
 				B4ECDB1A16D94315003117EA /* Renderer7.h */,
+				B4A846FE16DF9D7800E8F623 /* Renderer8.cpp */,
+				B4A846FF16DF9D7800E8F623 /* Renderer8.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -350,6 +357,8 @@
 				B4379D9D16CB9E0300C18643 /* VertexSkinningShader.fsh */,
 				B4C1CA6116DB8DD90048E4F2 /* MultitextureShader.vsh */,
 				B4C1CA6316DB8DEC0048E4F2 /* MultitextureShader.fsh */,
+				B4ABC82316DFAB1800C05AD0 /* FogShader.vsh */,
+				B4ABC82516DFAB2700C05AD0 /* FogShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -507,6 +516,7 @@
 				B4BA65F916CE883600B1C037 /* Bone.cpp in Sources */,
 				B4BA65FC16CE8E4500B1C037 /* BoneChain.cpp in Sources */,
 				B4ECDB1B16D94315003117EA /* Renderer7.cpp in Sources */,
+				B4A8470016DF9D7800E8F623 /* Renderer8.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
