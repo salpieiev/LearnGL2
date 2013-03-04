@@ -30,7 +30,10 @@ Renderer8::Renderer8(int width, int height): RenderingEngine(width, height)
     
     ApplyFrustum();
     
+    SetupUniforms();
+    
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
 }
 
 Renderer8::~Renderer8()
@@ -44,19 +47,17 @@ void Renderer8::Render() const
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     mat4 modelview;
-    modelview = modelview.Translate(0.0f, 0.0f, -7.0f);
-    glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
     
-//    for (float x = -2.0f; x <= 2.0f; x++) {
-//        for (float y = -3.0f; y <= 3.0f; y++) {
-//            for (float z = -3.0f; z <= 3.0f; z++) {
-//                modelview = modelview.Translate(x, y, z);
-//                glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
+    for (float x = -2.0f; x <= -1.0f; x++) {
+        for (float y = -3.0f; y <= 3.0f; y++) {
+            for (float z = -3.0f; z <= 3.0f; z++) {
+                modelview = modelview.Translate(x, y, -7 + z);
+                glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
                 
                 DrawCube();
-//            }
-//        }
-//    }
+            }
+        }
+    }
 }
 
 void Renderer8::OnFingerDown(ivec2 location)
@@ -84,6 +85,10 @@ void Renderer8::BuildFogProgram()
     
     m_uniformProjection = glGetUniformLocation(m_fogProgram, "u_projection");
     m_uniformModelview = glGetUniformLocation(m_fogProgram, "u_modelview");
+    m_uniformEyePosition = glGetUniformLocation(m_fogProgram, "u_eyePosition");
+    m_uniformFogColor = glGetUniformLocation(m_fogProgram, "u_fogColor");
+    m_uniformFogMaxDist = glGetUniformLocation(m_fogProgram, "u_fogMaxDist");
+    m_uniformFogMinDist = glGetUniformLocation(m_fogProgram, "u_fogMinDist");
 }
 
 void Renderer8::GenerateCubeData()
@@ -148,5 +153,13 @@ void Renderer8::ApplyFrustum() const
     
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
+}
+
+void Renderer8::SetupUniforms() const
+{
+    glUniform4f(m_uniformEyePosition, 0.0f, 0.0f, 0.0f, 1.0f);
+    glUniform4f(m_uniformFogColor, 0.2f, 0.2f, 0.2f, 1.0f);
+    glUniform1f(m_uniformFogMinDist, 4.0f);
+    glUniform1f(m_uniformFogMaxDist, 10.0f);
 }
 
