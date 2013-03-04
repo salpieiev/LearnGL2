@@ -50,7 +50,7 @@ void Renderer8::Render() const
     
     for (float x = -2.0f; x <= -1.0f; x++) {
         for (float y = -3.0f; y <= 3.0f; y++) {
-            for (float z = -3.0f; z <= 3.0f; z++) {
+            for (float z = -3.0f; z <= 2.0f; z++) {
                 modelview = modelview.Translate(x, y, -7 + z);
                 glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
                 
