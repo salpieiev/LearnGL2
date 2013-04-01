@@ -41,6 +41,7 @@ private:
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
     GLuint m_uniformEyePosition;
+    GLuint m_uniformClipPlane;
     GLuint m_uniformFogColor;
     GLuint m_uniformFogMaxDist;
     GLuint m_uniformFogMinDist;

@@ -48,7 +48,7 @@ void Renderer8::Render() const
     
     mat4 modelview;
     
-    for (float x = -2.0f; x <= -1.0f; x++) {
+    for (float x = -2.0f; x <= 2.0f; x++) {
         for (float y = -3.0f; y <= 3.0f; y++) {
             for (float z = -3.0f; z <= 2.0f; z++) {
                 modelview = modelview.Translate(x, y, -7 + z);
@@ -86,6 +86,7 @@ void Renderer8::BuildFogProgram()
     m_uniformProjection = glGetUniformLocation(m_fogProgram, "u_projection");
     m_uniformModelview = glGetUniformLocation(m_fogProgram, "u_modelview");
     m_uniformEyePosition = glGetUniformLocation(m_fogProgram, "u_eyePosition");
+    m_uniformClipPlane = glGetUniformLocation(m_fogProgram, "u_clipPlane");
     m_uniformFogColor = glGetUniformLocation(m_fogProgram, "u_fogColor");
     m_uniformFogMaxDist = glGetUniformLocation(m_fogProgram, "u_fogMaxDist");
     m_uniformFogMinDist = glGetUniformLocation(m_fogProgram, "u_fogMinDist");
@@ -158,8 +159,10 @@ void Renderer8::ApplyFrustum() const
 void Renderer8::SetupUniforms() const
 {
     glUniform4f(m_uniformEyePosition, 0.0f, 0.0f, 0.0f, 1.0f);
+    glUniform4f(m_uniformClipPlane, -1.0f, -1.0f, -1.0f, 0.5f);
     glUniform4f(m_uniformFogColor, 0.2f, 0.2f, 0.2f, 1.0f);
     glUniform1f(m_uniformFogMinDist, 4.0f);
     glUniform1f(m_uniformFogMaxDist, 10.0f);
 }
+
 
