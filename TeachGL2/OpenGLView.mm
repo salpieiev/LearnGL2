@@ -19,7 +19,7 @@
     GLuint sampleFramebuffer;
     GLuint colorRenderbuffer;
     GLuint sampleColorRenderbuffer;
-    GLuint sampleDepthRenderbuffer;
+    GLuint sampleDepthStencilRenderbuffer;
 }
 
 - (void)drawView:(CADisplayLink *)displayLink;
@@ -72,12 +72,13 @@
         glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, 4, GL_RGBA8_OES, width, height);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, sampleColorRenderbuffer);
         
-        glGenRenderbuffers(1, &sampleDepthRenderbuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthRenderbuffer);
-        glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT24_OES, width, height);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, sampleDepthRenderbuffer);
+        glGenRenderbuffers(1, &sampleDepthStencilRenderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthStencilRenderbuffer);
+        glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8_OES, width, height);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, sampleDepthStencilRenderbuffer);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, sampleDepthStencilRenderbuffer);
         
-        renderer = new Renderer8(width, height);
+        renderer = new Renderer9(width, height);
         
         CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
         [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -96,7 +97,7 @@
 {
     glBindFramebuffer(GL_FRAMEBUFFER, sampleFramebuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, sampleColorRenderbuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthRenderbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, sampleDepthStencilRenderbuffer);
     
     renderer->Render();
     
