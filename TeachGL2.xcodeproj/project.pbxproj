@@ -111,6 +111,8 @@
 		B43A2F7216C94AAF0028B546 /* cube_map_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube_map_left.png; sourceTree = "<group>"; };
 		B48DF36E170DA69400F89927 /* Renderer9.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer9.cpp; sourceTree = "<group>"; };
 		B48DF36F170DA69400F89927 /* Renderer9.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer9.h; sourceTree = "<group>"; };
+		B48DF371170DA9E700F89927 /* StencilShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StencilShader.vsh; sourceTree = "<group>"; };
+		B48DF373170DA9F100F89927 /* StencilShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StencilShader.fsh; sourceTree = "<group>"; };
 		B4904A0616D4D86F00FF4DAF /* SimpleVertexSkinningShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleVertexSkinningShader.fsh; sourceTree = "<group>"; };
 		B4904A0716D4D86F00FF4DAF /* SimpleVertexSkinningShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SimpleVertexSkinningShader.vsh; sourceTree = "<group>"; };
 		B4A5308816BD9BAC002F8749 /* TGNativeGLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGNativeGLViewController.h; sourceTree = "<group>"; };
@@ -364,6 +366,8 @@
 				B4C1CA6316DB8DEC0048E4F2 /* MultitextureShader.fsh */,
 				B4ABC82316DFAB1800C05AD0 /* FogShader.vsh */,
 				B4ABC82516DFAB2700C05AD0 /* FogShader.fsh */,
+				B48DF371170DA9E700F89927 /* StencilShader.vsh */,
+				B48DF373170DA9F100F89927 /* StencilShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";

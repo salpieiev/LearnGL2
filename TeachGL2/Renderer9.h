@@ -8,6 +8,8 @@
 
 #pragma once
 #include "RenderingEngine.h"
+#include "ParametricSurface.h"
+#include "Rotator.h"
 
 
 
@@ -23,5 +25,27 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
+    void PrepareProgram();
+    void GenerateBuffers();
+    void SetupProjection() const;
+    void DrawSphere() const;
     
+    Rotator *m_rotator;
+    
+    GLuint m_stencilProgram;
+    
+    ParametricSurface *m_surface0;
+    ParametricSurface *m_surface1;
+    
+    GLuint m_surface0VertexBuffer;
+    GLuint m_surface1VertexBuffer;
+    GLuint m_surface0IndexBuffer;
+    GLuint m_surface1IndexBuffer;
+    GLuint m_surface0IndexCount;
+    
+    GLint m_attribPosition;
+    GLint m_attribColor;
+    
+    GLuint m_uniformProjection;
+    GLuint m_uniformModelview;
 };
