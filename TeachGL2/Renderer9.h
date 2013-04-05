@@ -28,7 +28,8 @@ private:
     void PrepareProgram();
     void GenerateBuffers();
     void SetupUniforms() const;
-    void DrawSphere() const;
+    void DrawSurface0() const;
+    void DrawSurface1() const;
     
     Rotator *m_rotator;
     
@@ -42,6 +43,7 @@ private:
     GLuint m_surface0IndexBuffer;
     GLuint m_surface1IndexBuffer;
     GLuint m_surface0IndexCount;
+    GLuint m_surface1IndexCount;
     
     GLint m_attribPosition;
     GLint m_attribColor;
