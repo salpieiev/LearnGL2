@@ -16,6 +16,7 @@ struct Vertex
 {
     vec3 Position;
     vec4 Color;
+    vec3 Normal;
 };
 
 
@@ -23,13 +24,14 @@ struct Vertex
 Renderer9::Renderer9(int width, int height): RenderingEngine(width, height)
 {
     glViewport(0, 0, width, height);
+    glEnable(GL_DEPTH_TEST);
     
     m_rotator = new Rotator(m_surfaceSize);
     m_surface0 = new Sphere(2.0f);
     
     PrepareProgram();
     GenerateBuffers();
-    SetupProjection();
+    SetupUniforms();
 }
 
 Renderer9::~Renderer9()
@@ -69,17 +71,21 @@ void Renderer9::PrepareProgram()
     
     m_attribPosition = glGetAttribLocation(m_stencilProgram, "a_position");
     m_attribColor = glGetAttribLocation(m_stencilProgram, "a_color");
+    m_attribNormal = glGetAttribLocation(m_stencilProgram, "a_normal");
     m_uniformProjection = glGetUniformLocation(m_stencilProgram, "u_projection");
     m_uniformModelview = glGetUniformLocation(m_stencilProgram, "u_modelview");
+    m_uniformLightPosition = glGetUniformLocation(m_stencilProgram, "u_lightPosition");
+    m_uniformNormalMatrix = glGetUniformLocation(m_stencilProgram, "u_normalMatrix");
+    m_uniformAmbientLight = glGetUniformLocation(m_stencilProgram, "u_ambientLight");
 }
 
 void Renderer9::GenerateBuffers()
 {
     vector<GLfloat> vertices;
-    m_surface0->GenerateVertices(vertices, VertexFlagsColors);
+    m_surface0->GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals);
     
     vector<GLushort> indices;
-    m_surface0->GenerateLineIndices(indices);
+    m_surface0->GenerateTriangleIndices(indices);
     m_surface0IndexCount = indices.size();
     
     glGenBuffers(1, &m_surface0VertexBuffer);
@@ -91,11 +97,14 @@ void Renderer9::GenerateBuffers()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), &indices[0], GL_STATIC_DRAW);
 }
 
-void Renderer9::SetupProjection() const
+void Renderer9::SetupUniforms() const
 {
     float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
+    
+    glUniform3f(m_uniformLightPosition, 3.0f, 3.0f, 10.0f);
+    glUniform3f(m_uniformAmbientLight, 0.0f, 0.0f, 0.0f);
 }
 
 void Renderer9::DrawSphere() const
@@ -106,16 +115,21 @@ void Renderer9::DrawSphere() const
     modelview = orientation * modelview.Translate(0.0f, 0.0f, -7.0f);
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
     
+    glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, modelview.ToMat3().Pointer());
+    
     glEnableVertexAttribArray(m_attribPosition);
     glEnableVertexAttribArray(m_attribColor);
+    glEnableVertexAttribArray(m_attribNormal);
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
     glVertexAttribPointer(m_attribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
+    glVertexAttribPointer(m_attribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
     
-    glDrawElements(GL_LINES, m_surface0IndexCount, GL_UNSIGNED_SHORT, NULL);
+    glDrawElements(GL_TRIANGLES, m_surface0IndexCount, GL_UNSIGNED_SHORT, NULL);
     
     glDisableVertexAttribArray(m_attribPosition);
     glDisableVertexAttribArray(m_attribColor);
+    glDisableVertexAttribArray(m_attribNormal);
 }
 
 

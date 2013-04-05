@@ -27,7 +27,7 @@ public:
 private:
     void PrepareProgram();
     void GenerateBuffers();
-    void SetupProjection() const;
+    void SetupUniforms() const;
     void DrawSphere() const;
     
     Rotator *m_rotator;
@@ -45,7 +45,11 @@ private:
     
     GLint m_attribPosition;
     GLint m_attribColor;
+    GLint m_attribNormal;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
+    GLuint m_uniformNormalMatrix;
+    GLuint m_uniformLightPosition;
+    GLuint m_uniformAmbientLight;
 };
