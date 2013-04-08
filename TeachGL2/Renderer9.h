@@ -54,4 +54,5 @@ private:
     GLuint m_uniformNormalMatrix;
     GLuint m_uniformLightPosition;
     GLuint m_uniformAmbientLight;
+    
 };

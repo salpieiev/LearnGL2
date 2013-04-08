@@ -36,7 +36,7 @@
         CGFloat width = screenSize.width * scale;
         CGFloat height = screenSize.height * scale;
         
-        renderer = new Renderer1(width, height);
+        renderer = new Renderer9(width, height);
     }
     return self;
 }
@@ -52,6 +52,7 @@
                                               context:self.context];
     glkView.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     glkView.drawableMultisample = GLKViewDrawableMultisample4X;
+    glkView.drawableStencilFormat = GLKViewDrawableStencilFormat8;
     self.view = glkView;
 }
 

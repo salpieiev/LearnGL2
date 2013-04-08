@@ -25,6 +25,7 @@ Renderer9::Renderer9(int width, int height): RenderingEngine(width, height)
 {
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_STENCIL_TEST);
     
     m_rotator = new Rotator(m_surfaceSize);
     m_surface0 = new Sphere(2.0f);
@@ -44,10 +45,21 @@ Renderer9::~Renderer9()
 
 void Renderer9::Render() const
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    glClearStencil(0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     
     DrawSurface0();
+    
+    glStencilFunc(GL_ALWAYS, 100, 255);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    
+    DrawSurface1();
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glStencilFunc(GL_EQUAL, 100, 255);
+    
     DrawSurface1();
 }
 
