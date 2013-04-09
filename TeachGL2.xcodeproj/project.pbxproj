@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A30416AD9048001F8045 /* RenderingEngine.cpp */; };
 		B404A31216AD9487001F8045 /* Renderer1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A31016AD9487001F8045 /* Renderer1.cpp */; };
+		B4071A9F1714564600C7317C /* Renderer10.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4071A9D1714564600C7317C /* Renderer10.cpp */; };
 		B408680516AE9C6600F6CD8D /* ParametricSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B408680316AE9C6600F6CD8D /* ParametricSurface.cpp */; };
 		B40CB63B16A1BE14002C52EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63A16A1BE14002C52EC /* UIKit.framework */; };
 		B40CB63D16A1BE14002C52EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB63C16A1BE14002C52EC /* Foundation.framework */; };
@@ -62,6 +63,10 @@
 		B404A31116AD9487001F8045 /* Renderer1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer1.h; sourceTree = "<group>"; };
 		B404A31316AD95E6001F8045 /* Renderers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Renderers.h; sourceTree = "<group>"; };
 		B404A32016ADA8B8001F8045 /* Quaternion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
+		B4071A9D1714564600C7317C /* Renderer10.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer10.cpp; sourceTree = "<group>"; };
+		B4071A9E1714564600C7317C /* Renderer10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer10.h; sourceTree = "<group>"; };
+		B4071AA01714634800C7317C /* BlendingShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BlendingShader.vsh; sourceTree = "<group>"; };
+		B4071AA21714635400C7317C /* BlendingShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BlendingShader.fsh; sourceTree = "<group>"; };
 		B408680216AE9ABE00F6CD8D /* ISurface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISurface.h; sourceTree = "<group>"; };
 		B408680316AE9C6600F6CD8D /* ParametricSurface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParametricSurface.cpp; sourceTree = "<group>"; };
 		B408680416AE9C6600F6CD8D /* ParametricSurface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParametricSurface.h; sourceTree = "<group>"; };
@@ -333,6 +338,8 @@
 				B4A846FF16DF9D7800E8F623 /* Renderer8.h */,
 				B48DF36E170DA69400F89927 /* Renderer9.cpp */,
 				B48DF36F170DA69400F89927 /* Renderer9.h */,
+				B4071A9D1714564600C7317C /* Renderer10.cpp */,
+				B4071A9E1714564600C7317C /* Renderer10.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -368,6 +375,8 @@
 				B4ABC82516DFAB2700C05AD0 /* FogShader.fsh */,
 				B48DF371170DA9E700F89927 /* StencilShader.vsh */,
 				B48DF373170DA9F100F89927 /* StencilShader.fsh */,
+				B4071AA01714634800C7317C /* BlendingShader.vsh */,
+				B4071AA21714635400C7317C /* BlendingShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -527,6 +536,7 @@
 				B4ECDB1B16D94315003117EA /* Renderer7.cpp in Sources */,
 				B4A8470016DF9D7800E8F623 /* Renderer8.cpp in Sources */,
 				B48DF370170DA69400F89927 /* Renderer9.cpp in Sources */,
+				B4071A9F1714564600C7317C /* Renderer10.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
