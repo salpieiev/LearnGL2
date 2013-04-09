@@ -34,9 +34,13 @@ void Renderer10::Render() const
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    mat4 modelview;
+    // Configure blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     // Red Quad
+    mat4 modelview;
+    
     glVertexAttrib4f(m_attribColor, 1.0f, 0.0f, 0.0f, 1.0f);
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
     DrawQuad();
@@ -44,7 +48,7 @@ void Renderer10::Render() const
     // Green Quad
     modelview = modelview.Translate(-0.5f, -0.5f, 0.0f);
     
-    glVertexAttrib4f(m_attribColor, 0.0f, 1.0f, 0.0f, 1.0f);
+    glVertexAttrib4f(m_attribColor, 0.0f, 1.0f, 0.0f, 0.5f);
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
     DrawQuad();
 }
