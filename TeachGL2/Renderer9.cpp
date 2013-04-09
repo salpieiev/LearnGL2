@@ -49,17 +49,13 @@ void Renderer9::Render() const
     glClearStencil(0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     
+    glStencilFunc(GL_NEVER, 100, 255);
+    glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
     DrawSurface0();
-    
-    glStencilFunc(GL_ALWAYS, 100, 255);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-    
-    DrawSurface1();
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glStencilFunc(GL_EQUAL, 100, 255);
-    
+    glStencilFunc(GL_NOTEQUAL, 0, 255);
     DrawSurface1();
 }
 
