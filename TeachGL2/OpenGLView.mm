@@ -22,7 +22,7 @@
     GLuint sampleDepthStencilRenderbuffer;
 }
 
-@property (assign, nonatomic) BOOL a;
+@property (assign, nonatomic) BOOL createSnapshot;
 - (void)drawView:(CADisplayLink *)displayLink;
 
 @end
@@ -115,8 +115,8 @@
     
     glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
     
-    if (self.a) {
-        self.a = NO;
+    if (self.createSnapshot) {
+        self.createSnapshot = NO;
         
         UIImage *image = [self snapshot:self];
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
@@ -158,7 +158,7 @@
     ivec2 location = ivec2(touchLocation.x * scale, touchLocation.y * scale);
     renderer->OnFingerUp(location);
     
-    self.a = YES;
+    self.createSnapshot = YES;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
