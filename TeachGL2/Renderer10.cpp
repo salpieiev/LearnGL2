@@ -55,7 +55,57 @@ void Renderer10::Render() const
 
 void Renderer10::OnFingerDown(ivec2 location)
 {
+    GLint readType = 0;
+    GLint readFormat = 0;
     
+    glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE, &readType);
+    glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT, &readFormat);
+    
+    GLuint bytesPerPixel = 0;
+    
+    switch (readType)
+    {
+        case GL_UNSIGNED_BYTE:
+        {
+            switch (readFormat)
+            {
+                case GL_BGRA:
+                case GL_RGBA:
+                {
+                    bytesPerPixel = 4;
+                    break;
+                }
+                case GL_RGB:
+                {
+                    bytesPerPixel = 3;
+                    break;
+                }
+                case GL_LUMINANCE_ALPHA:
+                {
+                    bytesPerPixel = 2;
+                    break;
+                }
+                case GL_ALPHA:
+                case GL_LUMINANCE:
+                {
+                    bytesPerPixel = 1;
+                    break;
+                }
+            }
+            break;
+        }
+        case GL_UNSIGNED_SHORT_4_4_4_4:
+        case GL_UNSIGNED_SHORT_5_5_5_1:
+        case GL_UNSIGNED_SHORT_5_6_5:
+        {
+            bytesPerPixel = 2;
+            break;
+        }
+    }
+    
+    GLubyte *pixels = (GLubyte *)malloc(m_surfaceSize.x * m_surfaceSize.y * bytesPerPixel);
+    
+    glReadPixels(0, 0, m_surfaceSize.x, m_surfaceSize.y, readFormat, readType, pixels);
 }
 
 void Renderer10::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
