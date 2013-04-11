@@ -74,14 +74,14 @@
 		B408681C16AEE62100F6CD8D /* ProjectionShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ProjectionShader.fsh; sourceTree = "<group>"; };
 		B40A2A8616D387FD000F4694 /* BoneShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BoneShader.fsh; sourceTree = "<group>"; };
 		B40A2A8716D387FD000F4694 /* BoneShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BoneShader.vsh; sourceTree = "<group>"; };
-		B40CB63616A1BE14002C52EC /* LearnGL2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnGL2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B40CB63616A1BE14002C52EC /* TeachGL2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeachGL2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CB63A16A1BE14002C52EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B40CB63C16A1BE14002C52EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B40CB63E16A1BE14002C52EC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		B40CB64216A1BE14002C52EC /* LearnGL2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LearnGL2-Info.plist"; sourceTree = "<group>"; };
+		B40CB64216A1BE14002C52EC /* TeachGL2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TeachGL2-Info.plist"; sourceTree = "<group>"; };
 		B40CB64416A1BE14002C52EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B40CB64616A1BE14002C52EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B40CB64816A1BE14002C52EC /* LearnGL2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LearnGL2-Prefix.pch"; sourceTree = "<group>"; };
+		B40CB64816A1BE14002C52EC /* TeachGL2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TeachGL2-Prefix.pch"; sourceTree = "<group>"; };
 		B40CB64916A1BE14002C52EC /* TGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TGAppDelegate.h; sourceTree = "<group>"; };
 		B40CB64A16A1BE14002C52EC /* TGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TGAppDelegate.m; sourceTree = "<group>"; };
 		B40CB64C16A1BE14002C52EC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -197,7 +197,7 @@
 		B40CB62B16A1BE14002C52EC = {
 			isa = PBXGroup;
 			children = (
-				B40CB64016A1BE14002C52EC /* LearnGL2 */,
+				B40CB64016A1BE14002C52EC /* TeachGL2 */,
 				B4F7F82216AB40DA006F0C90 /* Resources */,
 				B40CB63916A1BE14002C52EC /* Frameworks */,
 				B40CB63716A1BE14002C52EC /* Products */,
@@ -207,7 +207,7 @@
 		B40CB63716A1BE14002C52EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B40CB63616A1BE14002C52EC /* LearnGL2.app */,
+				B40CB63616A1BE14002C52EC /* TeachGL2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,7 +225,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B40CB64016A1BE14002C52EC /* LearnGL2 */ = {
+		B40CB64016A1BE14002C52EC /* TeachGL2 */ = {
 			isa = PBXGroup;
 			children = (
 				B415B2F016C69E03005876AF /* PowerVR */,
@@ -241,16 +241,16 @@
 				B40CB64A16A1BE14002C52EC /* TGAppDelegate.m */,
 				B40CB64116A1BE14002C52EC /* Supporting Files */,
 			);
-			path = LearnGL2;
+			path = TeachGL2;
 			sourceTree = "<group>";
 		};
 		B40CB64116A1BE14002C52EC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B40CB64216A1BE14002C52EC /* LearnGL2-Info.plist */,
+				B40CB64216A1BE14002C52EC /* TeachGL2-Info.plist */,
 				B40CB64316A1BE14002C52EC /* InfoPlist.strings */,
 				B40CB64616A1BE14002C52EC /* main.m */,
-				B40CB64816A1BE14002C52EC /* LearnGL2-Prefix.pch */,
+				B40CB64816A1BE14002C52EC /* TeachGL2-Prefix.pch */,
 				B40CB64C16A1BE14002C52EC /* Default.png */,
 				B40CB64E16A1BE14002C52EC /* Default@2x.png */,
 				B40CB65016A1BE14002C52EC /* Default-568h@2x.png */,
@@ -437,9 +437,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B40CB63516A1BE14002C52EC /* LearnGL2 */ = {
+		B40CB63516A1BE14002C52EC /* TeachGL2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B40CB65416A1BE14002C52EC /* Build configuration list for PBXNativeTarget "LearnGL2" */;
+			buildConfigurationList = B40CB65416A1BE14002C52EC /* Build configuration list for PBXNativeTarget "TeachGL2" */;
 			buildPhases = (
 				B40CB63216A1BE14002C52EC /* Sources */,
 				B40CB63316A1BE14002C52EC /* Frameworks */,
@@ -449,9 +449,9 @@
 			);
 			dependencies = (
 			);
-			name = LearnGL2;
+			name = TeachGL2;
 			productName = TeachGL2;
-			productReference = B40CB63616A1BE14002C52EC /* LearnGL2.app */;
+			productReference = B40CB63616A1BE14002C52EC /* TeachGL2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -464,7 +464,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Sergey Alpeev";
 			};
-			buildConfigurationList = B40CB63016A1BE14002C52EC /* Build configuration list for PBXProject "LearnGL2" */;
+			buildConfigurationList = B40CB63016A1BE14002C52EC /* Build configuration list for PBXProject "TeachGL2" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -476,7 +476,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B40CB63516A1BE14002C52EC /* LearnGL2 */,
+				B40CB63516A1BE14002C52EC /* TeachGL2 */,
 			);
 		};
 /* End PBXProject section */
@@ -610,9 +610,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LearnGL2/LearnGL2-Prefix.pch";
-				INFOPLIST_FILE = "LearnGL2/LearnGL2-Info.plist";
-				PRODUCT_NAME = LearnGL2;
+				GCC_PREFIX_HEADER = "TeachGL2/TeachGL2-Prefix.pch";
+				INFOPLIST_FILE = "TeachGL2/TeachGL2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -621,9 +621,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LearnGL2/LearnGL2-Prefix.pch";
-				INFOPLIST_FILE = "LearnGL2/LearnGL2-Info.plist";
-				PRODUCT_NAME = LearnGL2;
+				GCC_PREFIX_HEADER = "TeachGL2/TeachGL2-Prefix.pch";
+				INFOPLIST_FILE = "TeachGL2/TeachGL2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -631,7 +631,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B40CB63016A1BE14002C52EC /* Build configuration list for PBXProject "LearnGL2" */ = {
+		B40CB63016A1BE14002C52EC /* Build configuration list for PBXProject "TeachGL2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B40CB65216A1BE14002C52EC /* Debug */,
@@ -640,7 +640,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B40CB65416A1BE14002C52EC /* Build configuration list for PBXNativeTarget "LearnGL2" */ = {
+		B40CB65416A1BE14002C52EC /* Build configuration list for PBXNativeTarget "TeachGL2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B40CB65516A1BE14002C52EC /* Debug */,
