@@ -112,7 +112,8 @@
     const GLenum discards[] =
     {
         GL_COLOR_ATTACHMENT0,
-        GL_DEPTH_ATTACHMENT
+        GL_DEPTH_ATTACHMENT,
+        GL_STENCIL_ATTACHMENT
     };
     glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, discards);
     
