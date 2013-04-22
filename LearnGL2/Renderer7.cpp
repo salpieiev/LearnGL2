@@ -111,5 +111,6 @@ void Renderer7::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
 
 void Renderer7::OnFingerUp(ivec2 location)
 {
-    
+    glActiveTexture(GL_TEXTURE0);
+    glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, 1024, 1024, 0);
 }
