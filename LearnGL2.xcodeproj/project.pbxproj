@@ -24,6 +24,7 @@
 		B40CB66B16A1C36F002C52EC /* OpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B40CB66A16A1C36F002C52EC /* OpenGLView.mm */; };
 		B40CB66D16A1C68F002C52EC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66C16A1C68F002C52EC /* OpenGLES.framework */; };
 		B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66E16A1C695002C52EC /* QuartzCore.framework */; };
+		B40CEDF61725758900D7EB2D /* Renderer11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B40CEDF41725758900D7EB2D /* Renderer11.cpp */; };
 		B415B2F516C6B170005876AF /* tile_floor.pvr in Resources */ = {isa = PBXBuildFile; fileRef = B415B2F416C6B170005876AF /* tile_floor.pvr */; };
 		B415B2F916C6EE46005876AF /* tile_floor565.pvr in Resources */ = {isa = PBXBuildFile; fileRef = B415B2F816C6EE46005876AF /* tile_floor565.pvr */; };
 		B415B2FD16C6F7E0005876AF /* girl.png in Resources */ = {isa = PBXBuildFile; fileRef = B415B2FC16C6F7E0005876AF /* girl.png */; };
@@ -93,6 +94,10 @@
 		B40CB66A16A1C36F002C52EC /* OpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLView.mm; sourceTree = "<group>"; };
 		B40CB66C16A1C68F002C52EC /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		B40CB66E16A1C695002C52EC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B40CEDF41725758900D7EB2D /* Renderer11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer11.cpp; sourceTree = "<group>"; };
+		B40CEDF51725758900D7EB2D /* Renderer11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer11.h; sourceTree = "<group>"; };
+		B40CEDF7172576A700D7EB2D /* RenderToTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RenderToTextureShader.vsh; sourceTree = "<group>"; };
+		B40CEDF9172576B300D7EB2D /* RenderToTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RenderToTextureShader.fsh; sourceTree = "<group>"; };
 		B415B2F116C69EF2005876AF /* PVRTGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTGlobal.h; sourceTree = "<group>"; };
 		B415B2F216C69EF2005876AF /* PVRTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTTexture.h; sourceTree = "<group>"; };
 		B415B2F416C6B170005876AF /* tile_floor.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = tile_floor.pvr; sourceTree = "<group>"; };
@@ -340,6 +345,8 @@
 				B48DF36F170DA69400F89927 /* Renderer9.h */,
 				B4071A9D1714564600C7317C /* Renderer10.cpp */,
 				B4071A9E1714564600C7317C /* Renderer10.h */,
+				B40CEDF41725758900D7EB2D /* Renderer11.cpp */,
+				B40CEDF51725758900D7EB2D /* Renderer11.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -377,6 +384,8 @@
 				B48DF373170DA9F100F89927 /* StencilShader.fsh */,
 				B4071AA01714634800C7317C /* BlendingShader.vsh */,
 				B4071AA21714635400C7317C /* BlendingShader.fsh */,
+				B40CEDF7172576A700D7EB2D /* RenderToTextureShader.vsh */,
+				B40CEDF9172576B300D7EB2D /* RenderToTextureShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -537,6 +546,7 @@
 				B4A8470016DF9D7800E8F623 /* Renderer8.cpp in Sources */,
 				B48DF370170DA69400F89927 /* Renderer9.cpp in Sources */,
 				B4071A9F1714564600C7317C /* Renderer10.cpp in Sources */,
+				B40CEDF61725758900D7EB2D /* Renderer11.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
