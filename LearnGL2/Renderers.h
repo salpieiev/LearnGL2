@@ -20,3 +20,4 @@
 #include "Renderer9.h"
 #include "Renderer10.h"
 #include "Renderer11.h"
+#include "Renderer12.h"
