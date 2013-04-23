@@ -24,6 +24,8 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
+    void GenerateTexture() const;
+    
     Rotator *m_rotator;
     ParametricSurface *m_surface;
     

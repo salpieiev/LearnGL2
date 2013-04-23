@@ -145,4 +145,36 @@ void Renderer11::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
 void Renderer11::OnFingerUp(ivec2 location)
 {
     m_rotator->End(location);
+    
+    GenerateTexture();
 }
+
+void Renderer11::GenerateTexture() const
+{
+    GLuint depthRenderbuffer;
+    glGenRenderbuffers(1, &depthRenderbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
+    
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 1024, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    GLuint framebuffer;
+    glGenFramebuffers(1, &framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_COMPONENT16, GL_RENDERBUFFER, depthRenderbuffer);
+    
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
+    {
+        glClearColor(0.5f, 1.0f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+}
+
+
+
