@@ -174,6 +174,9 @@ void Renderer11::GenerateTexture() const
         glClearColor(0.5f, 1.0f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
+    
+    glDeleteFramebuffers(1, &framebuffer);
+    glDeleteRenderbuffers(1, &depthRenderbuffer);
 }
 
 
