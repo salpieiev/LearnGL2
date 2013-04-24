@@ -7,6 +7,8 @@
 //
 
 #include "RenderingEngine.h"
+#include "ParametricSurface.h"
+#include "Rotator.h"
 
 
 
@@ -22,5 +24,16 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
+    void PrepareProgram();
     
+    ParametricSurface *m_surface;
+    Rotator *m_rotator;
+    
+    GLuint m_program;
+    
+    GLint m_attribPosition;
+    GLint m_attribColor;
+    
+    GLuint m_uniformProjection;
+    GLuint m_uniformModelview;
 };
