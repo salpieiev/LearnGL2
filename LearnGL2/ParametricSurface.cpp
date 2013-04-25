@@ -44,6 +44,8 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
         floatsPerVertex += 2;
     if (flags & VertexFlagsBoneWeights)
         floatsPerVertex += 8;
+    if (flags & VertexFlagsTangents)
+        floatsPerVertex += 3;
     
     vertices.resize(GetVertexCount() * floatsPerVertex);
     float *attribute = &vertices[0];
@@ -155,6 +157,21 @@ void ParametricSurface::GenerateVertices(vector<float> &vertices, unsigned char 
                 }
                 *attribute++ = indices.x;
                 *attribute++ = indices.y;
+            }
+            
+            // Compute tangent
+            if (flags & VertexFlagsTangents)
+            {
+                float s = i;
+                float t = j;
+                
+                vec3 p = Evaluate(ComputeDomain(s, t));
+                vec3 u = Evaluate(ComputeDomain(s + 0.01f, t)) - p;
+                
+                if (InvertNormal(domain))
+                    u = -u;
+                
+                attribute = u.Write(attribute);
             }
         }
     }
@@ -406,6 +423,20 @@ bool KleinBottle::InvertNormal(const vec2 &domain) const
 {
     bool invertNormal = domain.y > 3 * Pi / 2;
     return invertNormal;
+}
+
+
+Quad::Quad(float x, float y): m_size(x, y)
+{
+    ParametricInterval parametricInterval = {ivec2(2, 2), vec2(1.0f, 1.0f), vec2(1.0f, 1.0f)};
+    SetInterval(parametricInterval);
+}
+
+vec3 Quad::Evaluate(const vec2 &domain) const
+{
+    float x = (domain.x - 0.5) * m_size.x;
+    float y = (domain.y - 0.5) * m_size.y;
+    return vec3(x, y, 0);
 }
 
 

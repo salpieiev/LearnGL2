@@ -135,4 +135,15 @@ private:
     float m_scale;
 };
 
+class Quad: public ParametricSurface
+{
+public:
+    Quad(float x, float y);
+    
+    vec3 Evaluate(const vec2 &domain) const;
+    
+private:
+    vec2 m_size;
+};
+
 

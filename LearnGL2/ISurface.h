@@ -20,7 +20,8 @@ enum VertexFlags
     VertexFlagsNormals = 1 << 1,
     VertexFlagsLightDirection = 1 << 2,
     VertexFlagsTexCoords = 1 << 3,
-    VertexFlagsBoneWeights = 1 << 4
+    VertexFlagsBoneWeights = 1 << 4,
+    VertexFlagsTangents = 1 << 5
 };
 
 
