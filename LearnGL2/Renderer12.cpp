@@ -78,7 +78,7 @@ void Renderer12::PrepareProgram()
 
 void Renderer12::GenerateBuffers()
 {
-    Sphere sphere(2.0f, vec2(4.0f, 4.0f));
+    Sphere sphere(2.0f, vec2(1.0f, 1.0f));
     
     vector<float> vertices;
     sphere.GenerateVertices(vertices, VertexFlagsTexCoords);
@@ -104,7 +104,8 @@ void Renderer12::LoadTexture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
-    SetPngPOTTexture("tile_floor.png");
+//    SetPngPOTTexture("tile_floor.png");
+    SetPVRTexture("NormalMap.pvr");
 }
 
 void Renderer12::DrawSphere() const
