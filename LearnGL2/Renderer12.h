@@ -25,15 +25,22 @@ public:
     
 private:
     void PrepareProgram();
+    void GenerateBuffers();
+    void LoadTexture();
+    void DrawSphere() const;
     
-    ParametricSurface *m_surface;
     Rotator *m_rotator;
     
     GLuint m_program;
+    GLuint m_texture;
     
     GLint m_attribPosition;
-    GLint m_attribColor;
+    GLint m_attribTexCoord;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
+    
+    GLuint m_vertexBuffer;
+    GLuint m_indexBuffer;
+    GLuint m_indexCount;
 };

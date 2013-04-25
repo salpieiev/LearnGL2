@@ -265,9 +265,9 @@ vec3 Cylinder::Evaluate(const vec2 &domain) const
 }
 
 
-Sphere::Sphere(float radius): m_radius(radius)
+Sphere::Sphere(float radius, vec2 textureCount): m_radius(radius)
 {
-    ParametricInterval parametricInterval = { ivec2(160, 160), vec2(Pi, TwoPi), vec2(20, 35) };
+    ParametricInterval parametricInterval = { ivec2(160, 160), vec2(Pi, TwoPi), textureCount };
     SetInterval(parametricInterval);
 }
 

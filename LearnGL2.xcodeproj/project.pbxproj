@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B40129C9172956C3003FDEE4 /* NormalMap.pvr in Resources */ = {isa = PBXBuildFile; fileRef = B40129C8172956C3003FDEE4 /* NormalMap.pvr */; };
 		B404A30616AD9048001F8045 /* RenderingEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A30416AD9048001F8045 /* RenderingEngine.cpp */; };
 		B404A31216AD9487001F8045 /* Renderer1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B404A31016AD9487001F8045 /* Renderer1.cpp */; };
 		B4071A9F1714564600C7317C /* Renderer10.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4071A9D1714564600C7317C /* Renderer10.cpp */; };
@@ -59,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B40129C8172956C3003FDEE4 /* NormalMap.pvr */ = {isa = PBXFileReference; lastKnownFileType = file; path = NormalMap.pvr; sourceTree = "<group>"; };
 		B404A30416AD9048001F8045 /* RenderingEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderingEngine.cpp; sourceTree = "<group>"; };
 		B404A30516AD9048001F8045 /* RenderingEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderingEngine.h; sourceTree = "<group>"; };
 		B404A31016AD9487001F8045 /* Renderer1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer1.cpp; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 			children = (
 				B415B2F416C6B170005876AF /* tile_floor.pvr */,
 				B415B2F816C6EE46005876AF /* tile_floor565.pvr */,
+				B40129C8172956C3003FDEE4 /* NormalMap.pvr */,
 			);
 			path = PVR;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 				B43A2F7816C94AAF0028B546 /* cube_map_left.png in Resources */,
 				B4ECDB1716D942F3003117EA /* lightmap.png in Resources */,
 				B4ECDB1816D942F3003117EA /* basemap.png in Resources */,
+				B40129C9172956C3003FDEE4 /* NormalMap.pvr in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

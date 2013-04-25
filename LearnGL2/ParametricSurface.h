@@ -77,7 +77,7 @@ private:
 class Sphere: public ParametricSurface
 {
 public:
-    Sphere(float radius);
+    Sphere(float radius, vec2 textureCount = vec2(20.0f, 35.0f));
     
     vec3 Evaluate(const vec2 &domain) const;
     
