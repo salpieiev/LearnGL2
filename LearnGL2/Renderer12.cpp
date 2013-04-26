@@ -15,7 +15,9 @@
 struct Vertex
 {
     vec3 Position;
+    vec3 Normals;
     vec2 TexCoords;
+    vec3 Tangents;
 };
 
 
@@ -29,11 +31,8 @@ Renderer12::Renderer12(int width, int height): RenderingEngine(width, height)
     
     PrepareProgram();
     GenerateBuffers();
+    SetupUniforms();
     LoadTexture();
-    
-    float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
-    mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
-    glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
 }
 
 Renderer12::~Renderer12()
@@ -70,10 +69,18 @@ void Renderer12::PrepareProgram()
     glUseProgram(m_program);
     
     m_attribPosition = glGetAttribLocation(m_program, "a_position");
+    m_attribNormal = glGetAttribLocation(m_program, "a_normal");
+    m_attribTangent = glGetAttribLocation(m_program, "a_tangent");
     m_attribTexCoord = glGetAttribLocation(m_program, "a_texCoord");
     
     m_uniformProjection = glGetUniformLocation(m_program, "u_projection");
     m_uniformModelview = glGetUniformLocation(m_program, "u_modelview");
+    m_uniformAmbientMaterial = glGetUniformLocation(m_program, "u_ambientMaterial");
+    m_uniformDiffuseMaterial = glGetUniformLocation(m_program, "u_diffuseMaterial");
+    m_uniformSpecularMaterial = glGetUniformLocation(m_program, "u_specularMaterial");
+    m_uniformLightVector = glGetUniformLocation(m_program, "u_lightVector");
+    m_uniformEyeVector = glGetUniformLocation(m_program, "u_eyeVector");
+    m_uniformShininess = glGetUniformLocation(m_program, "u_shininess");
 }
 
 void Renderer12::GenerateBuffers()
@@ -81,7 +88,7 @@ void Renderer12::GenerateBuffers()
     Sphere sphere(2.5f, vec2(1.0f, 1.0f));
     
     vector<float> vertices;
-    sphere.GenerateVertices(vertices, VertexFlagsTexCoords);
+    sphere.GenerateVertices(vertices, VertexFlagsTexCoords | VertexFlagsNormals | VertexFlagsTangents);
     
     vector<GLushort> indices;
     sphere.GenerateTriangleIndices(indices);
@@ -94,6 +101,18 @@ void Renderer12::GenerateBuffers()
     glGenBuffers(1, &m_indexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), &indices[0], GL_STATIC_DRAW);
+}
+
+void Renderer12::SetupUniforms()
+{
+    float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
+    mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
+    glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
+    
+    glUniform3f(m_uniformAmbientMaterial, 0.04f, 0.04f, 0.04f);
+    glUniform3f(m_uniformDiffuseMaterial, 0.75f, 0.75f, 0.75f);
+    glUniform3f(m_uniformSpecularMaterial, 0.5f, 0.5f, 0.5f);
+    glUniform1f(m_uniformShininess, 50);
 }
 
 void Renderer12::LoadTexture()
@@ -113,21 +132,34 @@ void Renderer12::LoadTexture()
 
 void Renderer12::DrawSphere() const
 {
-    mat4 rotation = m_rotator->GetOrientation().ToMatrix();
+    mat4 modelview = m_rotator->GetOrientation().ToMatrix();
+    modelview = modelview * mat4::Translate(0, 0, -7);
     
-    mat4 modelview = mat4::Translate(0.0f, 0.0f, -7.0f);
-    modelview = rotation * modelview;
+    vec4 lightWorldSpace = vec4(vec3(0.25f, 0.25f, 1.0f).Normalized(), 1.0f);
+    vec4 lightObjectSpace = modelview * lightWorldSpace;
+    
+    vec4 eyeWorldSpace(0.0f, 0.0f, 1.0f, 1.0f);
+    vec4 eyeObjectSpace = modelview * eyeWorldSpace;
+    
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
+    glUniform3fv(m_uniformLightVector, 1, lightObjectSpace.Pointer());
+    glUniform3fv(m_uniformEyeVector, 1, eyeObjectSpace.Pointer());
     
     glEnableVertexAttribArray(m_attribPosition);
+    glEnableVertexAttribArray(m_attribNormal);
+    glEnableVertexAttribArray(m_attribTangent);
     glEnableVertexAttribArray(m_attribTexCoord);
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-    glVertexAttribPointer(m_attribTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position)));
+    glVertexAttribPointer(m_attribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position)));
+    glVertexAttribPointer(m_attribTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Normals)));
+    glVertexAttribPointer(m_attribTangent, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Normals) + sizeof(Vertex::TexCoords)));
     
     glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
     
     glDisableVertexAttribArray(m_attribPosition);
+    glDisableVertexAttribArray(m_attribNormal);
+    glDisableVertexAttribArray(m_attribTangent);
     glDisableVertexAttribArray(m_attribTexCoord);
 }
 

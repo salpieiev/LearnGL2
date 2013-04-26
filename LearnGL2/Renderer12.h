@@ -26,6 +26,7 @@ public:
 private:
     void PrepareProgram();
     void GenerateBuffers();
+    void SetupUniforms();
     void LoadTexture();
     void DrawSphere() const;
     
@@ -35,10 +36,18 @@ private:
     GLuint m_texture;
     
     GLint m_attribPosition;
+    GLint m_attribNormal;
+    GLint m_attribTangent;
     GLint m_attribTexCoord;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
+    GLuint m_uniformAmbientMaterial;
+    GLuint m_uniformDiffuseMaterial;
+    GLuint m_uniformSpecularMaterial;
+    GLuint m_uniformLightVector;
+    GLuint m_uniformEyeVector;
+    GLuint m_uniformShininess;
     
     GLuint m_vertexBuffer;
     GLuint m_indexBuffer;
