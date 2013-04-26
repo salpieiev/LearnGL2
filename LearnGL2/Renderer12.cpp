@@ -104,8 +104,8 @@ void Renderer12::LoadTexture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
-    SetPngPOTTexture("EarthMap.png");
-//    SetPVRTexture("NormalMapEarth.pvr");
+//    SetPngPOTTexture("EarthMap.png");
+    SetPVRTexture("NormalMapEarth.pvr");
     
     glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
     glGenerateMipmap(GL_TEXTURE_2D);
