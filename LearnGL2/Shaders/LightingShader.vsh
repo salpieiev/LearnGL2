@@ -18,9 +18,11 @@ varying vec4 v_color;
 
 void main()
 {
+    vec3 pos = (u_modelview * a_position).xyz;
+    
     vec3 N = u_normalMatrix * a_normal;
-    vec3 L = normalize(u_lightPosition);
-    vec3 E = normalize(u_eyePosition);
+    vec3 L = normalize(u_lightPosition - pos);
+    vec3 E = normalize(u_eyePosition - pos);
     vec3 H = normalize(L + E);
     float df = max(0.0, dot(N, L));
     float sf = max(0.0, dot(N, H));
