@@ -16,6 +16,7 @@
 struct Vertex
 {
     vec3 Position;
+    vec3 Normal;
 };
 
 
@@ -25,6 +26,7 @@ Renderer13::Renderer13(int width, int height): RenderingEngine(width, height)
     m_rotator = new Rotator(m_surfaceSize);
     
     glViewport(0, 0, width, height);
+    glEnable(GL_DEPTH_TEST);
     
     PrepareProgram();
     GenerateBuffers();
@@ -66,9 +68,16 @@ void Renderer13::PrepareProgram()
     
     m_attribPosition = glGetAttribLocation(m_program, "a_position");
     m_attribColor = glGetAttribLocation(m_program, "a_color");
+    m_attribNormal = glGetAttribLocation(m_program, "a_normal");
     
     m_uniformProjection = glGetUniformLocation(m_program, "u_projection");
     m_uniformModelview = glGetUniformLocation(m_program, "u_modelview");
+    m_uniformNormalMatrix = glGetUniformLocation(m_program, "u_normalMatrix");
+    m_uniformLightPosition = glGetUniformLocation(m_program, "u_lightPosition");
+    m_uniformEyePosition = glGetUniformLocation(m_program, "u_eyePosition");
+    m_uniformAmbientColor = glGetUniformLocation(m_program, "u_ambientColor");
+    m_uniformSpecularColor = glGetUniformLocation(m_program, "u_specularColor");
+    m_uniformShininess = glGetUniformLocation(m_program, "u_shininess");
 }
 
 void Renderer13::GenerateBuffers()
@@ -97,6 +106,11 @@ void Renderer13::SetupUniforms() const
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     
     glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
+    glUniform3f(m_uniformLightPosition, 0.25f, 0.25f, 1.0f);
+    glUniform3f(m_uniformEyePosition, 0.0f, 0.0f, 1.0f);
+    glUniform3f(m_uniformAmbientColor, 0.025f, 0.025f, 0.025f);
+    glUniform3f(m_uniformSpecularColor, 1.0f, 1.0f, 1.0f);
+    glUniform1f(m_uniformShininess, 50.0f);
 }
 
 void Renderer13::DrawSphere() const
@@ -105,13 +119,27 @@ void Renderer13::DrawSphere() const
     modelview = modelview * mat4::Translate(0.0f, 0.0f, -7.0f);
     
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
+    glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, modelview.ToMat3().Pointer());
     glVertexAttrib4f(m_attribColor, 1.0f, 0.0f, 0.0f, 1.0f);
     
     glEnableVertexAttribArray(m_attribPosition);
+    glEnableVertexAttribArray(m_attribNormal);
     
     glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+    glVertexAttribPointer(m_attribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
     
     glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
     
     glDisableVertexAttribArray(m_attribPosition);
+    glDisableVertexAttribArray(m_attribNormal);
 }
+
+
+
+
+
+
+
+
+
+

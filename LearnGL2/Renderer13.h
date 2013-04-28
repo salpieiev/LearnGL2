@@ -34,9 +34,16 @@ private:
     
     GLint m_attribPosition;
     GLint m_attribColor;
+    GLint m_attribNormal;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
+    GLuint m_uniformNormalMatrix;
+    GLuint m_uniformLightPosition;
+    GLuint m_uniformEyePosition;
+    GLuint m_uniformAmbientColor;
+    GLuint m_uniformSpecularColor;
+    GLuint m_uniformShininess;
     
     GLuint m_vertexBuffer;
     GLuint m_indexBuffer;
