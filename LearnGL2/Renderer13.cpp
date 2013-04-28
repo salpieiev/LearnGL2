@@ -107,11 +107,11 @@ void Renderer13::SetupUniforms() const
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     
     glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
-    glUniform3f(m_uniformLightPosition, 10.0f, 10.0f, 10.0f);
+    glUniform3f(m_uniformLightPosition, 1.0f, 1.0f, -5.0f);
     glUniform3f(m_uniformEyePosition, 0.0f, 0.0f, 1.0f);
     glUniform3f(m_uniformAmbientColor, 0.025f, 0.025f, 0.025f);
     glUniform3f(m_uniformSpecularColor, 1.0f, 1.0f, 1.0f);
-    glUniform1f(m_uniformShininess, 50.0f);
+    glUniform1f(m_uniformShininess, 30.0f);
 }
 
 void Renderer13::DrawSphere() const
