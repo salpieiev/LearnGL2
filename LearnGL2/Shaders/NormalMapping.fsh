@@ -29,8 +29,8 @@ void main()
     highp vec3 N = basis * tangentSpaceNormal;
     
     // Perform lighting math
-    highp vec3 L = u_lightVector;
-    highp vec3 E = u_eyeVector;
+    highp vec3 L = normalize(u_lightVector);
+    highp vec3 E = normalize(u_eyeVector);
     highp vec3 H = normalize(L + E);
     highp float df = max(0.0, dot(N, L));
     highp float sf = max(0.0, dot(N, H));

@@ -132,14 +132,15 @@ void Renderer12::LoadTexture()
 
 void Renderer12::DrawSphere() const
 {
-    mat4 modelview = m_rotator->GetOrientation().ToMatrix();
-    modelview = modelview * mat4::Translate(0, 0, -7);
+    mat4 model = m_rotator->GetOrientation().ToMatrix();
+    mat4 view = mat4::Translate(0.0f, 0.0f, -7.0f);
+    mat4 modelview = model * view;
     
-    vec4 lightWorldSpace = vec4(vec3(0.25f, 0.25f, 1.0f).Normalized(), 1.0f);
-    vec4 lightObjectSpace = modelview * lightWorldSpace;
+    vec4 lightWorldSpace = vec4(0.0f, 0.0f, 1.0f, 1.0f);
+    vec4 lightObjectSpace = model * lightWorldSpace;
     
     vec4 eyeWorldSpace(0.0f, 0.0f, 1.0f, 1.0f);
-    vec4 eyeObjectSpace = modelview * eyeWorldSpace;
+    vec4 eyeObjectSpace = model * eyeWorldSpace;
     
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
     glUniform3fv(m_uniformLightVector, 1, lightObjectSpace.Pointer());
