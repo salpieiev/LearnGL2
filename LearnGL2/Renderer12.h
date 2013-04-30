@@ -42,6 +42,7 @@ private:
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
+    GLuint m_uniformNormalMatrix;
     GLuint m_uniformAmbientMaterial;
     GLuint m_uniformDiffuseMaterial;
     GLuint m_uniformSpecularMaterial;

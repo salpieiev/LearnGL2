@@ -17,7 +17,7 @@ varying mediump vec3 v_objectSpaceTangent;
 void main()
 {
     // Extract the perturbed normal from the texture
-    highp vec3 tangentSpaceNormal = texture2D(u_sampler, v_texCoord).yxz * 2.0 - 1.0;
+    highp vec3 tangentSpaceNormal = texture2D(u_sampler, v_texCoord).zxy * 2.0 - 1.0;
     
     // Create a set of basis vectors
     highp vec3 n = normalize(v_objectSpaceNormal);

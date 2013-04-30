@@ -75,6 +75,7 @@ void Renderer12::PrepareProgram()
     
     m_uniformProjection = glGetUniformLocation(m_program, "u_projection");
     m_uniformModelview = glGetUniformLocation(m_program, "u_modelview");
+    m_uniformNormalMatrix = glGetUniformLocation(m_program, "u_normalMatrix");
     m_uniformAmbientMaterial = glGetUniformLocation(m_program, "u_ambientMaterial");
     m_uniformDiffuseMaterial = glGetUniformLocation(m_program, "u_diffuseMaterial");
     m_uniformSpecularMaterial = glGetUniformLocation(m_program, "u_specularMaterial");
@@ -123,7 +124,7 @@ void Renderer12::LoadTexture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
-//    SetPngPOTTexture("EarthMap.png");
+//    SetPngPOTTexture("NormalMapEarth.png");
     SetPVRTexture("NormalMapEarth.pvr");
     
     glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
@@ -143,6 +144,7 @@ void Renderer12::DrawSphere() const
     vec4 eyeObjectSpace = model * eyeWorldSpace;
     
     glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
+    glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, modelview.ToMat3().Pointer());
     glUniform3fv(m_uniformLightVector, 1, lightObjectSpace.Pointer());
     glUniform3fv(m_uniformEyeVector, 1, eyeObjectSpace.Pointer());
     

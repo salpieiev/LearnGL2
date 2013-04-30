@@ -26,6 +26,7 @@
 		B40CB66D16A1C68F002C52EC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66C16A1C68F002C52EC /* OpenGLES.framework */; };
 		B40CB66F16A1C695002C52EC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40CB66E16A1C695002C52EC /* QuartzCore.framework */; };
 		B40CEDF61725758900D7EB2D /* Renderer11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B40CEDF41725758900D7EB2D /* Renderer11.cpp */; };
+		B40F2ED5172FC613005734C0 /* NormalMapEarth.png in Resources */ = {isa = PBXBuildFile; fileRef = B40F2ED4172FC613005734C0 /* NormalMapEarth.png */; };
 		B411421E172B11B300B1C315 /* Renderer13.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B411421C172B11B300B1C315 /* Renderer13.cpp */; };
 		B4114220172B133F00B1C315 /* LightingShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B411421F172B133F00B1C315 /* LightingShader.vsh */; };
 		B415B2F516C6B170005876AF /* tile_floor.pvr in Resources */ = {isa = PBXBuildFile; fileRef = B415B2F416C6B170005876AF /* tile_floor.pvr */; };
@@ -105,6 +106,7 @@
 		B40CEDF51725758900D7EB2D /* Renderer11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer11.h; sourceTree = "<group>"; };
 		B40CEDF7172576A700D7EB2D /* RenderToTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RenderToTextureShader.vsh; sourceTree = "<group>"; };
 		B40CEDF9172576B300D7EB2D /* RenderToTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = RenderToTextureShader.fsh; sourceTree = "<group>"; };
+		B40F2ED4172FC613005734C0 /* NormalMapEarth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NormalMapEarth.png; sourceTree = "<group>"; };
 		B411421C172B11B300B1C315 /* Renderer13.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer13.cpp; sourceTree = "<group>"; };
 		B411421D172B11B300B1C315 /* Renderer13.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer13.h; sourceTree = "<group>"; };
 		B411421F172B133F00B1C315 /* LightingShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = LightingShader.vsh; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				B4ECDB1516D942F3003117EA /* lightmap.png */,
 				B4ECDB1616D942F3003117EA /* basemap.png */,
 				B4F5C682172A7FE10001A314 /* EarthMap.png */,
+				B40F2ED4172FC613005734C0 /* NormalMapEarth.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 				B4F5C681172A7EA40001A314 /* NormalMapEarth.pvr in Resources */,
 				B4F5C683172A7FE10001A314 /* EarthMap.png in Resources */,
 				B4114220172B133F00B1C315 /* LightingShader.vsh in Resources */,
+				B40F2ED5172FC613005734C0 /* NormalMapEarth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
