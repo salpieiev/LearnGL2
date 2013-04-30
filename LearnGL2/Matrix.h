@@ -300,6 +300,8 @@ inline Matrix4<T> Matrix4<T>::Ortho(T left, T right, T bottom, T top, T near, T 
 template <typename T>
 inline Matrix4<T> Matrix4<T>::LookAt(const vec3 &eye, const vec3 &target, const vec3 &up)
 {
+    // http://3dgep.com/?p=1700
+    
     vec3 z = (eye - target).Normalized();
     vec3 x = up.Cross(z).Normalized();
     vec3 y = z.Cross(x).Normalized();
@@ -310,6 +312,10 @@ inline Matrix4<T> Matrix4<T>::LookAt(const vec3 &eye, const vec3 &target, const 
     m.z = vec4(z, 0.0f);
     m.w = vec4(0.0f, 0.0f, 0.0f, 1.0f);
     
+    // Resulting matrix - multiplication of translation and rotation matrix.
+    // But in this method instead of multiplying two matrices,
+    // 4th component of rotation matrix is replaced by the inverse eye position
+    // (the same result as matrix multiplication)
     vec4 eyePrime = m * Vector4<float>(-eye, 1.0f);
     m = m.Transposed();
     m.w = eyePrime;
