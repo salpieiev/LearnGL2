@@ -137,7 +137,7 @@ void Renderer12::DrawSphere() const
     mat4 view = mat4::Translate(0.0f, 0.0f, -7.0f);
     mat4 modelview = model * view;
     
-    vec4 lightWorldSpace = vec4(0.0f, 0.0f, 1.0f, 1.0f);
+    vec4 lightWorldSpace = vec4(1.0f, 1.0f, 1.0f, 1.0f);
     vec4 lightObjectSpace = model * lightWorldSpace;
     
     vec4 eyeWorldSpace(0.0f, 0.0f, 1.0f, 1.0f);
