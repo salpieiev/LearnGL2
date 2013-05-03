@@ -102,7 +102,7 @@ private:
 class TrefoilKnot: public ParametricSurface
 {
 public:
-    TrefoilKnot(float scale);
+    TrefoilKnot(float scale, vec2 textureCount = vec2(100.0f, 8.0f));
     
     vec3 Evaluate(const vec2 &domain) const;
     
@@ -126,7 +126,7 @@ private:
 class KleinBottle: public ParametricSurface
 {
 public:
-    KleinBottle(float scale);
+    KleinBottle(float scale, vec2 textureCount = vec2(15.0f, 50.0f));
     
     vec3 Evaluate(const vec2 &domain) const;
     bool InvertNormal(const vec2 &domain) const;

@@ -322,9 +322,9 @@ vec3 Torus::Evaluate(const vec2 &domain) const
 }
 
 
-TrefoilKnot::TrefoilKnot(float scale): m_scale(scale)
+TrefoilKnot::TrefoilKnot(float scale, vec2 textureCount): m_scale(scale)
 {
-    ParametricInterval parametricInterval = { ivec2(20, 10), vec2(TwoPi, TwoPi), vec2(100, 8) };
+    ParametricInterval parametricInterval = {ivec2(20, 10), vec2(TwoPi, TwoPi), textureCount};
     SetInterval(parametricInterval);
 }
 
@@ -394,9 +394,9 @@ vec3 MobiusStrip::Evaluate(const vec2 &domain) const
 }
 
 
-KleinBottle::KleinBottle(float scale): m_scale(scale)
+KleinBottle::KleinBottle(float scale, vec2 textureCount): m_scale(scale)
 {
-    ParametricInterval parametricInterval = { ivec2(80, 80), vec2(TwoPi, TwoPi), vec2(15, 50) };
+    ParametricInterval parametricInterval = {ivec2(80, 80), vec2(TwoPi, TwoPi), textureCount};
     SetInterval(parametricInterval);
 }
 

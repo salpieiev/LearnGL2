@@ -28,8 +28,8 @@ Renderer14::Renderer14(int width, int height): RenderingEngine(width, height)
     glViewport(0, 0, width, height);
     
     PrepareProgram();
-    SetupUniforms();
     LoadTexture();
+    SetupUniforms();
     GenerateBuffers();
 }
 
@@ -75,10 +75,11 @@ void Renderer14::PrepareProgram()
 
 void Renderer14::GenerateBuffers()
 {
-    Sphere sphere(1.8);
+//    Sphere sphere(1.8, vec2(1.0f, 1.0f));
+    KleinBottle sphere(1.8, vec2(1.0f, 1.0f));
     
     vector<GLfloat> vertices;
-    sphere.GenerateVertices(vertices, VertexFlagsNormals | VertexFlagsTangents);
+    sphere.GenerateVertices(vertices, VertexFlagsNormals | VertexFlagsTangents | VertexFlagsTexCoords);
     
     vector<GLushort> indices;
     sphere.GenerateTriangleIndices(indices);
@@ -112,7 +113,7 @@ void Renderer14::SetupUniforms() const
 {
     GLfloat h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
-    glUniform4fv(m_uniformProjection, 1, projection.Pointer());
+    glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
 }
 
 void Renderer14::DrawUnfoldedSurface() const

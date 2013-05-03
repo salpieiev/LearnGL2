@@ -13,7 +13,7 @@ varying vec2 v_texCoord;
 
 const float Distance = 10.0;
 const vec2 Offset = vec2(0.5, 0.5);
-const vec2 Scale = vec2(2.0, 4.0);
+const vec2 Scale = vec2(8.0, 16.0);
 
 void main()
 {
