@@ -23,6 +23,20 @@ public:
     
 private:
     void PrepareProgram();
+    void GenerateBuffers();
+    void LoadTexture();
+    void SetupUniforms() const;
+    void DrawUnfoldedSurface() const;
     
     GLuint m_program;
+    
+    GLuint m_vertexBuffer;
+    GLuint m_indexBuffer;
+    GLuint m_indexCount;
+    
+    GLint m_attribNormal;
+    GLint m_attribTangent;
+    GLint m_attribTexCoord;
+    
+    GLuint m_uniformProjection;
 };
