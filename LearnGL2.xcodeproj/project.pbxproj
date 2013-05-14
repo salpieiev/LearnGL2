@@ -35,6 +35,8 @@
 		B415B2FD16C6F7E0005876AF /* girl.png in Resources */ = {isa = PBXBuildFile; fileRef = B415B2FC16C6F7E0005876AF /* girl.png */; };
 		B41C292916C3FB5900D5C936 /* Renderer3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B41C292816C3FB5900D5C936 /* Renderer3.cpp */; };
 		B41C293116C3FDB600D5C936 /* tile_floor.png in Resources */ = {isa = PBXBuildFile; fileRef = B41C293016C3FDB600D5C936 /* tile_floor.png */; };
+		B41F052B17426D3000E28E81 /* elev_bump_16k.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B41F052917426D3000E28E81 /* elev_bump_16k.jpg */; };
+		B41F052C17426D3000E28E81 /* earth-satellite-map-earth-satellite-map.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B41F052A17426D3000E28E81 /* earth-satellite-map-earth-satellite-map.jpg */; };
 		B4379D9C16CB9D9F00C18643 /* Renderer6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4379D9A16CB9D9F00C18643 /* Renderer6.cpp */; };
 		B43A2F6C16C948850028B546 /* cube_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B43A2F6B16C948850028B546 /* cube_map.png */; };
 		B43A2F7316C94AAF0028B546 /* cube_map_back.png in Resources */ = {isa = PBXBuildFile; fileRef = B43A2F6D16C94AAF0028B546 /* cube_map_back.png */; };
@@ -126,6 +128,8 @@
 		B41C292A16C3FB8400D5C936 /* TextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TextureShader.vsh; sourceTree = "<group>"; };
 		B41C292B16C3FB8400D5C936 /* TextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = TextureShader.fsh; sourceTree = "<group>"; };
 		B41C293016C3FDB600D5C936 /* tile_floor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile_floor.png; sourceTree = "<group>"; };
+		B41F052917426D3000E28E81 /* elev_bump_16k.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = elev_bump_16k.jpg; sourceTree = "<group>"; };
+		B41F052A17426D3000E28E81 /* earth-satellite-map-earth-satellite-map.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-satellite-map-earth-satellite-map.jpg"; sourceTree = "<group>"; };
 		B4379D9A16CB9D9F00C18643 /* Renderer6.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer6.cpp; sourceTree = "<group>"; };
 		B4379D9B16CB9D9F00C18643 /* Renderer6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer6.h; sourceTree = "<group>"; };
 		B4379D9D16CB9E0300C18643 /* VertexSkinningShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = VertexSkinningShader.fsh; sourceTree = "<group>"; };
@@ -327,6 +331,15 @@
 			path = PVR;
 			sourceTree = "<group>";
 		};
+		B41F052817426D1000E28E81 /* Originals */ = {
+			isa = PBXGroup;
+			children = (
+				B41F052917426D3000E28E81 /* elev_bump_16k.jpg */,
+				B41F052A17426D3000E28E81 /* earth-satellite-map-earth-satellite-map.jpg */,
+			);
+			path = Originals;
+			sourceTree = "<group>";
+		};
 		B43A2F6A16C9482F0028B546 /* Cube Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +464,7 @@
 		B4F7F82416AB40F3006F0C90 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B41F052817426D1000E28E81 /* Originals */,
 				B43A2F6A16C9482F0028B546 /* Cube Map */,
 				B4DB9A6616C8317B00E3B748 /* sphere_map.png */,
 				B415B2FC16C6F7E0005876AF /* girl.png */,
@@ -559,6 +573,8 @@
 				B4F5C683172A7FE10001A314 /* EarthMap.png in Resources */,
 				B4114220172B133F00B1C315 /* LightingShader.vsh in Resources */,
 				B40F2ED5172FC613005734C0 /* NormalMapEarth.png in Resources */,
+				B41F052B17426D3000E28E81 /* elev_bump_16k.jpg in Resources */,
+				B41F052C17426D3000E28E81 /* earth-satellite-map-earth-satellite-map.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
