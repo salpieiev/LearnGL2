@@ -324,7 +324,7 @@ vec3 Torus::Evaluate(const vec2 &domain) const
 
 TrefoilKnot::TrefoilKnot(float scale, vec2 textureCount): m_scale(scale)
 {
-    ParametricInterval parametricInterval = {ivec2(20, 10), vec2(TwoPi, TwoPi), textureCount};
+    ParametricInterval parametricInterval = {ivec2(160, 80), vec2(TwoPi, TwoPi), textureCount};
     SetInterval(parametricInterval);
 }
 

@@ -54,6 +54,7 @@
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
 		B4BA65F916CE883600B1C037 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65F716CE883600B1C037 /* Bone.cpp */; };
 		B4BA65FC16CE8E4500B1C037 /* BoneChain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65FA16CE8E4500B1C037 /* BoneChain.cpp */; };
+		B4D1B81D174AA66B00FA71BA /* Renderer15.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4D1B81B174AA66B00FA71BA /* Renderer15.cpp */; };
 		B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */; };
 		B4DB9A6716C8317B00E3B748 /* sphere_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B4DB9A6616C8317B00E3B748 /* sphere_map.png */; };
 		B4ECDB1716D942F3003117EA /* lightmap.png in Resources */ = {isa = PBXBuildFile; fileRef = B4ECDB1516D942F3003117EA /* lightmap.png */; };
@@ -172,6 +173,10 @@
 		B4BA65FB16CE8E4500B1C037 /* BoneChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneChain.h; sourceTree = "<group>"; };
 		B4C1CA6116DB8DD90048E4F2 /* MultitextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MultitextureShader.vsh; sourceTree = "<group>"; };
 		B4C1CA6316DB8DEC0048E4F2 /* MultitextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MultitextureShader.fsh; sourceTree = "<group>"; };
+		B4D1B81B174AA66B00FA71BA /* Renderer15.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer15.cpp; sourceTree = "<group>"; };
+		B4D1B81C174AA66B00FA71BA /* Renderer15.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer15.h; sourceTree = "<group>"; };
+		B4D1B81E174AA81900FA71BA /* BlurShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BlurShader.vsh; sourceTree = "<group>"; };
+		B4D1B820174AA82A00FA71BA /* BlurShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BlurShader.fsh; sourceTree = "<group>"; };
 		B4DB9A5D16C82F1500E3B748 /* Renderer4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer4.h; sourceTree = "<group>"; };
 		B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer4.cpp; sourceTree = "<group>"; };
 		B4DB9A6016C82F8900E3B748 /* CubeMapShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CubeMapShader.fsh; sourceTree = "<group>"; };
@@ -392,6 +397,8 @@
 				B411421D172B11B300B1C315 /* Renderer13.h */,
 				B40F2EDA172FD8FA005734C0 /* Renderer14.cpp */,
 				B40F2EDB172FD8FA005734C0 /* Renderer14.h */,
+				B4D1B81B174AA66B00FA71BA /* Renderer15.cpp */,
+				B4D1B81C174AA66B00FA71BA /* Renderer15.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -437,6 +444,8 @@
 				B4114221172B135200B1C315 /* LightingShader.fsh */,
 				B40F2ED6172FD870005734C0 /* NormalMapGenerator.vsh */,
 				B40F2ED8172FD87C005734C0 /* NormalMapGenerator.fsh */,
+				B4D1B81E174AA81900FA71BA /* BlurShader.vsh */,
+				B4D1B820174AA82A00FA71BA /* BlurShader.fsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -611,6 +620,7 @@
 				B4535AF41726DCA500EBB83D /* Renderer12.cpp in Sources */,
 				B411421E172B11B300B1C315 /* Renderer13.cpp in Sources */,
 				B40F2EDC172FD8FA005734C0 /* Renderer14.cpp in Sources */,
+				B4D1B81D174AA66B00FA71BA /* Renderer15.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
