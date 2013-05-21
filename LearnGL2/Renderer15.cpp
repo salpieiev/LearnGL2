@@ -22,7 +22,7 @@ struct Vertex
 
 
 
-Renderer15::Renderer15(int width, int height): RenderingEngine(width, height)
+Renderer15::Renderer15(int width, int height): RenderingEngine(width, height), m_texture(-1)
 {
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
@@ -85,6 +85,8 @@ Renderer15::Renderer15(int width, int height): RenderingEngine(width, height)
     glUniform3f(m_uniformAmbientLight, 0.04f, 0.04f, 0.04f);
     glUniform3f(m_uniformSpecularLight, 0.5f, 0.5f, 0.5f);
     glUniform1f(m_uniformShininess, 50);
+    
+    GenerateTexture();
 }
 
 Renderer15::~Renderer15()
@@ -97,19 +99,7 @@ void Renderer15::Render() const
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    mat4 orientation = m_rotator->GetOrientation().ToMatrix();
-    mat4 translation = mat4::Translate(0.0f, 0.0f, -7.0f);
-    mat4 modelview = orientation * translation;
-    mat3 normalMatrix = modelview.ToMat3();
-    
-    glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
-    glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
-    
-    glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-    glVertexAttribPointer(m_attribSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
-    glVertexAttribPointer(m_attribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
-    
-    glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
+    DrawSurface();
 }
 
 void Renderer15::OnFingerDown(ivec2 location)
@@ -126,3 +116,43 @@ void Renderer15::OnFingerUp(ivec2 location)
 {
     m_rotator->End(location);
 }
+
+void Renderer15::DrawSurface() const
+{
+    mat4 orientation = m_rotator->GetOrientation().ToMatrix();
+    mat4 translation = mat4::Translate(0.0f, 0.0f, -7.0f);
+    mat4 modelview = orientation * translation;
+    mat3 normalMatrix = modelview.ToMat3();
+    
+    glUniformMatrix4fv(m_uniformModelview, 1, GL_FALSE, modelview.Pointer());
+    glUniformMatrix3fv(m_uniformNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
+    
+    glVertexAttribPointer(m_attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+    glVertexAttribPointer(m_attribSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
+    glVertexAttribPointer(m_attribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
+    
+    glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, NULL);
+}
+
+void Renderer15::GenerateTexture()
+{
+//    GLuint texture;
+//    glGenTextures(1, &texture);
+//    glBindTexture(GL_TEXTURE_2D, texture);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2048, 2048, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
+//    
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    
+//    GLuint depthRenderbuffer;
+//    glGenRenderbuffers(1, &depthRenderbuffer);
+//    glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
+//    
+//    GLuint framebuffer;
+//    glGenFramebuffers(1, &framebuffer);
+//    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_COMPONENT16, <#GLenum renderbuffertarget#>, <#GLuint renderbuffer#>)
+}
+
+
+

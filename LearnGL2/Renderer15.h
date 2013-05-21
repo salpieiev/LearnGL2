@@ -23,9 +23,14 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
+    void DrawSurface() const;
+    void GenerateTexture();
+    
     Rotator *m_rotator;
     
     GLuint m_program;
+    GLuint m_texture;
+    
     GLint m_attribPosition;
     GLint m_attribSourceColor;
     GLint m_attribNormal;
