@@ -23,7 +23,9 @@ public:
     void OnFingerUp(ivec2 location);
     
 private:
+    void BuildSurfaceProgram();
     void DrawSurface() const;
+    void DrawBlurredTexture() const;
     void GenerateTexture();
     
     Rotator *m_rotator;

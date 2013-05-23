@@ -1,0 +1,6 @@
+const char *BlurTextureVertexShader = STRINGIFY
+(
+
+
+
+);
