@@ -10,6 +10,8 @@
 #include "ParametricSurface.h"
 #include "Shaders/BlurShader.vsh"
 #include "Shaders/BlurShader.fsh"
+#include "Shaders/BlurTextureShader.vsh"
+#include "Shaders/BlurTextureShader.fsh"
 
 
 
@@ -29,39 +31,10 @@ Renderer15::Renderer15(int width, int height): RenderingEngine(width, height), m
     
     m_rotator = new Rotator(m_surfaceSize);
     
+    BuildTextureProgram();
     BuildSurfaceProgram();
     
-    // Create surface
-    //    surface = Cone(5.0f, 1.8f);
-//    Cylinder surface(3.0f, 0.5f);
-    //    surface = Sphere(2.0f);
-    //    surface = Torus(1.8f, 0.5f);
-    TrefoilKnot surface = TrefoilKnot(3.0f);
-    //    surface = MobiusStrip(1.5f);
-    //    surface = KleinBottle(0.3f);
-    
-    vector<float> vertices;
-    surface.GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals);
-    
-    vector<unsigned short> indices;
-    surface.GenerateTriangleIndices(indices);
-    m_indexCount = indices.size();
-    
-    // Generate vertex buffer
-    glGenBuffers(1, &m_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
-    
-    // Generate index buffer
-    glGenBuffers(1, &m_indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
-    
-    // Setup uniforms
-    glUniform3f(m_uniformLightPosition, 0.25f, 0.25f, 1.0f);
-    glUniform3f(m_uniformAmbientLight, 0.04f, 0.04f, 0.04f);
-    glUniform3f(m_uniformSpecularLight, 0.5f, 0.5f, 0.5f);
-    glUniform1f(m_uniformShininess, 50);
+    GenerateSurfaceBuffers();
     
     GenerateTexture();
     
@@ -83,7 +56,7 @@ void Renderer15::Render() const
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    DrawSurface();
+    DrawBlurredTexture();
 }
 
 void Renderer15::OnFingerDown(ivec2 location)
@@ -118,8 +91,62 @@ void Renderer15::BuildSurfaceProgram()
     m_uniformShininess = glGetUniformLocation(m_program, "Shininess");
 }
 
+void Renderer15::BuildTextureProgram()
+{
+    m_textureProgram = BuildProgram(BlurTextureVertexShader, BlurTextureFragmentShader);
+    glUseProgram(m_textureProgram);
+    
+    m_attribTexPosition = glGetAttribLocation(m_textureProgram, "a_position");
+    m_attribTexCoord = glGetAttribLocation(m_textureProgram, "a_texCoord");
+    m_uniformTexProjection = glGetUniformLocation(m_textureProgram, "u_projection");
+    m_uniformTexModelview = glGetUniformLocation(m_textureProgram, "u_modelview");
+}
+
+void Renderer15::GenerateSurfaceBuffers()
+{
+    // Create surface
+    //    surface = Cone(5.0f, 1.8f);
+    //    Cylinder surface(3.0f, 0.5f);
+    //    surface = Sphere(2.0f);
+    //    surface = Torus(1.8f, 0.5f);
+    TrefoilKnot surface = TrefoilKnot(3.0f);
+    //    surface = MobiusStrip(1.5f);
+    //    surface = KleinBottle(0.3f);
+    
+    vector<float> vertices;
+    surface.GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals);
+    
+    vector<unsigned short> indices;
+    surface.GenerateTriangleIndices(indices);
+    m_indexCount = indices.size();
+    
+    // Generate vertex buffer
+    glGenBuffers(1, &m_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    
+    // Generate index buffer
+    glGenBuffers(1, &m_indexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
+    
+    // Setup uniforms
+    glUniform3f(m_uniformLightPosition, 0.25f, 0.25f, 1.0f);
+    glUniform3f(m_uniformAmbientLight, 0.04f, 0.04f, 0.04f);
+    glUniform3f(m_uniformSpecularLight, 0.5f, 0.5f, 0.5f);
+    glUniform1f(m_uniformShininess, 50);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
 void Renderer15::DrawSurface() const
 {
+    glUseProgram(m_program);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+    
     mat4 orientation = m_rotator->GetOrientation().ToMatrix();
     mat4 translation = mat4::Translate(0.0f, 0.0f, -7.0f);
     mat4 modelview = orientation * translation;
@@ -145,11 +172,52 @@ void Renderer15::DrawSurface() const
 
 void Renderer15::DrawBlurredTexture() const
 {
+    glUseProgram(m_textureProgram);
     
+    GLfloat vertices[] =
+    {
+        -1.0f, -1.0f, -7.0f,
+        1.0f, -1.0f, -7.0f,
+        1.0f, 1.0f, -7.0f,
+        -1.0f, -1.0f, -7.0f,
+        1.0f, 1.0f, -7.0f,
+        -1.0f, 1.0f, -7.0f
+    };
+    
+    GLfloat texCoords[] =
+    {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
+    };
+    
+    // Set frustum
+    GLfloat h = 4 * m_surfaceSize.y / m_surfaceSize.x;
+    mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
+    glUniformMatrix4fv(m_uniformTexProjection, 1, GL_FALSE, projection.Pointer());
+    
+    mat4 modelview;
+    glUniformMatrix4fv(m_uniformTexModelview, 1, GL_FALSE, modelview.Pointer());
+    
+    glEnableVertexAttribArray(m_attribTexPosition);
+    glEnableVertexAttribArray(m_attribTexCoord);
+    
+    glVertexAttribPointer(m_attribTexPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, vertices);
+    glVertexAttribPointer(m_attribTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, texCoords);
+    
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    
+    glDisableVertexAttribArray(m_attribTexPosition);
+    glDisableVertexAttribArray(m_attribTexCoord);
 }
 
 void Renderer15::GenerateTexture()
 {
+    glUseProgram(m_program);
+    
     GLuint texture;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -173,6 +241,9 @@ void Renderer15::GenerateTexture()
     glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
     
     glViewport(0, 0, 2048, 2048);
+    
+    glClearColor(0.5f, 0.4f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     DrawSurface();
 }

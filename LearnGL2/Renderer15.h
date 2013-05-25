@@ -24,6 +24,8 @@ public:
     
 private:
     void BuildSurfaceProgram();
+    void BuildTextureProgram();
+    void GenerateSurfaceBuffers();
     void DrawSurface() const;
     void DrawBlurredTexture() const;
     void GenerateTexture();
@@ -31,11 +33,14 @@ private:
     Rotator *m_rotator;
     
     GLuint m_program;
+    GLuint m_textureProgram;
     GLuint m_texture;
     
     GLint m_attribPosition;
     GLint m_attribSourceColor;
     GLint m_attribNormal;
+    GLint m_attribTexPosition;
+    GLint m_attribTexCoord;
     
     GLuint m_uniformProjection;
     GLuint m_uniformModelview;
@@ -44,6 +49,8 @@ private:
     GLuint m_uniformAmbientLight;
     GLuint m_uniformSpecularLight;
     GLuint m_uniformShininess;
+    GLuint m_uniformTexProjection;
+    GLuint m_uniformTexModelview;
     
     GLuint m_vertexBuffer;
     GLuint m_indexBuffer;
