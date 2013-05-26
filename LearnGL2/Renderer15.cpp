@@ -168,6 +168,9 @@ void Renderer15::DrawSurface() const
     glDisableVertexAttribArray(m_attribPosition);
     glDisableVertexAttribArray(m_attribSourceColor);
     glDisableVertexAttribArray(m_attribNormal);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void Renderer15::DrawBlurredTexture() const
@@ -176,12 +179,12 @@ void Renderer15::DrawBlurredTexture() const
     
     GLfloat vertices[] =
     {
-        -1.0f, -1.0f, -7.0f,
-        1.0f, -1.0f, -7.0f,
-        1.0f, 1.0f, -7.0f,
-        -1.0f, -1.0f, -7.0f,
-        1.0f, 1.0f, -7.0f,
-        -1.0f, 1.0f, -7.0f
+        -2.0f, -2.0f, -5.0f,
+        2.0f, -2.0f, -5.0f,
+        2.0f, 2.0f, -5.0f,
+        -2.0f, -2.0f, -5.0f,
+        2.0f, 2.0f, -5.0f,
+        -2.0f, 2.0f, -5.0f
     };
     
     GLfloat texCoords[] =
@@ -205,8 +208,8 @@ void Renderer15::DrawBlurredTexture() const
     glEnableVertexAttribArray(m_attribTexPosition);
     glEnableVertexAttribArray(m_attribTexCoord);
     
-    glVertexAttribPointer(m_attribTexPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, vertices);
-    glVertexAttribPointer(m_attribTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, texCoords);
+    glVertexAttribPointer(m_attribTexPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, vertices);
+    glVertexAttribPointer(m_attribTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, texCoords);
     
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
@@ -237,7 +240,7 @@ void Renderer15::GenerateTexture()
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
     
-    mat4 projection = mat4::Frustum(-2.0f, 2.0f, -.0f, 2.0f, 4.0f, 10.0f);
+    mat4 projection = mat4::Frustum(-2.0f, 2.0f, -2.0f, 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformProjection, 1, GL_FALSE, projection.Pointer());
     
     glViewport(0, 0, 2048, 2048);
