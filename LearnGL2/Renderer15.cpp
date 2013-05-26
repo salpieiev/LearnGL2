@@ -100,6 +100,7 @@ void Renderer15::BuildTextureProgram()
     m_attribTexCoord = glGetAttribLocation(m_textureProgram, "a_texCoord");
     m_uniformTexProjection = glGetUniformLocation(m_textureProgram, "u_projection");
     m_uniformTexModelview = glGetUniformLocation(m_textureProgram, "u_modelview");
+    m_uniformTexBlurStep = glGetUniformLocation(m_textureProgram, "u_blurStep");
 }
 
 void Renderer15::GenerateSurfaceBuffers()
@@ -204,6 +205,8 @@ void Renderer15::DrawBlurredTexture() const
     
     mat4 modelview;
     glUniformMatrix4fv(m_uniformTexModelview, 1, GL_FALSE, modelview.Pointer());
+    
+    glUniform1f(m_uniformTexBlurStep, 0.005f);
     
     glEnableVertexAttribArray(m_attribTexPosition);
     glEnableVertexAttribArray(m_attribTexCoord);

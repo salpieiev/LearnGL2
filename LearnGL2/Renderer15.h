@@ -51,6 +51,7 @@ private:
     GLuint m_uniformShininess;
     GLuint m_uniformTexProjection;
     GLuint m_uniformTexModelview;
+    GLuint m_uniformTexBlurStep;
     
     GLuint m_vertexBuffer;
     GLuint m_indexBuffer;
