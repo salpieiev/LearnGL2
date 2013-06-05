@@ -51,6 +51,8 @@
 		B4A5308E16BD9C4C002F8749 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A5308D16BD9C4C002F8749 /* GLKit.framework */; };
 		B4A8470016DF9D7800E8F623 /* Renderer8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4A846FE16DF9D7800E8F623 /* Renderer8.cpp */; };
 		B4AFB9BA16CA65B800EF25D9 /* Renderer5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */; };
+		B4B2711C175FD5B900DB2B4D /* Renderer16.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B2711A175FD5B900DB2B4D /* Renderer16.cpp */; };
+		B4B2711E175FD84A00DB2B4D /* bloom_background.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B2711D175FD84A00DB2B4D /* bloom_background.png */; };
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
 		B4BA65F916CE883600B1C037 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65F716CE883600B1C037 /* Bone.cpp */; };
 		B4BA65FC16CE8E4500B1C037 /* BoneChain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65FA16CE8E4500B1C037 /* BoneChain.cpp */; };
@@ -163,6 +165,13 @@
 		B4AFB9B516CA63A000EF25D9 /* SphereMapShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SphereMapShader.vsh; sourceTree = "<group>"; };
 		B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer5.cpp; sourceTree = "<group>"; };
 		B4AFB9B916CA65B800EF25D9 /* Renderer5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer5.h; sourceTree = "<group>"; };
+		B4B27116175FD59A00DB2B4D /* CrudeBloom.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CrudeBloom.vsh; sourceTree = "<group>"; };
+		B4B27118175FD5A400DB2B4D /* CrudeBloom.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CrudeBloom.fsh; sourceTree = "<group>"; };
+		B4B2711A175FD5B900DB2B4D /* Renderer16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer16.cpp; sourceTree = "<group>"; };
+		B4B2711B175FD5B900DB2B4D /* Renderer16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer16.h; sourceTree = "<group>"; };
+		B4B2711D175FD84A00DB2B4D /* bloom_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bloom_background.png; sourceTree = "<group>"; };
+		B4B2711F175FD8C800DB2B4D /* CrudeBloomTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CrudeBloomTextureShader.vsh; sourceTree = "<group>"; };
+		B4B27121175FD8D700DB2B4D /* CrudeBloomTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CrudeBloomTextureShader.fsh; sourceTree = "<group>"; };
 		B4B8D07C16A20EB9009B418F /* Renderer0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer0.cpp; sourceTree = "<group>"; };
 		B4B8D07D16A20EB9009B418F /* Renderer0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer0.h; sourceTree = "<group>"; };
 		B4B8D08416A21E91009B418F /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
@@ -361,6 +370,17 @@
 			path = "Cube Map";
 			sourceTree = "<group>";
 		};
+		B4B27115175FD55F00DB2B4D /* Renderer16 */ = {
+			isa = PBXGroup;
+			children = (
+				B4B27116175FD59A00DB2B4D /* CrudeBloom.vsh */,
+				B4B27118175FD5A400DB2B4D /* CrudeBloom.fsh */,
+				B4B2711F175FD8C800DB2B4D /* CrudeBloomTextureShader.vsh */,
+				B4B27121175FD8D700DB2B4D /* CrudeBloomTextureShader.fsh */,
+			);
+			name = Renderer16;
+			sourceTree = "<group>";
+		};
 		B4B8D07A16A20EA2009B418F /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,6 +421,8 @@
 				B40F2EDB172FD8FA005734C0 /* Renderer14.h */,
 				B4D1B81B174AA66B00FA71BA /* Renderer15.cpp */,
 				B4D1B81C174AA66B00FA71BA /* Renderer15.h */,
+				B4B2711A175FD5B900DB2B4D /* Renderer16.cpp */,
+				B4B2711B175FD5B900DB2B4D /* Renderer16.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -450,6 +472,7 @@
 				B4D1B820174AA82A00FA71BA /* BlurShader.fsh */,
 				B4C9171D174E4EAE0097FDF9 /* BlurTextureShader.vsh */,
 				B4C9171F174E4EBD0097FDF9 /* BlurTextureShader.fsh */,
+				B4B27115175FD55F00DB2B4D /* Renderer16 */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -487,6 +510,7 @@
 				B4ECDB1616D942F3003117EA /* basemap.png */,
 				B4F5C682172A7FE10001A314 /* EarthMap.png */,
 				B40F2ED4172FC613005734C0 /* NormalMapEarth.png */,
+				B4B2711D175FD84A00DB2B4D /* bloom_background.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -588,6 +612,7 @@
 				B40F2ED5172FC613005734C0 /* NormalMapEarth.png in Resources */,
 				B41F052B17426D3000E28E81 /* elev_bump_16k.jpg in Resources */,
 				B41F052C17426D3000E28E81 /* earth-satellite-map-earth-satellite-map.jpg in Resources */,
+				B4B2711E175FD84A00DB2B4D /* bloom_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,6 +650,7 @@
 				B411421E172B11B300B1C315 /* Renderer13.cpp in Sources */,
 				B40F2EDC172FD8FA005734C0 /* Renderer14.cpp in Sources */,
 				B4D1B81D174AA66B00FA71BA /* Renderer15.cpp in Sources */,
+				B4B2711C175FD5B900DB2B4D /* Renderer16.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
