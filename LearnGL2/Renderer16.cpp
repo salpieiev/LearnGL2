@@ -7,8 +7,20 @@
 //
 
 #include "Renderer16.h"
+#include "ParametricSurface.h"
 #include "Shaders/CrudeBloomTextureShader.vsh"
 #include "Shaders/CrudeBloomTextureShader.fsh"
+#include "Shaders/CrudeBloomSurfaceShader.vsh"
+#include "Shaders/CrudeBloomSurfaceShader.fsh"
+
+
+
+struct Vertex
+{
+    vec3 Position;
+    vec4 Color;
+    vec3 Normal;
+};
 
 
 
@@ -16,11 +28,19 @@ Renderer16::Renderer16(int width, int height): RenderingEngine(width, height)
 {
     BuildTextureProgram();
     LoadTexture();
+    
+    BuildSurfaceProgram();
+    GenerateSurfaceBuffers();
+    
+    m_rotator = new Rotator(m_surfaceSize);
+    
+    glViewport(0, 0, width, height);
+    glEnable(GL_DEPTH_TEST);
 }
 
 Renderer16::~Renderer16()
 {
-    
+    delete m_rotator;
 }
 
 void Renderer16::Render() const
@@ -29,21 +49,25 @@ void Renderer16::Render() const
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     DrawTexture();
+    
+    glClear(GL_DEPTH_BUFFER_BIT);
+    
+    DrawSurface();
 }
 
 void Renderer16::OnFingerDown(ivec2 location)
 {
-    
+    m_rotator->Start(location);
 }
 
 void Renderer16::OnFingerMove(ivec2 oldLocation, ivec2 newLocation)
 {
-    
+    m_rotator->Move(newLocation);
 }
 
 void Renderer16::OnFingerUp(ivec2 location)
 {
-    
+    m_rotator->End(location);
 }
 
 void Renderer16::BuildTextureProgram()
@@ -55,6 +79,24 @@ void Renderer16::BuildTextureProgram()
     m_attribTextureCoord = glGetAttribLocation(m_textureProgram, "a_texCoord");
 }
 
+void Renderer16::BuildSurfaceProgram()
+{
+    m_surfaceProgram = BuildProgram(CrudeBloomSurfaceVertexShader, CrudeBloomSurfaceFragmentShader);
+    glUseProgram(m_surfaceProgram);
+    
+    m_attribSurfacePosition = glGetAttribLocation(m_surfaceProgram, "Position");
+    m_attribSurfaceSourceColor = glGetAttribLocation(m_surfaceProgram, "SourceColor");
+    m_attribSurfaceNormal = glGetAttribLocation(m_surfaceProgram, "Normal");
+    m_uniformSurfaceProjection = glGetUniformLocation(m_surfaceProgram, "Projection");
+    m_uniformSurfaceModelview = glGetUniformLocation(m_surfaceProgram, "Modelview");
+    m_uniformSurfaceNormalMatrix = glGetUniformLocation(m_surfaceProgram, "NormalMatrix");
+    m_uniformSurfaceLightPosition = glGetUniformLocation(m_surfaceProgram, "LightPosition");
+    m_uniformSurfaceAmbientLight = glGetUniformLocation(m_surfaceProgram, "AmbientLight");
+    m_uniformSurfaceSpecularLight = glGetUniformLocation(m_surfaceProgram, "SpecularLight");
+    m_uniformSurfaceShininess = glGetUniformLocation(m_surfaceProgram, "Shininess");
+}
+
+
 void Renderer16::LoadTexture()
 {
     glGenTextures(1, &m_backgroundTexture);
@@ -62,6 +104,44 @@ void Renderer16::LoadTexture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     SetPngPOTTexture("bloom_background.png");
+}
+
+void Renderer16::GenerateSurfaceBuffers()
+{
+    // Create surface
+    //    surface = Cone(5.0f, 1.8f);
+    //    Cylinder surface(3.0f, 0.5f);
+    //    surface = Sphere(2.0f);
+    //    surface = Torus(1.8f, 0.5f);
+    TrefoilKnot surface = TrefoilKnot(3.0f);
+    //    surface = MobiusStrip(1.5f);
+    //    surface = KleinBottle(0.3f);
+    
+    vector<float> vertices;
+    surface.GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals);
+    
+    vector<unsigned short> indices;
+    surface.GenerateTriangleIndices(indices);
+    m_surfaceIndexCount = indices.size();
+    
+    // Generate vertex buffer
+    glGenBuffers(1, &m_surfaceVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
+    
+    // Generate index buffer
+    glGenBuffers(1, &m_surfaceIndexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_surfaceIndexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * indices.size(), &indices[0], GL_STATIC_DRAW);
+    
+    // Setup uniforms
+    glUniform3f(m_uniformSurfaceLightPosition, 0.25f, 0.25f, 1.0f);
+    glUniform3f(m_uniformSurfaceAmbientLight, 0.04f, 0.04f, 0.04f);
+    glUniform3f(m_uniformSurfaceSpecularLight, 0.5f, 0.5f, 0.5f);
+    glUniform1f(m_uniformSurfaceShininess, 50);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void Renderer16::DrawTexture() const
@@ -102,3 +182,44 @@ void Renderer16::DrawTexture() const
     glDisableVertexAttribArray(m_attribTexturePosition);
     glDisableVertexAttribArray(m_attribTextureCoord);
 }
+
+void Renderer16::DrawSurface() const
+{
+    glUseProgram(m_surfaceProgram);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, m_surfaceVertexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_surfaceIndexBuffer);
+    
+    mat4 orientation = m_rotator->GetOrientation().ToMatrix();
+    mat4 translation = mat4::Translate(0.0f, 0.0f, -7.0f);
+    mat4 modelview = orientation * translation;
+    mat3 normalMatrix = modelview.ToMat3();
+    
+    GLfloat h = 4 * m_surfaceSize.y / m_surfaceSize.x;
+    mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
+    glUniformMatrix4fv(m_uniformSurfaceProjection, 1, GL_FALSE, projection.Pointer());
+    
+    glUniformMatrix4fv(m_uniformSurfaceModelview, 1, GL_FALSE, modelview.Pointer());
+    glUniformMatrix3fv(m_uniformSurfaceNormalMatrix, 1, GL_FALSE, normalMatrix.Pointer());
+    
+    glEnableVertexAttribArray(m_attribSurfacePosition);
+    glEnableVertexAttribArray(m_attribSurfaceSourceColor);
+    glEnableVertexAttribArray(m_attribSurfaceNormal);
+    
+    glVertexAttribPointer(m_attribSurfacePosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
+    glVertexAttribPointer(m_attribSurfaceSourceColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)sizeof(Vertex::Position));
+    glVertexAttribPointer(m_attribSurfaceNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(sizeof(Vertex::Position) + sizeof(Vertex::Color)));
+    
+    glDrawElements(GL_TRIANGLES, m_surfaceIndexCount, GL_UNSIGNED_SHORT, NULL);
+    
+    glDisableVertexAttribArray(m_attribSurfacePosition);
+    glDisableVertexAttribArray(m_attribSurfaceSourceColor);
+    glDisableVertexAttribArray(m_attribSurfaceNormal);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+
+
+

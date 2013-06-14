@@ -214,6 +214,8 @@
 		B4FB0FE916BFDADB007ABBC3 /* Rotator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rotator.h; sourceTree = "<group>"; };
 		B4FB0FEB16C01D06007ABBC3 /* SpotLightShader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = SpotLightShader.vsh; sourceTree = "<group>"; };
 		B4FB0FEC16C01D16007ABBC3 /* SpotLightShader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = SpotLightShader.fsh; sourceTree = "<group>"; };
+		B4FDEFE6176BA73A00950A30 /* CrudeBloomSurfaceShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CrudeBloomSurfaceShader.vsh; sourceTree = "<group>"; };
+		B4FDEFE8176BA74400950A30 /* CrudeBloomSurfaceShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CrudeBloomSurfaceShader.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,6 +379,8 @@
 				B4B27118175FD5A400DB2B4D /* CrudeBloom.fsh */,
 				B4B2711F175FD8C800DB2B4D /* CrudeBloomTextureShader.vsh */,
 				B4B27121175FD8D700DB2B4D /* CrudeBloomTextureShader.fsh */,
+				B4FDEFE6176BA73A00950A30 /* CrudeBloomSurfaceShader.vsh */,
+				B4FDEFE8176BA74400950A30 /* CrudeBloomSurfaceShader.fsh */,
 			);
 			name = Renderer16;
 			sourceTree = "<group>";

@@ -7,6 +7,7 @@
 //
 
 #include "RenderingEngine.h"
+#include "Rotator.h"
 
 
 
@@ -23,13 +24,34 @@ public:
     
 private:
     void BuildTextureProgram();
+    void BuildSurfaceProgram();
     void LoadTexture();
+    void GenerateSurfaceBuffers();
     void DrawTexture() const;
+    void DrawSurface() const;
+    
+    Rotator *m_rotator;
     
     GLuint m_textureProgram;
+    GLuint m_surfaceProgram;
     
     GLuint m_backgroundTexture;
     
     GLint m_attribTexturePosition;
     GLint m_attribTextureCoord;
+    GLint m_attribSurfacePosition;
+    GLint m_attribSurfaceSourceColor;
+    GLint m_attribSurfaceNormal;
+    
+    GLuint m_uniformSurfaceProjection;
+    GLuint m_uniformSurfaceModelview;
+    GLuint m_uniformSurfaceNormalMatrix;
+    GLuint m_uniformSurfaceLightPosition;
+    GLuint m_uniformSurfaceAmbientLight;
+    GLuint m_uniformSurfaceSpecularLight;
+    GLuint m_uniformSurfaceShininess;
+    
+    GLuint m_surfaceVertexBuffer;
+    GLuint m_surfaceIndexBuffer;
+    GLuint m_surfaceIndexCount;
 };
