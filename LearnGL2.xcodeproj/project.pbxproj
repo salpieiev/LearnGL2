@@ -165,8 +165,6 @@
 		B4AFB9B516CA63A000EF25D9 /* SphereMapShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = SphereMapShader.vsh; sourceTree = "<group>"; };
 		B4AFB9B816CA65B800EF25D9 /* Renderer5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer5.cpp; sourceTree = "<group>"; };
 		B4AFB9B916CA65B800EF25D9 /* Renderer5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer5.h; sourceTree = "<group>"; };
-		B4B27116175FD59A00DB2B4D /* CrudeBloom.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CrudeBloom.vsh; sourceTree = "<group>"; };
-		B4B27118175FD5A400DB2B4D /* CrudeBloom.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = CrudeBloom.fsh; sourceTree = "<group>"; };
 		B4B2711A175FD5B900DB2B4D /* Renderer16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer16.cpp; sourceTree = "<group>"; };
 		B4B2711B175FD5B900DB2B4D /* Renderer16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer16.h; sourceTree = "<group>"; };
 		B4B2711D175FD84A00DB2B4D /* bloom_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bloom_background.png; sourceTree = "<group>"; };
@@ -375,8 +373,6 @@
 		B4B27115175FD55F00DB2B4D /* Renderer16 */ = {
 			isa = PBXGroup;
 			children = (
-				B4B27116175FD59A00DB2B4D /* CrudeBloom.vsh */,
-				B4B27118175FD5A400DB2B4D /* CrudeBloom.fsh */,
 				B4B2711F175FD8C800DB2B4D /* CrudeBloomTextureShader.vsh */,
 				B4B27121175FD8D700DB2B4D /* CrudeBloomTextureShader.fsh */,
 				B4FDEFE6176BA73A00950A30 /* CrudeBloomSurfaceShader.vsh */,

@@ -43,6 +43,7 @@ private:
     GLint m_attribSurfaceSourceColor;
     GLint m_attribSurfaceNormal;
     
+    GLuint m_uniformTextureThreshold;
     GLuint m_uniformSurfaceProjection;
     GLuint m_uniformSurfaceModelview;
     GLuint m_uniformSurfaceNormalMatrix;

@@ -48,6 +48,9 @@ void Renderer16::Render() const
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    glUseProgram(m_textureProgram);
+    glUniform1f(m_uniformTextureThreshold, 0.0f);
+    
     DrawTexture();
     
     glClear(GL_DEPTH_BUFFER_BIT);
@@ -77,6 +80,8 @@ void Renderer16::BuildTextureProgram()
     
     m_attribTexturePosition = glGetAttribLocation(m_textureProgram, "a_position");
     m_attribTextureCoord = glGetAttribLocation(m_textureProgram, "a_texCoord");
+    
+    m_uniformTextureThreshold = glGetUniformLocation(m_textureProgram, "u_threshold");
 }
 
 void Renderer16::BuildSurfaceProgram()
