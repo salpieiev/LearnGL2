@@ -74,6 +74,8 @@ Renderer16::Renderer16(int width, int height): RenderingEngine(width, height)
         
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.OffscreenTextures[i], 0);
     }
+    
+    GenerateBloomTexture();
 }
 
 Renderer16::~Renderer16()
@@ -86,7 +88,7 @@ void Renderer16::Render() const
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    GenerateBloomTexture();
+    
 }
 
 void Renderer16::OnFingerDown(ivec2 location)
@@ -261,6 +263,8 @@ void Renderer16::GenerateBloomTexture() const
     glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
     
     glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.SceneFramebuffer);
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glUseProgram(m_textureProgram);
     glUniform1f(m_uniformTextureThreshold, 0.0f);
