@@ -52,6 +52,7 @@ private:
     void GenerateSurfaceBuffers();
     void DrawTexture() const;
     void DrawSurface() const;
+    void GenerateBloomTexture() const;
     
     Rotator *m_rotator;
     

@@ -46,6 +46,8 @@ Renderer16::Renderer16(int width, int height): RenderingEngine(width, height)
     glBindTexture(GL_TEXTURE_2D, m_textures.SceneTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
     glGenFramebuffers(1, &m_framebuffers.SceneFramebuffer);
@@ -57,7 +59,8 @@ Renderer16::Renderer16(int width, int height): RenderingEngine(width, height)
     int w = width;
     int h = height;
     
-    for (int i = 0; i < OffscreenCount; i++, w >>= 1, h >>= 1) {
+    for (int i = 0; i < OffscreenCount; i++, w >>= 1, h >>= 1)
+    {
         glGenFramebuffers(1, &m_framebuffers.OffscreenFramebuffers[i]);
         glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenFramebuffers[i]);
         
@@ -65,6 +68,8 @@ Renderer16::Renderer16(int width, int height): RenderingEngine(width, height)
         glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenTextures[i]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
         
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.OffscreenTextures[i], 0);
@@ -81,14 +86,7 @@ void Renderer16::Render() const
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glUseProgram(m_textureProgram);
-    glUniform1f(m_uniformTextureThreshold, 0.0f);
-    
-    DrawTexture();
-    
-    glClear(GL_DEPTH_BUFFER_BIT);
-    
-    DrawSurface();
+    GenerateBloomTexture();
 }
 
 void Renderer16::OnFingerDown(ivec2 location)
@@ -208,8 +206,6 @@ void Renderer16::DrawTexture() const
     };
     
     glUseProgram(m_textureProgram);
-    glBindTexture(GL_TEXTURE_2D, m_textures.BackgroundTexture);
-    glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
     
     glEnableVertexAttribArray(m_attribTexturePosition);
     glEnableVertexAttribArray(m_attribTextureCoord);
@@ -259,6 +255,49 @@ void Renderer16::DrawSurface() const
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+
+void Renderer16::GenerateBloomTexture() const
+{
+    glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.SceneFramebuffer);
+    
+    glUseProgram(m_textureProgram);
+    glUniform1f(m_uniformTextureThreshold, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, m_textures.BackgroundTexture);
+    
+    DrawTexture();
+    
+    glClear(GL_DEPTH_BUFFER_BIT);
+    
+    DrawSurface();
+    
+    glUseProgram(m_textureProgram);
+    glUniform1f(m_uniformTextureThreshold, 0.85f);
+    
+    // Downsample the rendered scene
+    int w = m_surfaceSize.x;
+    int h = m_surfaceSize.y;
+    for (int i = 0; i < OffscreenCount; i++, w >>= 1, h >>= 1)
+    {
+        glViewport(0, 0, w, h);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenFramebuffers[i]);
+        glBindTexture(GL_TEXTURE_2D, i ? m_textures.OffscreenTextures[i - 1] : m_textures.SceneTexture);
+        
+        DrawTexture();
+        
+        glUseProgram(m_textureProgram);
+        glUniform1f(m_uniformTextureThreshold, 0.0f);
+    }
+}
+
+
+
+
+
+
+
+
 
 
 
