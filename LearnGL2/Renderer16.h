@@ -11,6 +11,29 @@
 
 
 
+const int OffscreenCount = 5;
+
+struct Framebuffers
+{
+    GLuint SceneFramebuffer;
+    GLuint OffscreenFramebuffers[OffscreenCount];
+};
+
+struct Renderbuffers
+{
+    GLuint SceneColorRenderbuffer;
+    GLuint SceneDepthRenderbuffer;
+};
+
+struct BloomTextures
+{
+    GLuint BackgroundTexture;
+    GLuint SceneTexture;
+    GLuint OffscreenTextures[OffscreenCount];
+};
+
+
+
 class Renderer16 : public RenderingEngine
 {
 public:
@@ -35,8 +58,6 @@ private:
     GLuint m_textureProgram;
     GLuint m_surfaceProgram;
     
-    GLuint m_backgroundTexture;
-    
     GLint m_attribTexturePosition;
     GLint m_attribTextureCoord;
     GLint m_attribSurfacePosition;
@@ -55,4 +76,8 @@ private:
     GLuint m_surfaceVertexBuffer;
     GLuint m_surfaceIndexBuffer;
     GLuint m_surfaceIndexCount;
+    
+    Framebuffers m_framebuffers;
+    Renderbuffers m_renderbuffers;
+    BloomTextures m_textures;
 };

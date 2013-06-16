@@ -36,6 +36,39 @@ Renderer16::Renderer16(int width, int height): RenderingEngine(width, height)
     
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
+    
+    // Create the depth buffer for the full-size off-screen FBO
+    glGenRenderbuffers(1, &m_renderbuffers.SceneDepthRenderbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_renderbuffers.SceneDepthRenderbuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
+    
+    glGenTextures(1, &m_textures.SceneTexture);
+    glBindTexture(GL_TEXTURE_2D, m_textures.SceneTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    
+    glGenFramebuffers(1, &m_framebuffers.SceneFramebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.SceneFramebuffer);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderbuffers.SceneDepthRenderbuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.SceneTexture, 0);
+    
+    // Create FBOs for the half, quarter and eight sizes
+    int w = width;
+    int h = height;
+    
+    for (int i = 0; i < OffscreenCount; i++, w >>= 1, h >>= 1) {
+        glGenFramebuffers(1, &m_framebuffers.OffscreenFramebuffers[i]);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenFramebuffers[i]);
+        
+        glGenTextures(1, &m_textures.OffscreenTextures[i]);
+        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenTextures[i]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.OffscreenTextures[i], 0);
+    }
 }
 
 Renderer16::~Renderer16()
@@ -104,7 +137,8 @@ void Renderer16::BuildSurfaceProgram()
 
 void Renderer16::LoadTexture()
 {
-    glGenTextures(1, &m_backgroundTexture);
+    glGenTextures(1, &m_textures.BackgroundTexture);
+    glBindTexture(GL_TEXTURE_2D, m_textures.BackgroundTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
@@ -174,6 +208,7 @@ void Renderer16::DrawTexture() const
     };
     
     glUseProgram(m_textureProgram);
+    glBindTexture(GL_TEXTURE_2D, m_textures.BackgroundTexture);
     glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
     
     glEnableVertexAttribArray(m_attribTexturePosition);
