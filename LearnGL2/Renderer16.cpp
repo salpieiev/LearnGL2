@@ -88,7 +88,17 @@ void Renderer16::Render() const
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    glBindTexture(GL_TEXTURE_2D, m_textures.SceneTexture);
+    DrawTexture();
     
+    glDisable(GL_DEPTH_TEST);
+    
+    glEnable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenTextures[0]);
+    DrawTexture();
+    glDisable(GL_BLEND);
+    
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer16::OnFingerDown(ivec2 location)
@@ -293,6 +303,26 @@ void Renderer16::GenerateBloomTexture() const
         glUseProgram(m_textureProgram);
         glUniform1f(m_uniformTextureThreshold, 0.0f);
     }
+    
+    // Create bloom texture
+    glUseProgram(m_textureProgram);
+    glUniform1f(m_uniformTextureThreshold, 0.0f);
+    
+    glEnable(GL_BLEND);
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_ONE, GL_ONE);
+    
+    glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenFramebuffers[0]);
+    
+    for (int i = 0; i < OffscreenCount; i++)
+    {
+        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenTextures[i]);
+        DrawTexture();
+    }
+    
+    glDisable(GL_BLEND);
 }
 
 
