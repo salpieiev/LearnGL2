@@ -56,6 +56,7 @@
 		B4B8D07E16A20EB9009B418F /* Renderer0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D07C16A20EB9009B418F /* Renderer0.cpp */; };
 		B4BA65F916CE883600B1C037 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65F716CE883600B1C037 /* Bone.cpp */; };
 		B4BA65FC16CE8E4500B1C037 /* BoneChain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4BA65FA16CE8E4500B1C037 /* BoneChain.cpp */; };
+		B4C82E7C176FA42B0035C014 /* Renderer17.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4C82E7A176FA42A0035C014 /* Renderer17.cpp */; };
 		B4D1B81D174AA66B00FA71BA /* Renderer15.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4D1B81B174AA66B00FA71BA /* Renderer15.cpp */; };
 		B4DB9A5F16C82F1500E3B748 /* Renderer4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4DB9A5E16C82F1500E3B748 /* Renderer4.cpp */; };
 		B4DB9A6716C8317B00E3B748 /* sphere_map.png in Resources */ = {isa = PBXBuildFile; fileRef = B4DB9A6616C8317B00E3B748 /* sphere_map.png */; };
@@ -180,6 +181,12 @@
 		B4BA65FB16CE8E4500B1C037 /* BoneChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneChain.h; sourceTree = "<group>"; };
 		B4C1CA6116DB8DD90048E4F2 /* MultitextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MultitextureShader.vsh; sourceTree = "<group>"; };
 		B4C1CA6316DB8DEC0048E4F2 /* MultitextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MultitextureShader.fsh; sourceTree = "<group>"; };
+		B4C82E7A176FA42A0035C014 /* Renderer17.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer17.cpp; sourceTree = "<group>"; };
+		B4C82E7B176FA42B0035C014 /* Renderer17.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer17.h; sourceTree = "<group>"; };
+		B4C82E7E176FA5090035C014 /* GaussianBloomTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GaussianBloomTextureShader.vsh; sourceTree = "<group>"; };
+		B4C82E80176FA51E0035C014 /* GaussianBloomTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GaussianBloomTextureShader.fsh; sourceTree = "<group>"; };
+		B4C82E82176FA59D0035C014 /* GaussianBloomSurfaceShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GaussianBloomSurfaceShader.vsh; sourceTree = "<group>"; };
+		B4C82E84176FA5AA0035C014 /* GaussianBloomSurfaceShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GaussianBloomSurfaceShader.fsh; sourceTree = "<group>"; };
 		B4C9171D174E4EAE0097FDF9 /* BlurTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BlurTextureShader.vsh; sourceTree = "<group>"; };
 		B4C9171F174E4EBD0097FDF9 /* BlurTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BlurTextureShader.fsh; sourceTree = "<group>"; };
 		B4D1B81B174AA66B00FA71BA /* Renderer15.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer15.cpp; sourceTree = "<group>"; };
@@ -423,6 +430,8 @@
 				B4D1B81C174AA66B00FA71BA /* Renderer15.h */,
 				B4B2711A175FD5B900DB2B4D /* Renderer16.cpp */,
 				B4B2711B175FD5B900DB2B4D /* Renderer16.h */,
+				B4C82E7A176FA42A0035C014 /* Renderer17.cpp */,
+				B4C82E7B176FA42B0035C014 /* Renderer17.h */,
 			);
 			name = Renderer;
 			sourceTree = "<group>";
@@ -473,6 +482,7 @@
 				B4C9171D174E4EAE0097FDF9 /* BlurTextureShader.vsh */,
 				B4C9171F174E4EBD0097FDF9 /* BlurTextureShader.fsh */,
 				B4B27115175FD55F00DB2B4D /* Renderer16 */,
+				B4C82E7D176FA4990035C014 /* Renderer17 */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -486,6 +496,17 @@
 				B4BA65FB16CE8E4500B1C037 /* BoneChain.h */,
 			);
 			name = Entities;
+			sourceTree = "<group>";
+		};
+		B4C82E7D176FA4990035C014 /* Renderer17 */ = {
+			isa = PBXGroup;
+			children = (
+				B4C82E7E176FA5090035C014 /* GaussianBloomTextureShader.vsh */,
+				B4C82E80176FA51E0035C014 /* GaussianBloomTextureShader.fsh */,
+				B4C82E82176FA59D0035C014 /* GaussianBloomSurfaceShader.vsh */,
+				B4C82E84176FA5AA0035C014 /* GaussianBloomSurfaceShader.fsh */,
+			);
+			name = Renderer17;
 			sourceTree = "<group>";
 		};
 		B4F7F82216AB40DA006F0C90 /* Resources */ = {
@@ -651,6 +672,7 @@
 				B40F2EDC172FD8FA005734C0 /* Renderer14.cpp in Sources */,
 				B4D1B81D174AA66B00FA71BA /* Renderer15.cpp in Sources */,
 				B4B2711C175FD5B900DB2B4D /* Renderer16.cpp in Sources */,
+				B4C82E7C176FA42B0035C014 /* Renderer17.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
