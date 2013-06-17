@@ -15,7 +15,8 @@ const int OffscreenCountGaussian = 5;
 struct FramebuffersGaussian
 {
     GLuint SceneFramebuffer;
-    GLuint OffscreenFramebuffers[OffscreenCountGaussian];
+    GLuint OffscreenLeftFramebuffers[OffscreenCountGaussian];
+    GLuint OffscreenRightFramebuffers[OffscreenCountGaussian];
 };
 
 struct RenderbuffersGaussian
@@ -28,7 +29,8 @@ struct BloomTexturesGaussian
 {
     GLuint BackgroundTexture;
     GLuint SceneTexture;
-    GLuint OffscreenTextures[OffscreenCountGaussian];
+    GLuint OffscreenLeftTextures[OffscreenCountGaussian];
+    GLuint OffscreenRightTextures[OffscreenCountGaussian];
 };
 
 

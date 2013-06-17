@@ -1,0 +1,6 @@
+const char *GaussianBloomBlurFragmentShader = STRINGIFY
+(
+
+
+
+);

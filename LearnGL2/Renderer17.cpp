@@ -35,7 +35,7 @@ Renderer17::Renderer17(int width, int height): RenderingEngine(width, height)
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
     
-    /*// Create the depth buffer for the full-size off-screen FBO
+    // Create the depth buffer for the full-size off-screen FBO
     glGenRenderbuffers(1, &m_renderbuffers.SceneDepthRenderbuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, m_renderbuffers.SceneDepthRenderbuffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
@@ -51,29 +51,44 @@ Renderer17::Renderer17(int width, int height): RenderingEngine(width, height)
     glGenFramebuffers(1, &m_framebuffers.SceneFramebuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.SceneFramebuffer);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderbuffers.SceneDepthRenderbuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.SceneTexture, 0);*/
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.SceneTexture, 0);
     
-    /*// Create FBOs for the half, quarter and eight sizes
+    // Create FBOs for the half, quarter and eight sizes
     int w = width;
     int h = height;
     
     for (int i = 0; i < OffscreenCountGaussian; i++, w >>= 1, h >>= 1)
     {
-        glGenFramebuffers(1, &m_framebuffers.OffscreenFramebuffers[i]);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenFramebuffers[i]);
+        // Left
+        glGenFramebuffers(1, &m_framebuffers.OffscreenLeftFramebuffers[i]);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenLeftFramebuffers[i]);
         
-        glGenTextures(1, &m_textures.OffscreenTextures[i]);
-        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenTextures[i]);
+        glGenTextures(1, &m_textures.OffscreenLeftTextures[i]);
+        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenLeftTextures[i]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
         
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.OffscreenTextures[i], 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.OffscreenLeftTextures[i], 0);
+        
+        // Right
+        glGenFramebuffers(1, &m_framebuffers.OffscreenRightFramebuffers[i]);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenRightFramebuffers[i]);
+        
+        glGenTextures(1, &m_textures.OffscreenRightTextures[i]);
+        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenRightTextures[i]);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textures.OffscreenRightTextures[i], 0);
     }
     
-    GenerateBloomTexture();*/
+    GenerateBloomTexture();
 }
 
 Renderer17::~Renderer17()
@@ -86,12 +101,12 @@ void Renderer17::Render() const
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
-    glBindTexture(GL_TEXTURE_2D, m_textures.BackgroundTexture);
-    DrawTexture();
-    
-    glClear(GL_DEPTH_BUFFER_BIT);
-    DrawSurface();
+//    glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
+//    glBindTexture(GL_TEXTURE_2D, m_textures.BackgroundTexture);
+//    DrawTexture();
+//    
+//    glClear(GL_DEPTH_BUFFER_BIT);
+//    DrawSurface();
 }
 
 void Renderer17::OnFingerDown(ivec2 location)
@@ -288,8 +303,8 @@ void Renderer17::GenerateBloomTexture() const
     for (int i = 0; i < OffscreenCountGaussian; i++, w >>= 1, h >>= 1)
     {
         glViewport(0, 0, w, h);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenFramebuffers[i]);
-        glBindTexture(GL_TEXTURE_2D, i ? m_textures.OffscreenTextures[i - 1] : m_textures.SceneTexture);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenLeftFramebuffers[i]);
+        glBindTexture(GL_TEXTURE_2D, i ? m_textures.OffscreenLeftTextures[i - 1] : m_textures.SceneTexture);
         
         DrawTexture();
         
@@ -297,7 +312,7 @@ void Renderer17::GenerateBloomTexture() const
         glUniform1f(m_uniformTextureThreshold, 0.0f);
     }
     
-    // Create bloom texture
+    /*// Create bloom texture
     glUseProgram(m_textureProgram);
     glUniform1f(m_uniformTextureThreshold, 0.0f);
     
@@ -315,7 +330,7 @@ void Renderer17::GenerateBloomTexture() const
         DrawTexture();
     }
     
-    glDisable(GL_BLEND);
+    glDisable(GL_BLEND);*/
 }
 
 

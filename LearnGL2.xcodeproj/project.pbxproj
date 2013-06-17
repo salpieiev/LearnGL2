@@ -134,6 +134,8 @@
 		B41C293016C3FDB600D5C936 /* tile_floor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile_floor.png; sourceTree = "<group>"; };
 		B41F052917426D3000E28E81 /* elev_bump_16k.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = elev_bump_16k.jpg; sourceTree = "<group>"; };
 		B41F052A17426D3000E28E81 /* earth-satellite-map-earth-satellite-map.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-satellite-map-earth-satellite-map.jpg"; sourceTree = "<group>"; };
+		B42D6E4A176FBC91001C2579 /* GaussianBloomBlurShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GaussianBloomBlurShader.vsh; sourceTree = "<group>"; };
+		B42D6E4C176FBC9F001C2579 /* GaussianBloomBlurShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GaussianBloomBlurShader.fsh; sourceTree = "<group>"; };
 		B4379D9A16CB9D9F00C18643 /* Renderer6.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer6.cpp; sourceTree = "<group>"; };
 		B4379D9B16CB9D9F00C18643 /* Renderer6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer6.h; sourceTree = "<group>"; };
 		B4379D9D16CB9E0300C18643 /* VertexSkinningShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = VertexSkinningShader.fsh; sourceTree = "<group>"; };
@@ -505,6 +507,8 @@
 				B4C82E80176FA51E0035C014 /* GaussianBloomTextureShader.fsh */,
 				B4C82E82176FA59D0035C014 /* GaussianBloomSurfaceShader.vsh */,
 				B4C82E84176FA5AA0035C014 /* GaussianBloomSurfaceShader.fsh */,
+				B42D6E4A176FBC91001C2579 /* GaussianBloomBlurShader.vsh */,
+				B42D6E4C176FBC9F001C2579 /* GaussianBloomBlurShader.fsh */,
 			);
 			name = Renderer17;
 			sourceTree = "<group>";
