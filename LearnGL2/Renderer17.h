@@ -49,6 +49,7 @@ public:
 private:
     void BuildTextureProgram();
     void BuildSurfaceProgram();
+    void BuildBlurProgram();
     void LoadTexture();
     void GenerateSurfaceBuffers();
     void DrawTexture() const;
@@ -57,12 +58,15 @@ private:
     
     GLuint m_textureProgram;
     GLuint m_surfaceProgram;
+    GLuint m_blurProgram;
     
     GLint m_attribTexturePosition;
     GLint m_attribTextureCoord;
     GLint m_attribSurfacePosition;
     GLint m_attribSurfaceSourceColor;
     GLint m_attribSurfaceNormal;
+    GLint m_attribBlurPosition;
+    GLint m_attribBlurTexCoord;
     
     GLuint m_uniformTextureThreshold;
     GLuint m_uniformSurfaceProjection;
@@ -72,6 +76,8 @@ private:
     GLuint m_uniformSurfaceAmbientLight;
     GLuint m_uniformSurfaceSpecularLight;
     GLuint m_uniformSurfaceShininess;
+    GLuint m_uniformBlurCoefficients;
+    GLuint m_uniformBlurOffset;
     
     GLuint m_surfaceVertexBuffer;
     GLuint m_surfaceIndexBuffer;

@@ -12,6 +12,8 @@
 #include "Shaders/GaussianBloomTextureShader.fsh"
 #include "Shaders/GaussianBloomSurfaceShader.vsh"
 #include "Shaders/GaussianBloomSurfaceShader.fsh"
+#include "Shaders/GaussianBloomBlurShader.vsh"
+#include "Shaders/GaussianBloomBlurShader.fsh"
 
 
 
@@ -22,6 +24,8 @@ struct Vertex
     vec3 Normal;
 };
 
+const bool Optimize = false;
+
 
 
 Renderer17::Renderer17(int width, int height): RenderingEngine(width, height)
@@ -31,6 +35,8 @@ Renderer17::Renderer17(int width, int height): RenderingEngine(width, height)
     
     BuildSurfaceProgram();
     GenerateSurfaceBuffers();
+    
+    BuildBlurProgram();
     
     glViewport(0, 0, width, height);
     glEnable(GL_DEPTH_TEST);
@@ -101,12 +107,26 @@ void Renderer17::Render() const
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-//    glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
-//    glBindTexture(GL_TEXTURE_2D, m_textures.BackgroundTexture);
-//    DrawTexture();
-//    
-//    glClear(GL_DEPTH_BUFFER_BIT);
-//    DrawSurface();
+    glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
+    glBindTexture(GL_TEXTURE_2D, m_textures.SceneTexture);
+    glUseProgram(m_textureProgram);
+    DrawTexture();
+    
+    glClear(GL_DEPTH_BUFFER_BIT);
+    
+    glEnable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+    glBlendFunc(GL_ONE, GL_ONE);
+    
+    for (int i = 1; i < OffscreenCountGaussian; i++)
+    {
+        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenLeftTextures[i]);
+        glUseProgram(m_textureProgram);
+        DrawTexture();
+    }
+    
+    glDisable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer17::OnFingerDown(ivec2 location)
@@ -152,6 +172,17 @@ void Renderer17::BuildSurfaceProgram()
     m_uniformSurfaceShininess = glGetUniformLocation(m_surfaceProgram, "Shininess");
 }
 
+void Renderer17::BuildBlurProgram()
+{
+    m_blurProgram = BuildProgram(GaussianBloomBlurVertexShader, GaussianBloomBlurFragmentShader);
+    glUseProgram(m_blurProgram);
+    
+    m_attribBlurPosition = glGetAttribLocation(m_blurProgram, "a_position");
+    m_attribBlurTexCoord = glGetAttribLocation(m_blurProgram, "a_texCoord");
+    
+    m_uniformBlurCoefficients = glGetUniformLocation(m_blurProgram, "u_coefficients");
+    m_uniformBlurOffset = glGetUniformLocation(m_blurProgram, "u_offset");
+}
 
 void Renderer17::LoadTexture()
 {
@@ -224,8 +255,6 @@ void Renderer17::DrawTexture() const
         1.0f, 1.0f,
         0.0f, 1.0f
     };
-    
-    glUseProgram(m_textureProgram);
     
     glEnableVertexAttribArray(m_attribTexturePosition);
     glEnableVertexAttribArray(m_attribTextureCoord);
@@ -312,25 +341,48 @@ void Renderer17::GenerateBloomTexture() const
         glUniform1f(m_uniformTextureThreshold, 0.0f);
     }
     
-    /*// Create bloom texture
-    glUseProgram(m_textureProgram);
-    glUniform1f(m_uniformTextureThreshold, 0.0f);
+    // Set up for Gaussian blur
+    GLfloat kernel[3] = {5.0f / 16.0f, 6.0f / 16.0f, 5.0f / 16.0f};
+    glUseProgram(m_blurProgram);
+    glUniform1fv(m_uniformBlurCoefficients, 3, kernel);
     
-    glEnable(GL_BLEND);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_ONE, GL_ONE);
-    
-    glViewport(0, 0, m_surfaceSize.x, m_surfaceSize.y);
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenFramebuffers[0]);
-    
-    for (int i = 0; i < OffscreenCountGaussian; i++)
+    // Perform horizontal blurring pass
+    w = m_surfaceSize.x;
+    h = m_surfaceSize.y;
+    for (int i = 0; i < OffscreenCountGaussian; i++, w >>= 1, h >>= 1)
     {
-        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenTextures[i]);
+        if (Optimize && i < 2)
+            continue;
+        
+        float offset = 1.2f / (float)w;
+        glUniform2f(m_uniformBlurOffset, offset, 0.0f);
+        
+        glViewport(0, 0, w, h);
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenRightFramebuffers[i]);
+        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenLeftTextures[i]);
+        
         DrawTexture();
     }
     
-    glDisable(GL_BLEND);*/
+    // Perform vertical blurring pass
+    w = m_surfaceSize.x;
+    h = m_surfaceSize.y;
+    for (int i = 0; i < OffscreenCountGaussian; i++, w >>= 1, h >>= 1)
+    {
+        if (Optimize && i < 2)
+            continue;
+        
+        float offset = 1.2f / (float)h;
+        glUniform2f(m_uniformBlurOffset, 0.0f, offset);
+        
+        glViewport(0, 0, w, h);
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffers.OffscreenLeftFramebuffers[i]);
+        glBindTexture(GL_TEXTURE_2D, m_textures.OffscreenRightTextures[i]);
+        
+        DrawTexture();
+    }
 }
 
 
