@@ -154,6 +154,8 @@
 		B4535AF31726DCA500EBB83D /* Renderer12.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer12.h; sourceTree = "<group>"; };
 		B45723F117763B6B00E65E49 /* Renderer18.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer18.cpp; sourceTree = "<group>"; };
 		B45723F217763B6B00E65E49 /* Renderer18.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer18.h; sourceTree = "<group>"; };
+		B45723F517772AA300E65E49 /* ProjectiveTexturingLightingShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ProjectiveTexturingLightingShader.vsh; sourceTree = "<group>"; };
+		B45723F717772AAC00E65E49 /* ProjectiveTexturingLightingShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ProjectiveTexturingLightingShader.fsh; sourceTree = "<group>"; };
 		B48DF36E170DA69400F89927 /* Renderer9.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer9.cpp; sourceTree = "<group>"; };
 		B48DF36F170DA69400F89927 /* Renderer9.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer9.h; sourceTree = "<group>"; };
 		B48DF371170DA9E700F89927 /* StencilShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = StencilShader.vsh; sourceTree = "<group>"; };
@@ -385,6 +387,8 @@
 		B45723F417763C0700E65E49 /* Renderer18 */ = {
 			isa = PBXGroup;
 			children = (
+				B45723F517772AA300E65E49 /* ProjectiveTexturingLightingShader.vsh */,
+				B45723F717772AAC00E65E49 /* ProjectiveTexturingLightingShader.fsh */,
 			);
 			name = Renderer18;
 			sourceTree = "<group>";

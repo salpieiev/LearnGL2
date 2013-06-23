@@ -20,4 +20,22 @@ public:
     void OnFingerDown(ivec2 location);
     void OnFingerMove(ivec2 oldLocation, ivec2 newLocation);
     void OnFingerUp(ivec2 location);
+    
+private:
+    void BuildLightingProgram();
+    void GenerateSurfaceBuffers();
+    void SetupLightingUniforms() const;
+    void DrawSurface() const;
+    
+    GLuint m_lightingProgram;
+    
+    GLuint m_surfaceVertexBuffer;
+    GLuint m_surfaceIndexBuffer;
+    GLuint m_surfaceIndexCount;
+    
+    GLint m_attribLightingPosition;
+    GLint m_attribLightingColor;
+    
+    GLuint m_uniformLightingProjection;
+    GLuint m_uniformLightingModelview;
 };
