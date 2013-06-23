@@ -35,7 +35,10 @@ private:
     
     GLint m_attribLightingPosition;
     GLint m_attribLightingColor;
+    GLint m_attribLightingNormal;
     
     GLuint m_uniformLightingProjection;
     GLuint m_uniformLightingModelview;
+    GLuint m_uniformLightingNormalMatrix;
+    GLuint m_uniformLightingLightPosition;
 };
