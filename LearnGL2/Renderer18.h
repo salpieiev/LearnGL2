@@ -39,6 +39,7 @@ private:
     
     GLuint m_uniformLightingProjection;
     GLuint m_uniformLightingModelview;
+    GLuint m_uniformLightingProjectiveMatrix;
     GLuint m_uniformLightingNormalMatrix;
     GLuint m_uniformLightingLightPosition;
 };

@@ -7,6 +7,7 @@ attribute vec3 a_normal;
 
 uniform mat4 u_projection;
 uniform mat4 u_modelview;
+uniform mat4 u_projectiveMatrix;
 uniform mat3 u_normalMatrix;
 uniform vec3 u_lightPosition;
 
