@@ -25,9 +25,12 @@ private:
     void BuildLightingProgram();
     void GenerateSurfaceBuffers();
     void SetupLightingUniforms() const;
+    void LoadProjectorTexture();
     void DrawSurface() const;
     
     GLuint m_lightingProgram;
+    
+    GLuint m_projectorTexture;
     
     GLuint m_surfaceVertexBuffer;
     GLuint m_surfaceIndexBuffer;
@@ -44,4 +47,5 @@ private:
     GLuint m_uniformLightingNormalMatrix;
     GLuint m_uniformLightingBiasMatrix;
     GLuint m_uniformLightingLightPosition;
+    GLuint m_uniformLightingProjectorPosition;
 };

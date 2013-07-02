@@ -26,6 +26,7 @@ Renderer18::Renderer18(int width, int height): RenderingEngine(width, height)
 {
     BuildLightingProgram();
     GenerateSurfaceBuffers();
+    LoadProjectorTexture();
     SetupLightingUniforms();
 }
 
@@ -73,6 +74,7 @@ void Renderer18::BuildLightingProgram()
     m_uniformLightingNormalMatrix = glGetUniformLocation(m_lightingProgram, "u_normalMatrix");
     m_uniformLightingBiasMatrix = glGetUniformLocation(m_lightingProgram, "u_biasMatrix");
     m_uniformLightingLightPosition = glGetUniformLocation(m_lightingProgram, "u_lightPosition");
+    m_uniformLightingProjectorPosition = glGetUniformLocation(m_lightingProgram, "u_projectorPosition");
 }
 
 void Renderer18::GenerateSurfaceBuffers()
@@ -98,12 +100,15 @@ void Renderer18::GenerateSurfaceBuffers()
 
 void Renderer18::SetupLightingUniforms() const
 {
+    vec3 lightPosition = vec3(2.5f, 2.5f, 10.0f);
+    glUniform3fv(m_uniformLightingLightPosition, 1, &lightPosition.x);
+    
+    vec3 projectorPosition = vec3(-2.5f, -2.5f, 10.0f);
+    glUniform3fv(m_uniformLightingProjectorPosition, 1, &projectorPosition.x);
+    
     float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformLightingProjection, 1, GL_FALSE, projection.Pointer());
-    
-    vec3 lightPosition = vec3(2.5f, 2.5f, 10.0f);
-    glUniform3fv(m_uniformLightingLightPosition, 1, &lightPosition.x);
     
     // Projective matrices
     // Projection matrix
@@ -132,11 +137,22 @@ void Renderer18::SetupLightingUniforms() const
     
     // Bias matrix
     mat3 biasMatrix;
-    biasMatrix.x = vec3(0.5f, 0.0f, 0.0f);
-    biasMatrix.y = vec3(0.0f, -0.5f, 0.0f);
-    biasMatrix.z = vec3(0.5f, 0.5f, 1.0f);
-    biasMatrix = biasMatrix.Transposed();       // Transpose because C++ used row-major order, but in the book matrix has column-major order
+    biasMatrix.x = vec3(0.5f, 0.0f, 0.5f);
+    biasMatrix.y = vec3(0.0f, -0.5f, 0.5f);
+    biasMatrix.z = vec3(0.0f, 0.0f, 1.0f);
     glUniformMatrix3fv(m_uniformLightingBiasMatrix, 1, GL_FALSE, biasMatrix.Pointer());
+}
+
+void Renderer18::LoadProjectorTexture()
+{
+    glGenTextures(1, &m_projectorTexture);
+    glBindTexture(GL_TEXTURE_2D, m_projectorTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    SetPngPOTTexture("tile_floor.png");
 }
 
 void Renderer18::DrawSurface() const
