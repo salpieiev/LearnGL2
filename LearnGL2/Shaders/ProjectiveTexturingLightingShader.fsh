@@ -16,10 +16,10 @@ void main()
     highp vec4 color = df * v_color;
     
     highp vec4 projectorColor = texture2DProj(u_sampler, v_projectiveTexCoord);
-    highp float dfp = max(0.0, -dot(v_normal, v_projectorDirection));
-    highp vec4 projector = dfp * projectorColor;
+    highp float dfp = max(0.0, dot(v_normal, v_projectorDirection));
+    highp vec4 projector = 2.0 * dfp * projectorColor;
 
-    gl_FragColor = color/* * projector*/;
+    gl_FragColor = /*color * */projector;
 }
 
 
