@@ -68,8 +68,10 @@ void Renderer18::BuildLightingProgram()
     
     m_uniformLightingProjection = glGetUniformLocation(m_lightingProgram, "u_projection");
     m_uniformLightingModelview = glGetUniformLocation(m_lightingProgram, "u_modelview");
-    m_uniformLightingProjectiveMatrix = glGetUniformLocation(m_lightingProgram, "u_projectiveMatrix");
+    m_uniformLightingLightProjection = glGetUniformLocation(m_lightingProgram, "u_lightProjection");
+    m_uniformLightingLightModelview = glGetUniformLocation(m_lightingProgram, "u_lightModelview");
     m_uniformLightingNormalMatrix = glGetUniformLocation(m_lightingProgram, "u_normalMatrix");
+    m_uniformLightingBiasMatrix = glGetUniformLocation(m_lightingProgram, "u_biasMatrix");
     m_uniformLightingLightPosition = glGetUniformLocation(m_lightingProgram, "u_lightPosition");
 }
 
@@ -100,12 +102,13 @@ void Renderer18::SetupLightingUniforms() const
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformLightingProjection, 1, GL_FALSE, projection.Pointer());
     
-    vec3 lightPosition = vec3(0.25f, 0.25f, 1.0f);
+    vec3 lightPosition = vec3(2.5f, 2.5f, 10.0f);
     glUniform3fv(m_uniformLightingLightPosition, 1, &lightPosition.x);
     
     // Projective matrices
     // Projection matrix
     mat4 projectiveProjection = mat4::Frustum(-0.5f, 0.5f, -0.5f, 0.5f, 4.0f, 10.0f);
+    glUniformMatrix4fv(m_uniformLightingLightProjection, 1, GL_FALSE, projectiveProjection.Pointer());
     
     // View matrix
     vec3 look = -lightPosition.Normalized();
@@ -116,17 +119,24 @@ void Renderer18::SetupLightingUniforms() const
     offset.y = up.Dot(-lightPosition);
     offset.z = look.Dot(-lightPosition);
     
-    mat4 projectiveView;
-    projectiveView.x = vec4(right, 0.0f);
-    projectiveView.y = vec4(up, 0.0f);
-    projectiveView.z = vec4(look, 0.0f);
-    projectiveView.w = vec4(offset, 1.0f);
+    mat3 projectiveView3;
+    projectiveView3.x = right;
+    projectiveView3.y = up;
+    projectiveView3.z = look;
+    projectiveView3 = projectiveView3.Transposed();
+    
+    mat4 projectiveView4(projectiveView3);
+    projectiveView4.w = vec4(offset, 1.0f);
+    projectiveView4 = projectiveView4.Transposed();
+    glUniformMatrix4fv(m_uniformLightingLightModelview, 1, GL_FALSE, projectiveView4.Pointer());
     
     // Bias matrix
     mat3 biasMatrix;
     biasMatrix.x = vec3(0.5f, 0.0f, 0.0f);
     biasMatrix.y = vec3(0.0f, -0.5f, 0.0f);
     biasMatrix.z = vec3(0.5f, 0.5f, 1.0f);
+    biasMatrix = biasMatrix.Transposed();       // Transpose because C++ used row-major order, but in the book matrix has column-major order
+    glUniformMatrix3fv(m_uniformLightingBiasMatrix, 1, GL_FALSE, biasMatrix.Pointer());
 }
 
 void Renderer18::DrawSurface() const

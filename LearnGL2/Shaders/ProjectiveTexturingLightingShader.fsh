@@ -1,12 +1,17 @@
 const char *ProjectiveTexturingLightingFragmentShader = STRINGIFY
 (
 
-varying mediump vec4 v_color;
+varying highp vec4 v_color;
+varying highp vec3 v_normal;
+varying highp vec3 v_lightDirection;
 
 
 void main()
 {
-    gl_FragColor = v_color;
+    highp float df = max(0.0, dot(v_normal, v_lightDirection));
+    highp vec4 color = df * v_color;
+    
+    gl_FragColor = color;
 }
 
 

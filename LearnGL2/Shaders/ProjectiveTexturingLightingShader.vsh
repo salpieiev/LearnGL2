@@ -7,23 +7,24 @@ attribute vec3 a_normal;
 
 uniform mat4 u_projection;
 uniform mat4 u_modelview;
-uniform mat4 u_projectiveMatrix;
+uniform mat4 u_lightProjection;
+uniform mat4 u_lightModelview;
 uniform mat3 u_normalMatrix;
+uniform mat3 u_biasMatrix;
 uniform vec3 u_lightPosition;
 
 varying vec4 v_color;
+varying vec3 v_normal;
+varying vec3 v_lightDirection;
 
 
 void main()
 {
     gl_Position = u_projection * u_modelview * a_position;
-    
-    vec3 lightDirection = normalize(u_lightPosition);
-    vec3 N = u_normalMatrix * a_normal;
-    vec3 L = u_normalMatrix * lightDirection;
-    float df = max(0.0, dot(N, L));
-    vec4 color = df * a_color;
-    v_color = color;
+
+    v_color = a_color;
+    v_normal = u_normalMatrix * a_normal;
+    v_lightDirection = u_normalMatrix * normalize(u_lightPosition - a_position.xyz);
 }
 
 
