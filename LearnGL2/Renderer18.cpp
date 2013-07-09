@@ -79,8 +79,13 @@ void Renderer18::BuildLightingProgram()
 
 void Renderer18::GenerateSurfaceBuffers()
 {
-//    MobiusStrip surface = MobiusStrip(1.5f);
-    Sphere surface = Sphere(1.5f);
+//    Cone surface = Cone(5.0f, 1.8f);
+//    Cylinder surface = Cylinder(3.0f, 0.5f);
+//    Sphere surface = Sphere(1.5f);
+//    Torus surface = Torus(1.8f, 0.5f);
+//    TrefoilKnot surface = TrefoilKnot(2.5f);
+    MobiusStrip surface = MobiusStrip(1.5f);
+//    KleinBottle surface = KleinBottle(0.3f);
     
     vector<GLfloat> vertices;
     surface.GenerateVertices(vertices, VertexFlagsColors | VertexFlagsNormals);
