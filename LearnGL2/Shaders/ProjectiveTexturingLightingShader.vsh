@@ -47,7 +47,10 @@ void main()
         0.0, 0.0, 1.0
     );
     
-    v_projectiveTexCoord = (u_projectorProjection * a_position * projectorModelview).xyz * biasMatrix;
+    vec4 objPosLight = a_position * projectorModelview;
+    objPosLight = u_projectorProjection * objPosLight;
+    
+    v_projectiveTexCoord = objPosLight.xyz * biasMatrix;
 
     v_color = a_color;
     /*v_normal = u_normalMatrix * a_normal;
@@ -56,7 +59,7 @@ void main()
     
     v_normal = a_normal;
     v_lightDirection = normalize(u_lightPosition - a_position.xyz);
-    v_projectorDirection = normalize(a_position.xyz - u_projectorPosition);
+    v_projectorDirection = normalize(u_projectorPosition - a_position.xyz);
 }
 
 
