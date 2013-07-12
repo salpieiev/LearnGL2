@@ -30,27 +30,27 @@ void main()
     vec3 right = cross(vec3(0.0, 0.0, 1.0), look);
     vec3 up = cross(look, right);
     
-    // Create a view matrix for the light
-    mat4 projectorModelview = mat4
-    (
-        right, dot(right, -u_projectorPosition),
-        up, dot(up, -u_projectorPosition),
-        look, dot(look, -u_projectorPosition),
-        0.0, 0.0, 0.0, 1.0
-    );
+//    // Create a view matrix for the light
+//    mat4 projectorModelview = mat4
+//    (
+//        right, dot(right, -u_projectorPosition),
+//        up, dot(up, -u_projectorPosition),
+//        look, dot(look, -u_projectorPosition),
+//        0.0, 0.0, 0.0, 1.0
+//    );
     
-    // Bias matrix
-    mat3 biasMatrix = mat3
-    (
-        0.5, 0.0, 0.5,
-        0.0, -0.5, 0.5,
-        0.0, 0.0, 1.0
-    );
+//    // Bias matrix
+//    mat3 biasMatrix = mat3
+//    (
+//        0.5, 0.0, 0.5,
+//        0.0, -0.5, 0.5,
+//        0.0, 0.0, 1.0
+//    );
     
-    vec4 objPosLight = a_position * projectorModelview;
+    vec4 objPosLight = a_position * u_projectorModelview;
     objPosLight = u_projectorProjection * objPosLight;
     
-    v_projectiveTexCoord = objPosLight.xyz * biasMatrix;
+    v_projectiveTexCoord = objPosLight.xyz * u_biasMatrix;
 
     v_color = a_color;
     /*v_normal = u_normalMatrix * a_normal;

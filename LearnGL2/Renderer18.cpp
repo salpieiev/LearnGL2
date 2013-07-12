@@ -123,13 +123,13 @@ void Renderer18::SetupLightingUniforms() const
     glUniformMatrix4fv(m_uniformLightingProjectorProjection, 1, GL_FALSE, projectiveProjection.Pointer());
     
     // View matrix
-    vec3 look = -lightPosition.Normalized();
+    vec3 look = -projectorPosition.Normalized();
     vec3 right = vec3(0.0f, 0.0f, 1.0f).Cross(look);
     vec3 up = look.Cross(right);
     vec3 offset;
-    offset.x = right.Dot(-lightPosition);
-    offset.y = up.Dot(-lightPosition);
-    offset.z = look.Dot(-lightPosition);
+    offset.x = right.Dot(-projectorPosition);
+    offset.y = up.Dot(-projectorPosition);
+    offset.z = look.Dot(-projectorPosition);
     
     mat3 projectiveView3;
     projectiveView3.x = right;
