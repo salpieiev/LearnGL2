@@ -81,10 +81,10 @@ void Renderer18::GenerateSurfaceBuffers()
 {
 //    Cone surface = Cone(5.0f, 1.8f);
 //    Cylinder surface = Cylinder(3.0f, 0.5f);
-//    Sphere surface = Sphere(1.5f);
+    Sphere surface = Sphere(1.5f);
 //    Torus surface = Torus(1.8f, 0.5f);
 //    TrefoilKnot surface = TrefoilKnot(2.5f);
-    MobiusStrip surface = MobiusStrip(1.5f);
+//    MobiusStrip surface = MobiusStrip(1.5f);
 //    KleinBottle surface = KleinBottle(0.3f);
     
     vector<GLfloat> vertices;
@@ -119,7 +119,7 @@ void Renderer18::SetupLightingUniforms() const
     
     // Projective matrices
     // Projection matrix
-    mat4 projectiveProjection = mat4::Frustum(-0.5f, 0.5f, -0.5f, 0.5f, 4.0f, 10.0f);
+    mat4 projectiveProjection = mat4::Frustum(-0.15f, 0.15f, -0.15f, 0.15f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformLightingProjectorProjection, 1, GL_FALSE, projectiveProjection.Pointer());
     
     // View matrix
