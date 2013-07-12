@@ -108,12 +108,10 @@ void Renderer18::SetupLightingUniforms() const
     vec3 lightPosition = vec3(2.5f, 2.5f, 10.0f);
     glUniform3fv(m_uniformLightingLightPosition, 1, &lightPosition.x);
     
-#warning Projector Position
     vec3 projectorPosition = vec3(-2.5f, -2.5f, 3.0f);
     glUniform3fv(m_uniformLightingProjectorPosition, 1, &projectorPosition.x);
     
     float h = 4.0f * m_surfaceSize.y / m_surfaceSize.x;
-#warning Projection Matrix
     mat4 projection = mat4::Frustum(-2.0f, 2.0f, -h / 2.0f, h / 2.0f, 4.0f, 10.0f);
     glUniformMatrix4fv(m_uniformLightingProjection, 1, GL_FALSE, projection.Pointer());
     
