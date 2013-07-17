@@ -27,3 +27,4 @@
 #include "Renderer16.h"
 #include "Renderer17.h"
 #include "Renderer18.h"
+#include "Renderer19.h"
